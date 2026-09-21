@@ -1,0 +1,201 @@
+URGENT HOSTINGER DEPLOYMENT WORKAROUND — BYPASS BROKEN PNPM/COREPACK
+
+We have now confirmed from the Hostinger build logs that deployment fails BEFORE the RGG build starts.
+
+Exact Hostinger error:
+
+Cannot find module '/home/.../.cache/node/corepack/v1/pnpm/12.5.1/bin/pnpm.cjs'
+
+Node.js v22.14.0
+ERROR: Failed to install dependencies
+
+Hostinger is incorrectly invoking its own cached pnpm 12.5.1 even though RGG declares pnpm 10.26.1.
+
+I need an IMMEDIATE deployment workaround.
+
+GOAL:
+Make the existing RGG repository deployable through Hostinger using NPM instead of Hostinger's broken pnpm/Corepack bootstrap.
+
+IMPORTANT:
+Do NOT redesign or rewrite RGG.
+Do NOT change React/Vite/Express/Wouter/Clerk/PostgreSQL/Drizzle functionality.
+Do NOT remove the working pnpm setup until the npm deployment path has been proven.
+Do NOT change application behavior.
+Do NOT modify DNS.
+Do NOT migrate the database.
+Do NOT expose secrets.
+
+1. Inspect the entire monorepo/workspace and determine whether npm workspaces can install and build the existing application correctly.
+
+2. Create a Hostinger-compatible npm deployment configuration.
+
+The target Hostinger environment is:
+
+Node.js 22.x
+Root directory ./
+Framework Other
+
+3. Generate a correct root package-lock.json using Node 22 and current dependencies.
+
+Do NOT hand-edit package-lock.json.
+
+4. Ensure root package.json has valid production scripts:
+
+build
+start
+
+The existing production server entry remains:
+
+artifacts/api-server/dist/index.mjs
+
+Frontend build output remains:
+
+artifacts/rgg-website/dist/public
+
+5. Remove or modify ONLY the package-manager metadata that would cause Hostinger to select pnpm.
+
+Hostinger must detect NPM for this deployment.
+
+If the root package.json currently contains:
+
+"packageManager": "pnpm@10.26.1"
+
+and/or:
+
+"engines": {
+  "pnpm": "10.26.1"
+}
+
+adjust those fields only if necessary for Hostinger to select npm.
+
+Keep the Node requirement:
+
+>=22.12.0 <23
+
+6. Determine whether pnpm-workspace.yaml causes any issue for npm.
+
+Do not delete workspace configuration blindly.
+
+If package.json npm workspaces are required, configure them correctly.
+
+7. Perform a completely clean NPM simulation:
+
+delete node_modules only
+do NOT delete source/data
+
+Then run using Node 22:
+
+npm ci
+
+Then:
+
+PORT=4173 \
+BASE_PATH=/ \
+PUBLIC_SITE_URL=https://reclaimingthegreengold.com \
+PUBLICATIONS_API_URL=https://reclaimingthegreengold.com/api/publications \
+npm run build
+
+Then start production with:
+
+npm start
+
+8. Verify actual HTTP responses from the production Express application for:
+
+/
+ /book
+ /publications
+ /technical-assistance
+ /authors
+ /endorsements
+ /admin
+ /api/healthz
+
+Verify unknown /api routes still return the expected JSON 404.
+
+9. Check for npm/pnpm behavioral differences.
+
+Pay particular attention to:
+
+workspace dependencies
+generated API clients
+Vite
+Express
+Drizzle
+Clerk
+Three.js / React Three Fiber
+shared packages
+TypeScript resolution
+
+Do not declare success unless npm ci + npm run build + npm start actually pass.
+
+10. Run the existing relevant tests and TypeScript checks after switching the Hostinger deployment path to npm.
+
+11. If npm cannot reproduce the existing pnpm installation safely:
+
+STOP.
+
+Do not force dependency versions.
+Do not rewrite the monorepo.
+
+Report the exact incompatibility instead.
+
+12. If npm works:
+
+Commit the Hostinger npm deployment fix.
+
+Push it to:
+
+GitHub repository: RGG
+branch: main
+
+13. Report:
+
+- whether npm deployment is fully compatible
+- Node version tested
+- npm version tested
+- whether package-lock.json was generated
+- whether pnpm-lock.yaml remains
+- package.json changes
+- workspace changes
+- npm ci result
+- npm run build result
+- npm start result
+- tests result
+- TypeScript result
+- exact Hostinger package-manager selection
+- exact Hostinger build command
+- exact Hostinger output directory
+- exact Hostinger entry file
+- commit hash
+- confirmation pushed to GitHub main
+
+The intended Hostinger configuration after this fix should be:
+
+Framework:
+Other
+
+Branch:
+main
+
+Node:
+22.x
+
+Root:
+./
+
+Package manager:
+npm
+
+Build command:
+npm run build
+
+Output directory:
+artifacts/rgg-website/dist/public
+
+Entry file:
+artifacts/api-server/dist/index.mjs
+
+IMPORTANT:
+This is specifically a deployment compatibility workaround for Hostinger's broken pnpm/Corepack environment.
+
+Preserve all existing RGG functionality and security.
