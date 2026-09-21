@@ -7,7 +7,9 @@ owner explicitly approves retirement.
 
 ## Current application facts
 
-- Monorepo package manager: pnpm (the root `preinstall` rejects npm and yarn).
+- Hostinger production package manager: npm with the checked-in
+  `package-lock.json`. The full Replit workspace also retains pnpm and
+  `pnpm-lock.yaml`.
 - Frontend: React 19, Vite 7, TypeScript, Tailwind, Wouter, Three.js/R3F.
 - API: Express 5, Drizzle, PostgreSQL, Clerk.
 - Current Replit deployments retain App Storage through the GCS/Replit sidecar.
@@ -28,7 +30,8 @@ Hostinger requirements:
 
 1. Node.js 22 LTS (the workspace is verified with Node 22.22.0; Vite 7
    requires Node 20.19+ or 22.12+).
-2. pnpm 10.26.1, or Corepack with the repository's approved pnpm version.
+2. npm 10.x from the selected Node.js 22 runtime. Hostinger must not invoke
+   pnpm or Corepack for this deployment.
 3. A long-running Node process for Express, not a short-lived shared-PHP task.
 4. TLS/HTTPS and configurable reverse-proxy headers.
 5. External managed PostgreSQL with SSL support.
@@ -40,31 +43,20 @@ Hostinger requirements:
 Run from the repository root:
 
 ```sh
-npx --yes pnpm@10.26.1 install --frozen-lockfile
+npm ci
 
 # Build the production API and frontend.
 PORT=4173 BASE_PATH=/ \
 PUBLIC_SITE_URL=https://YOUR_FINAL_DOMAIN \
 PUBLICATIONS_API_URL=https://YOUR_API_ORIGIN/api/publications \
-npx --yes pnpm@10.26.1 run build
+npm run build
 ```
 
-Do not use `pnpm@latest`, `corepack use pnpm@latest`, or an unpinned package
-manager install command. The repository's `packageManager` and `engines.pnpm`
-fields both require pnpm 10.26.1, matching the checked-in lockfile.
-The `npx` command invokes pnpm directly at the required version and bypasses
-Hostinger's Corepack resolver. It does not add npm metadata or create
-`package-lock.json`.
-
-Pinned Corepack remains an equivalent alternative on hosts where Corepack is
-working correctly:
-
-```sh
-corepack pnpm@10.26.1 install --frozen-lockfile
-```
-
-Do not run `corepack enable` on a managed runtime with a read-only global binary
-directory; it may fail while attempting to create a global pnpm shim.
+The committed `package-lock.json` selects npm on Hostinger and avoids its broken
+cached pnpm/Corepack bootstrap. Do not configure a Hostinger pnpm command, run
+`corepack enable`, or delete either lockfile. `pnpm-workspace.yaml` and
+`pnpm-lock.yaml` remain for the complete Replit development workspace; npm
+ignores them.
 
 The root build typechecks the workspace and builds the production API and
 frontend. The optional `pnpm run build:all` command also builds the Replit
@@ -72,7 +64,7 @@ mockup sandbox, which is not part of the Hostinger production process. Start
 the unified production process with:
 
 ```sh
-PORT=3000 npx --yes pnpm@10.26.1 start
+PORT=3000 npm start
 ```
 
 Hostinger should proxy HTTPS traffic to that assigned port. `vite preview` is
@@ -81,12 +73,12 @@ for local verification only and is not the production process.
 Repository verification commands:
 
 ```sh
-pnpm test
-pnpm migration:check
-pnpm migration:rebuild-check
-pnpm migration:baseline
-pnpm audit:env
-pnpm report:assets
+npm test
+npm run migration:check
+npm run migration:rebuild-check
+npm run migration:baseline
+npm run audit:env
+npm run report:assets
 ```
 
 ## Environment variables
@@ -184,7 +176,7 @@ storage. Keep Replit live until the owner approves retirement.
 ## Resource guidance
 
 The build is TypeScript/Vite plus an API bundle and requires Node build memory
-and disk for pnpm dependencies, generated assets, and the 3D bundle. Start
+and disk for npm dependencies, generated assets, and the 3D bundle. Start
 with a Node plan that provides a long-running process and at least 2 GB RAM
 during builds; use CI or a build-capable deployment runner if Hostinger's
 runtime is smaller. Runtime storage must not be the media store. Budget

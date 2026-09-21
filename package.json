@@ -2,30 +2,45 @@
   "name": "workspace",
   "version": "0.0.0",
   "license": "MIT",
-  "packageManager": "pnpm@10.26.1",
   "engines": {
-    "node": ">=22.12.0 <23",
-    "pnpm": "10.26.1"
+    "node": ">=22.12.0 <23"
   },
+  "workspaces": [
+    "artifacts/api-server",
+    "artifacts/rgg-website",
+    "lib/*",
+    "lib/integrations/*",
+    "scripts"
+  ],
   "scripts": {
-    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
-    "build": "pnpm run typecheck && pnpm --filter @workspace/api-server run build && PORT=4173 BASE_PATH=/ pnpm --filter @workspace/rgg-website run build",
-    "build:all": "pnpm run build && PORT=4174 BASE_PATH=/__mockup pnpm --filter @workspace/mockup-sandbox run build",
+    "build": "npm run typecheck:hostinger && npm run build --workspace=@workspace/api-server && PORT=4173 BASE_PATH=/ npm run build --workspace=@workspace/rgg-website",
+    "build:all": "npm run build && PORT=4174 BASE_PATH=/__mockup pnpm --filter @workspace/mockup-sandbox run build",
     "start": "NODE_ENV=production node --enable-source-maps artifacts/api-server/dist/index.mjs",
-    "test": "pnpm --filter @workspace/api-server test && pnpm --filter @workspace/rgg-website test",
-    "migration:check": "pnpm --filter @workspace/db run migration:check",
-    "migration:rebuild-check": "pnpm --filter @workspace/db run migration:rebuild-check",
-    "migration:baseline": "pnpm --filter @workspace/scripts run test:migration-baseline",
+    "test": "npm test --workspace=@workspace/api-server && npm test --workspace=@workspace/rgg-website",
+    "migration:check": "npm run migration:check --workspace=@workspace/db",
+    "migration:rebuild-check": "npm run migration:rebuild-check --workspace=@workspace/db",
+    "migration:baseline": "npm run test:migration-baseline --workspace=@workspace/scripts",
     "audit:env": "node scripts/hostinger-env-audit.mjs",
     "report:assets": "node scripts/hostinger-static-inventory.mjs artifacts/rgg-website/dist/public",
     "test:api-targeted-typecheck": "bash scripts/api-targeted-typecheck.test.sh",
     "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
+    "typecheck:hostinger": "npm run typecheck:libs && npm run typecheck --workspaces --if-present",
+    "typecheck": "npm run typecheck:hostinger && pnpm --filter @workspace/mockup-sandbox --if-present run typecheck"
   },
   "private": true,
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "prettier": "^3.8.3",
     "typescript": "~5.9.3"
+  },
+  "overrides": {
+    "@esbuild-kit/esm-loader": "npm:tsx@^4.21.0",
+    "brace-expansion": "5.0.9",
+    "browserslist": "4.28.7",
+    "esbuild": "0.27.3",
+    "fast-uri": "3.1.6",
+    "linkify-it": "5.0.2",
+    "nanoid": "3.3.18",
+    "postcss": "8.5.28"
   }
 }

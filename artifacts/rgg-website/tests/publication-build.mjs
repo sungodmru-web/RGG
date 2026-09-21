@@ -69,7 +69,7 @@ async function listen() {
 
 async function build(port, fixtureName) {
   return new Promise((resolve) => {
-    const child = spawn("pnpm", ["run", "build"], {
+    const child = spawn("npm", ["run", "build"], {
       cwd: projectDir,
       env: {
         ...process.env,

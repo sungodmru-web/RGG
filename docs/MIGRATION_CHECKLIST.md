@@ -18,10 +18,10 @@ incomplete.
 
 ## Runtime and application
 
-- [ ] Node 22 LTS and pnpm 10.26.1 available
-- [ ] `pnpm install --frozen-lockfile` succeeds
-- [ ] `pnpm run typecheck` succeeds
-- [ ] `pnpm run build` succeeds with temporary deployment variables
+- [ ] Node 22 LTS and npm 10.x available
+- [ ] `npm ci` succeeds from the checked-in `package-lock.json`
+- [ ] `npm run typecheck:hostinger` succeeds
+- [ ] `npm run build` succeeds with temporary deployment variables
 - [ ] API start command succeeds on the assigned Hostinger port
 - [ ] Static frontend is served with SPA fallback
 - [ ] Direct refresh works for `/`, `/book`, `/publications`,

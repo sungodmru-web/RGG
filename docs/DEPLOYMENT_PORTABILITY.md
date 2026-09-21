@@ -30,11 +30,11 @@ cutover.
 
 ```text
 Node: 22 LTS (verified locally with 22.22.0)
-pnpm: 10.26.1
-Install: npx --yes pnpm@10.26.1 install --frozen-lockfile
+npm: supplied by Node.js 22
+Install: npm ci
 Build:   PORT=4173 BASE_PATH=/ PUBLIC_SITE_URL=... PUBLICATIONS_API_URL=...
-         npx --yes pnpm@10.26.1 run build
-Start:   PORT=3000 npx --yes pnpm@10.26.1 start
+         npm run build
+Start:   PORT=3000 npm start
 ```
 
 The production build currently requires `PORT` and `BASE_PATH`, and uses
@@ -148,6 +148,8 @@ textures, fallback covers, welcome media, author imagery, fonts, and SEO
 files. Repeat the 390/768/1440 route, admin, security, upload, email, and
 mobile checks in `docs/HOSTINGER_DEPLOYMENT.md`.
 
-The root package exposes `pnpm test`, `pnpm migration:check`,
-`pnpm migration:rebuild-check`, `pnpm migration:baseline`, `pnpm audit:env`,
-and `pnpm report:assets` for repeatable verification.
+The root package exposes `npm test`, `npm run migration:check`,
+`npm run migration:rebuild-check`, `npm run migration:baseline`,
+`npm run audit:env`, and `npm run report:assets` for repeatable verification.
+The full Replit development workspace continues to support pnpm with its
+separate checked-in lockfile.

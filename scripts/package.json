@@ -10,7 +10,7 @@
     "test:migration-baseline": "bash ./migration-baseline.test.sh"
   },
   "devDependencies": {
-    "@types/node": "catalog:",
-    "tsx": "catalog:"
+    "@types/node": "^25.3.3",
+    "tsx": "^4.21.0"
   }
 }
