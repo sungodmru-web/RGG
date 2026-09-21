@@ -1,0 +1,300 @@
+CODE PACK 5 — RGG GOVERNANCE TRANSITION MODEL
+
+Implement ONLY Code Pack 5.
+
+OBJECTIVE:
+
+Turn /framework into a standalone professional presentation of the RGG Governance Transition Model.
+
+This should feel like proprietary institutional methodology:
+research institute × policy framework × publication.
+
+Do NOT turn it into a generic corporate infographic.
+
+==================================================
+1. SOURCE OF TRUTH
+==================================================
+
+Use:
+
+artifacts/rgg-website/src/pages/LegacyHome.tsx
+
+as the source of truth for the existing Governance Transition Model.
+
+Locate the exact:
+
+GOVERNANCE_LAYERS
+
+constant/data.
+
+Do not edit LegacyHome.tsx.
+
+Do not import LegacyHome.tsx at runtime.
+
+==================================================
+2. CREATE CONTENT MODULE
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/content/frameworkContent.ts
+
+Move/normalize the exact Governance Transition Model layer data into this module.
+
+Create clean TypeScript interfaces.
+
+Target model:
+
+export interface GovernanceLayer {
+  number: string;
+  title: string;
+  shortTitle?: string;
+  description: string;
+  detail?: string;
+  outcome?: string;
+}
+
+Adapt property names to the source data if necessary.
+
+Preserve:
+- exact layer order;
+- exact layer titles;
+- exact existing descriptions;
+- exact existing numbering where present.
+
+Do not invent:
+- new governance layers;
+- new layer names;
+- outcomes;
+- statistics;
+- metrics;
+- citations;
+- claims;
+- country examples.
+
+Optional fields such as detail/outcome must remain absent when the source does not support them.
+
+==================================================
+3. REPLACE FRAMEWORK PAGE
+==================================================
+
+Replace:
+
+artifacts/rgg-website/src/pages/Framework.tsx
+
+with the supplied Code Pack 5 Framework.tsx.
+
+Adapt only property names required to consume frameworkContent.ts.
+
+Do not change the intended architecture.
+
+==================================================
+4. PAGE ARCHITECTURE
+==================================================
+
+The final Framework page must contain:
+
+1. Governance Transition Model hero
+2. Core premise
+3. Seven-layer interactive explorer
+4. Transition/sequencing explanation
+5. Connection to the Book
+6. Link to Research
+7. Link to Consultancy
+
+Do NOT reproduce:
+- complete Book page content;
+- complete Consultancy content;
+- fake publications.
+
+==================================================
+5. INTERACTIVE LAYER EXPLORER
+==================================================
+
+All seven governance layers must appear.
+
+Desktop/tablet:
+- left navigation list;
+- active-layer detail panel;
+- clear active state;
+- restrained transition animation.
+
+Mobile:
+- the layout must stack cleanly;
+- every layer must remain accessible;
+- no horizontal scrolling required.
+
+Clicking a layer must:
+- update the detail panel;
+- maintain keyboard accessibility;
+- use a native button;
+- update aria-pressed;
+- fire existing trackEvent.
+
+Do not install a carousel library.
+
+==================================================
+6. VISUAL LANGUAGE
+==================================================
+
+Preserve the RGG visual system:
+
+- black / charcoal;
+- deep emerald;
+- muted gold;
+- ivory;
+- editorial serif;
+- thin borders;
+- restrained motion;
+- institutional atmosphere.
+
+Do NOT introduce:
+- rounded SaaS cards;
+- gradient blobs;
+- colourful icons;
+- generic cannabis leaf graphics;
+- neon green;
+- startup-dashboard styling;
+- stock images.
+
+The Framework should visually communicate:
+"serious methodology."
+
+==================================================
+7. NAVIGATION
+==================================================
+
+Verify:
+- Explore the Layers scrolls to #layers
+- View the Book → /book
+- Explore the Book → /book
+- Research → /research
+- Consultancy → /consultancy
+
+No href="#" links.
+
+==================================================
+8. ANALYTICS
+==================================================
+
+Use the existing:
+
+trackEvent
+
+Track layer selection with:
+
+framework_layer_selected
+
+Include:
+- layer title
+- layer index
+
+Track relevant cross-links if appropriate.
+
+Do not add another analytics library.
+
+==================================================
+9. ACCESSIBILITY
+==================================================
+
+Verify:
+- exactly one H1;
+- logical heading hierarchy;
+- layer controls are buttons;
+- aria-pressed represents selected layer;
+- keyboard Tab can reach all seven controls;
+- Enter/Space changes active layer;
+- decorative circles/grids use aria-hidden;
+- meaningful cover alt text;
+- focus styles remain visible;
+- no inaccessible hover-only content.
+
+==================================================
+10. RESPONSIVENESS
+==================================================
+
+Test approximately:
+
+375px
+430px
+768px
+1024px
+1440px
+
+Verify:
+- no document horizontal overflow;
+- no hidden governance layer;
+- interactive panel stays readable;
+- circles/glows do not extend page width;
+- navigation text does not overlap;
+- cover image stays proportional;
+- mobile interaction remains usable.
+
+==================================================
+11. DO NOT MODIFY
+==================================================
+
+Do NOT modify:
+
+Home.tsx
+LegacyHome.tsx
+Book.tsx
+bookContent.ts
+Research.tsx
+Consultancy.tsx
+Authors.tsx
+About.tsx
+SiteHeader.tsx
+SiteFooter.tsx
+SiteLayout.tsx
+App.tsx
+backend
+database
+dependencies
+
+Unless compilation requires a tiny import/export correction directly caused by Pack 5.
+
+==================================================
+12. BUILD + VERIFY
+==================================================
+
+Run:
+
+tsc -p tsconfig.json --noEmit
+
+Then production build.
+
+Verify:
+
+1. /framework HTTP 200
+2. exactly seven layers render
+3. layer order matches LegacyHome
+4. first layer is active initially
+5. every layer can be selected
+6. active panel updates correctly
+7. keyboard interaction works
+8. aria-pressed updates
+9. /book cross-links work
+10. /research cross-link works
+11. /consultancy cross-link works
+12. Home remains unchanged
+13. Book remains unchanged
+14. no href="#" exists on Framework
+15. no horizontal overflow
+16. no browser console errors
+17. TypeScript passes
+18. production build passes
+
+REPORT:
+
+- exact number of governance layers migrated
+- exact titles migrated
+- whether optional detail fields existed
+- whether optional outcome fields existed
+- responsive verification
+- accessibility verification
+- TypeScript result
+- production build result
+- warnings
+
+Do not make unrelated improvements.

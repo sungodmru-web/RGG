@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Hub — Reclaiming the Green Gold</title>
+    <meta name="description" content="Policy briefs, data insights, and institutional dialogues from the global cannabis governance community. Evidence-based analysis sourced from Reclaiming the Green Gold.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        :root{--hemp-raw:#D4C9A8;--hemp-dark:#8B7D5E;--hemp-paper:#F9F6F0;--bark:#2E2A22;--gold:#C49B3E;--gold-hover:#b0892f;--hemp-green:#5A7D3A;--hemp-green-dark:#3D5A22;--sunlit:#EDE6D5;--white:#FFFFFF;--logo-bg:#8B1E1E;--font-heading:'Lora',Georgia,'Times New Roman',serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--shadow-sm:0 1px 3px rgba(46,42,34,0.08);--shadow-md:0 4px 16px rgba(46,42,34,0.10);--shadow-lg:0 8px 28px rgba(46,42,34,0.12);--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--font-body);color:var(--bark);background-color:var(--hemp-paper);background-image:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(180,165,130,.06) 1px,rgba(180,165,130,.06) 2px),repeating-linear-gradient(90deg,transparent,transparent 1px,rgba(160,145,110,.04) 1px,rgba(160,145,110,.04) 3px),repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(170,150,120,.03) 4px,rgba(170,150,120,.03) 6px);background-attachment:fixed;line-height:1.6;-webkit-font-smoothing:antialiased}
+        .skip-link{position:absolute;top:-100px;left:1rem;background:var(--gold);color:var(--white);padding:.5rem 1rem;border-radius:var(--radius-sm);z-index:300;font-weight:500;text-decoration:none;transition:top .3s}.skip-link:focus{top:.5rem}
+        .site-header{background-color:rgba(255,255,255,.96);border-bottom:1px solid rgba(139,125,94,.22);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);backdrop-filter:blur(10px)}
+        .header-inner{max-width:1200px;margin:0 auto;padding:.7rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+        .logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex-shrink:0}
+        .logo-icon-wrap{width:38px;height:38px;border-radius:50%;background-color:var(--logo-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(139,30,30,.3)}.logo-icon-wrap svg{width:22px;height:22px}
+        .logo-text{font-family:var(--font-heading);font-size:1.1rem;font-weight:700;color:var(--bark);letter-spacing:-.01em;line-height:1.2}
+        .logo-text small{display:block;font-family:var(--font-body);font-size:.62rem;font-weight:400;color:#7A6E5A;letter-spacing:.03em;text-transform:uppercase}
+        .main-nav{display:flex;align-items:center;gap:.2rem;flex-wrap:wrap}
+        .nav-link{font-family:var(--font-body);font-size:.82rem;font-weight:500;color:#4A4235;text-decoration:none;padding:.45rem .7rem;border-radius:var(--radius-sm);transition:all .2s;white-space:nowrap}
+        .nav-link:hover,.nav-link.active{background-color:rgba(139,125,94,.1);color:var(--bark)}.nav-link.active{font-weight:600;color:var(--hemp-green-dark)}
+        .nav-cta{font-family:var(--font-body);font-size:.82rem;font-weight:600;background-color:var(--gold);color:var(--white)!important;padding:.5rem 1.2rem;border-radius:var(--radius-sm);text-decoration:none;white-space:nowrap;transition:all .3s;box-shadow:0 2px 8px rgba(196,155,62,.25);margin-left:.3rem}
+        .nav-cta:hover{background-color:var(--gold-hover);box-shadow:0 4px 14px rgba(196,155,62,.4);transform:translateY(-1px)}
+        .lang-toggle{font-size:.8rem;color:var(--hemp-dark);text-decoration:none;font-weight:500;padding:.3rem .6rem;border:1px solid rgba(139,125,94,.3);border-radius:var(--radius-sm);transition:all .2s;white-space:nowrap}.lang-toggle:hover{background-color:rgba(139,125,94,.1);border-color:var(--hemp-dark)}
+        .menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:.5rem;color:var(--bark)}.menu-toggle svg{width:26px;height:26px}
+
+        .page-header{background:linear-gradient(175deg,#F2ECDD 0%,#EDE4D0 50%,#E8DDC5 100%);padding:3.5rem 1.5rem 3rem;text-align:center;border-bottom:1px solid rgba(139,125,94,.2)}
+        .page-header-inner{max-width:800px;margin:0 auto}.breadcrumb{font-size:.78rem;color:#8B7D5E;margin-bottom:1.25rem;letter-spacing:.02em}.breadcrumb a{color:#8B7D5E;text-decoration:none}.breadcrumb a:hover{color:var(--gold)}
+        .page-title{font-family:var(--font-heading);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:600;color:var(--bark);letter-spacing:-.015em;margin-bottom:.75rem}
+        .page-subtitle{font-size:1rem;color:#5A4D3A;max-width:650px;margin:0 auto;line-height:1.55}
+
+        .section{padding:4rem 1.5rem}.section-inner{max-width:950px;margin:0 auto}
+        .section-header{text-align:center;margin-bottom:2.5rem}
+        .section-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--hemp-green);font-weight:600;margin-bottom:.5rem}
+        .section-title{font-family:var(--font-heading);font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:600;color:var(--bark);letter-spacing:-.01em}
+
+        .categories-strip{background-color:rgba(255,255,255,.4);border-top:1px solid rgba(139,125,94,.15);border-bottom:1px solid rgba(139,125,94,.15);padding:2rem 1.5rem;text-align:center}
+        .category-tags{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;max-width:800px;margin:1rem auto 0}
+        .category-tag{padding:.45rem 1rem;background:rgba(255,255,255,.7);border:1px solid rgba(139,125,94,.2);border-radius:50px;font-size:.82rem;color:#4A4235;font-weight:500;text-decoration:none;transition:all .2s}
+        .category-tag:hover{background:rgba(255,255,255,.95);border-color:var(--gold);color:var(--bark)}
+
+        .article-grid{display:grid;grid-template-columns:1fr;gap:2.5rem}
+        .article-card{background-color:rgba(255,255,255,.8);border:1px solid rgba(139,125,94,.14);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:all .3s}
+        .article-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+        .article-image{height:200px;background:linear-gradient(135deg,#EDE6D5 0%,#D9CFB5 100%);display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;overflow:hidden}
+        .article-image .leaf-watermark{position:absolute;opacity:.07;width:140px;height:140px;pointer-events:none}
+        .article-body{padding:2rem}
+        .article-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.75rem;align-items:center}
+        .article-tag{font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--hemp-green);font-weight:700;background:rgba(90,125,58,.08);padding:.3rem .7rem;border-radius:50px}
+        .article-date{font-size:.8rem;color:var(--hemp-dark)}
+        .article-body h2{font-family:var(--font-heading);font-size:1.4rem;font-weight:600;margin-bottom:.75rem;line-height:1.3;color:var(--bark)}
+        .article-body h3{font-family:var(--font-heading);font-size:1.05rem;font-weight:600;margin:1.25rem 0 .5rem;color:var(--bark)}
+        .article-body p{font-size:.9rem;color:#5A4D3A;line-height:1.65;margin-bottom:.85rem}
+
+        .source-box{background-color:rgba(90,125,58,.06);border-left:3px solid var(--hemp-green);padding:.85rem 1.25rem;margin:1.25rem 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+        .source-box p{font-size:.78rem;color:var(--hemp-green-dark);line-height:1.5;margin-bottom:0;font-style:italic}
+
+        .region-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin:1rem 0}
+        .region-tag{background:rgba(255,255,255,.7);border:1px solid rgba(139,125,94,.18);border-radius:var(--radius-sm);padding:.55rem .85rem;font-size:.8rem;color:#4A4235;font-weight:500;text-align:center}
+
+        .newsletter-box{background:linear-gradient(135deg,#F5F0E5 0%,#EDE6D5 100%);border:1px solid rgba(139,125,94,.2);border-radius:var(--radius-lg);padding:2rem;text-align:center;max-width:600px;margin:0 auto}
+        .newsletter-box h3{font-family:var(--font-heading);font-size:1.2rem;font-weight:600;margin-bottom:.5rem;color:var(--bark)}
+        .newsletter-box p{font-size:.9rem;color:#5A4D3A;margin-bottom:1rem}
+
+        .btn{display:inline-block;font-family:var(--font-body);font-weight:600;font-size:.95rem;padding:.85rem 1.9rem;border-radius:var(--radius-sm);cursor:pointer;text-decoration:none;transition:all .3s ease;border:2px solid transparent;letter-spacing:.01em}
+        .btn-primary{background-color:var(--gold);color:var(--white);border-color:var(--gold);box-shadow:0 4px 14px rgba(196,155,62,.3)}.btn-primary:hover{background-color:var(--gold-hover);border-color:var(--gold-hover);box-shadow:0 6px 20px rgba(196,155,62,.4);transform:translateY(-2px)}
+        .btn-outline{background-color:transparent;color:#4A4235;border-color:#8B7D5E}.btn-outline:hover{background-color:#5A4D3A;color:var(--hemp-paper);border-color:#5A4D3A;box-shadow:var(--shadow-md);transform:translateY(-2px)}
+
+        .site-footer{background-color:#4A3D2E;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(212,201,168,.04) 2px,rgba(212,201,168,.04) 3px);color:var(--hemp-paper);padding:3.5rem 1.5rem 1.5rem;position:relative}
+        .site-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold);opacity:.7}
+        .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;max-width:1000px;margin:0 auto 2rem}
+        .footer-col h4{color:var(--white);margin-bottom:.8rem;font-family:var(--font-heading);font-weight:600;font-size:.9rem}
+        .footer-col a{display:block;color:rgba(249,246,240,.7);text-decoration:none;font-size:.82rem;margin-bottom:.45rem;transition:color .2s,padding-left .2s;padding:.1rem 0}.footer-col a:hover{color:var(--gold);padding-left:4px}
+        .footer-col p{font-size:.8rem;opacity:.55;line-height:1.5}
+        .footer-bottom{text-align:center;padding-top:1.25rem;border-top:1px solid rgba(249,246,240,.1);font-size:.75rem;color:rgba(249,246,240,.35);max-width:1000px;margin:0 auto}
+        @media(max-width:860px){.main-nav{display:none}.menu-toggle{display:block}.main-nav.mobile-open{display:flex;flex-direction:column;width:100%;padding-top:.75rem;gap:.3rem}.nav-link,.nav-cta,.lang-toggle{width:100%;text-align:center;padding:.6rem;margin-left:0;border-radius:var(--radius-sm)}.section{padding:2.5rem 1rem}.article-image{height:150px}}
+    </style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<header class="site-header" role="banner">
+    <div class="header-inner">
+        <a href="index.html" class="logo" aria-label="Reclaiming the Green Gold — Home">
+            <span class="logo-icon-wrap" aria-hidden="true"><svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"><path d="M15 26 L15 14" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M15 14 Q12 10 8 7 Q4 4 2 6 Q1 7 3 10 Q7 14 10 16 Q11 17 12.5 18 Q14 19 15 18.5 Q15 17 15 14 Z" fill="white" opacity=".95"/><path d="M15 14 Q18 10 22 7 Q26 4 28 6 Q29 7 27 10 Q23 14 20 16 Q19 17 17.5 18 Q16 19 15 18.5 Q15 17 15 14 Z" fill="white" opacity=".95"/><path d="M15 20 Q12 23 10 25 Q8 27 9 26 Q12 23 14 21 Z" fill="white" opacity=".6"/><path d="M15 20 Q18 23 20 25 Q22 27 21 26 Q18 23 16 21 Z" fill="white" opacity=".6"/></svg></span>
+            <span class="logo-text">Reclaiming the Green Gold<small>Cannabis at the Crossroads of Health, Justice and Sustainable Development</small></span>
+        </a>
+        <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" onclick="document.getElementById('mainNav').classList.toggle('mobile-open');this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <nav class="main-nav" id="mainNav" role="navigation" aria-label="Main navigation">
+            <a href="about.html" class="nav-link">About the Book</a>
+            <a href="frameworks.html" class="nav-link">Frameworks &amp; Tools</a>
+            <a href="economy.html" class="nav-link">Global Cannabis Economy</a>
+            <a href="policymakers.html" class="nav-link">For Policymakers</a>
+            <a href="hub.html" class="nav-link active">Knowledge Hub</a>
+            <a href="partnerships.html" class="nav-link">Partnerships</a>
+            <a href="#" class="lang-toggle">FR</a>
+            <a href="formats.html" class="nav-cta">Get the Book</a>
+        </nav>
+    </div>
+</header>
+<main id="main-content">
+
+<section class="page-header"><div class="page-header-inner"><p class="breadcrumb"><a href="index.html">Home</a> &rsaquo; Knowledge Hub</p><h1 class="page-title">Knowledge Hub</h1><p class="page-subtitle">Policy briefs, data insights, and institutional dialogues — sourced from <em>Reclaiming the Green Gold</em> by Sunil &amp; Sunny Sweenarain.</p></div></section>
+
+<section class="categories-strip"><div class="section-inner" style="max-width:950px;margin:0 auto"><span class="section-label">Browse by Category</span><div class="category-tags"><a href="#" class="category-tag">All Articles</a><a href="#" class="category-tag">Policy Briefs</a><a href="#" class="category-tag">Data Insights</a><a href="#" class="category-tag">Institutional Dialogues</a><a href="#" class="category-tag">Africa</a><a href="#" class="category-tag">Americas</a><a href="#" class="category-tag">Europe</a><a href="#" class="category-tag">Asia-Pacific</a><a href="#" class="category-tag">Caribbean &amp; SIDS</a></div></div></section>
+
+<section class="section"><div class="section-inner"><div class="section-header"><span class="section-label">Latest Articles</span><h2 class="section-title">Featured Insights</h2></div><div class="article-grid">
+
+    <article class="article-card">
+        <div class="article-image"><svg class="leaf-watermark" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 90 Q88 82 72 74 Q55 65 42 58 Q30 51 25 49 Q22 47 28 53 Q38 65 52 80 Q60 90 68 98 Q72 102 78 106 Q86 112 94 118 Q98 120 100 120 Q100 115 100 90 Z" fill="#5A7D3A"/><path d="M100 90 Q112 82 128 74 Q145 65 158 58 Q170 51 175 49 Q178 47 172 53 Q162 65 148 80 Q140 90 132 98 Q128 102 122 106 Q114 112 106 118 Q102 120 100 120 Q100 115 100 90 Z" fill="#5A7D3A"/></svg>🌎</div>
+        <div class="article-body">
+            <div class="article-meta"><span class="article-tag">Policy Brief</span><span class="article-date">March 2026</span></div>
+            <h2>North American Cannabis Markets: Consolidation, Equity, and Illicit Competition</h2>
+            <p>North America remains the dominant regulated cannabis market, accounting for approximately 70% of global legal sales (Annexe 2). Canada's federal legalisation in 2018 established the first G7 regulated adult-use system, while the United States presents a fragmented landscape of state-level legalisation under federal prohibition.</p>
+            <div class="region-grid"><span class="region-tag">🇨🇦 Canada</span><span class="region-tag">🇺🇸 United States</span></div>
+            <h3>Canada: Consolidation and Illicit Persistence</h3><p>Canada's legal market has generated over CAD 10 billion in investment. However, the top five licensed producers control approximately 60% of domestic market share (Ch. 11). Despite federal legalisation, an estimated 30–40% of cannabis purchases continued through illicit channels in 2023, driven by price differentials (Ch. 17).</p>
+            <h3>United States: Federal–State Fragmentation</h3><p>The US exemplifies a fragmented subnational model with cannabis remaining Schedule I under federal law while individual states implement medical and adult-use frameworks. Several states have pioneered social equity programmes, though implementation challenges persist (Ch. 12; Ch. 16).</p>
+            <div class="source-box"><p><strong>Sources:</strong> Reclaiming the Green Gold — Chapters 2, 11, 12, 16, 17; Annexe 2; Annexe 3.</p></div>
+        </div>
+    </article>
+
+    <article class="article-card">
+        <div class="article-image"><svg class="leaf-watermark" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 90 Q88 82 72 74 Q55 65 42 58 Q30 51 25 49 Q22 47 28 53 Q38 65 52 80 Q60 90 68 98 Q72 102 78 106 Q86 112 94 118 Q98 120 100 120 Q100 115 100 90 Z" fill="#5A7D3A"/><path d="M100 90 Q112 82 128 74 Q145 65 158 58 Q170 51 175 49 Q178 47 172 53 Q162 65 148 80 Q140 90 132 98 Q128 102 122 106 Q114 112 106 118 Q102 120 100 120 Q100 115 100 90 Z" fill="#5A7D3A"/></svg>🇪🇺</div>
+        <div class="article-body">
+            <div class="article-meta"><span class="article-tag">Policy Brief</span><span class="article-date">March 2026</span></div>
+            <h2>European Cannabis Governance: Medical Leadership, Incremental Reform, and Regulatory Pluralism</h2>
+            <p>Europe represents the largest medical cannabis import market globally, with Germany alone accounting for over 40% of EU medical cannabis imports (Ch. 11). The region is characterised by regulated pluralism.</p>
+            <div class="region-grid"><span class="region-tag">🇩🇪 Germany</span><span class="region-tag">🇵🇹 Portugal</span><span class="region-tag">🇳🇱 Netherlands</span><span class="region-tag">🇲🇹 Malta</span><span class="region-tag">🇨🇭 Switzerland</span></div>
+            <h3>Germany: Pharmaceutical Leadership</h3><p>Germany's medical cannabis programme allows reimbursement through statutory health insurance. The country's evolving two-pillar model reflects an adaptive, evidence-building approach (Ch. 12; Ch. 13).</p>
+            <h3>Portugal, the Netherlands, and Malta</h3><p>Portugal's 2001 decriminalisation remains a landmark policy experiment, and the country has emerged as a significant medical cannabis exporter (Ch. 11). Malta's 2021 reform established a framework for non-profit cannabis associations (Ch. 13).</p>
+            <div class="source-box"><p><strong>Sources:</strong> Reclaiming the Green Gold — Chapters 2, 7, 11, 12, 13; Tables 13, 24; Annexe 3.</p></div>
+        </div>
+    </article>
+
+    <article class="article-card">
+        <div class="article-image"><svg class="leaf-watermark" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 90 Q88 82 72 74 Q55 65 42 58 Q30 51 25 49 Q22 47 28 53 Q38 65 52 80 Q60 90 68 98 Q72 102 78 106 Q86 112 94 118 Q98 120 100 120 Q100 115 100 90 Z" fill="#5A7D3A"/><path d="M100 90 Q112 82 128 74 Q145 65 158 58 Q170 51 175 49 Q178 47 172 53 Q162 65 148 80 Q140 90 132 98 Q128 102 122 106 Q114 112 106 118 Q102 120 100 120 Q100 115 100 90 Z" fill="#5A7D3A"/></svg>🌎</div>
+        <div class="article-body">
+            <div class="article-meta"><span class="article-tag">Policy Brief</span><span class="article-date">February 2026</span></div>
+            <h2>Latin America: Cost Advantage, Regulatory Innovation, and the Challenge of Inclusion</h2>
+            <p>Latin America has emerged as one of the most dynamic regions in the global cannabis economy. Colombia and Uruguay represent distinct but instructive reform pathways.</p>
+            <div class="region-grid"><span class="region-tag">🇨🇴 Colombia</span><span class="region-tag">🇺🇾 Uruguay</span><span class="region-tag">🇲🇽 Mexico</span><span class="region-tag">🇧🇷 Brazil</span></div>
+            <h3>Colombia: Cost Leader with Inclusion Challenges</h3><p>Colombia has attracted over USD 2 billion in investment, with ex-farm production costs at USD 0.05–0.10 per gram — the lowest among major exporters (Ch. 11). However, smallholder inclusion remains elusive (Ch. 15).</p>
+            <h3>Uruguay: State-Controlled Public Health Model</h3><p>Uruguay's 2013 legalisation established the first nationally regulated adult-use system prioritising public health over commercial development. Implementation was deliberately phased (Ch. 12; Ch. 18).</p>
+            <div class="source-box"><p><strong>Sources:</strong> Reclaiming the Green Gold — Chapters 2, 11, 12, 13, 15, 18; Tables 24, 26, 47; Annexe 2; Annexe 3.</p></div>
+        </div>
+    </article>
+
+    <article class="article-card">
+        <div class="article-image"><svg class="leaf-watermark" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 90 Q88 82 72 74 Q55 65 42 58 Q30 51 25 49 Q22 47 28 53 Q38 65 52 80 Q60 90 68 98 Q72 102 78 106 Q86 112 94 118 Q98 120 100 120 Q100 115 100 90 Z" fill="#5A7D3A"/><path d="M100 90 Q112 82 128 74 Q145 65 158 58 Q170 51 175 49 Q178 47 172 53 Q162 65 148 80 Q140 90 132 98 Q128 102 122 106 Q114 112 106 118 Q102 120 100 120 Q100 115 100 90 Z" fill="#5A7D3A"/></svg>🌍</div>
+        <div class="article-body">
+            <div class="article-meta"><span class="article-tag">Institutional Dialogue</span><span class="article-date">April 2026</span></div>
+            <h2>Africa's Cannabis Crossroads: Why the Continent Needs a Governance Framework</h2>
+            <p>Over the past decade, at least ten African countries have enacted legislation to regulate cannabis production. These reforms are unfolding largely in isolation — no harmonised standards, no shared testing laboratories, no mutual recognition protocols, and growing concerns about corporate capture excluding smallholder farmers.</p>
+            <div class="region-grid"><span class="region-tag">🇱🇸 Lesotho</span><span class="region-tag">🇿🇦 South Africa</span><span class="region-tag">🇲🇦 Morocco</span><span class="region-tag">🇿🇼 Zimbabwe</span><span class="region-tag">🇲🇼 Malawi</span><span class="region-tag">🇷🇼 Rwanda</span><span class="region-tag">🇬🇭 Ghana</span><span class="region-tag">🇿🇲 Zambia</span><span class="region-tag">🇺🇬 Uganda</span><span class="region-tag">🇸🇿 Eswatini</span></div>
+            <h3>A Continent in Motion</h3><p>Lesotho was first to legalise medical cannabis export in 2017. Morocco established ANRAC as a dedicated regulatory authority. South Africa is developing a National Cannabis Master Plan targeting 130,000 jobs. Malawi has licensed 35 companies as it diversifies from tobacco (Ch. 15).</p>
+            <h3>The Coordination Gap</h3><p>There are currently no harmonised testing standards, no shared reference laboratories, and no mutual recognition protocols across African nations. Establishing a single accredited laboratory requires USD 500,000–2 million (Ch. 14; Ch. 17).</p>
+            <h3>The AU's 2026–2030 Drug Policy Framework</h3><p>The African Union's new framework presents a historic opportunity to treat cannabis as a governance, development, and trade issue aligned with Agenda 2063 and the AfCFTA.</p>
+            <div class="source-box"><p><strong>Sources:</strong> Reclaiming the Green Gold — Chapters 2, 9, 11, 13, 14, 15, 16, 17, 20; Tables 17, 22, 24, 47; Annexe 2; Annexe 3; Annexe 4.</p></div>
+        </div>
+    </article>
+
+    <article class="article-card">
+        <div class="article-image"><svg class="leaf-watermark" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 90 Q88 82 72 74 Q55 65 42 58 Q30 51 25 49 Q22 47 28 53 Q38 65 52 80 Q60 90 68 98 Q72 102 78 106 Q86 112 94 118 Q98 120 100 120 Q100 115 100 90 Z" fill="#5A7D3A"/><path d="M100 90 Q112 82 128 74 Q145 65 158 58 Q170 51 175 49 Q178 47 172 53 Q162 65 148 80 Q140 90 132 98 Q128 102 122 106 Q114 112 106 118 Q102 120 100 120 Q100 115 100 90 Z" fill="#5A7D3A"/></svg>📊</div>
+        <div class="article-body">
+            <div class="article-meta"><span class="article-tag">Data Insight</span><span class="article-date">January 2026</span></div>
+            <h2>Global Cannabis Economy: Key Statistics and Growth Projections</h2>
+            <p>This data insight synthesises key statistics from the book's annexes and chapters.</p>
+            <h3>Market Size and Structure</h3><p>The global legal cannabis market was valued at approximately USD 35–40 billion in 2024, with projections exceeding USD 100 billion by 2030 (Ch. 11; Annexe 2). Medical cannabis accounts for ~60% of legal cross-border trade, industrial hemp ~25%, and CBD/wellness ~15% (Ch. 11).</p>
+            <h3>Production Economics</h3><p>Ex-farm costs range from USD 0.05–0.10/gram (Colombia) to USD 0.80–1.50/gram (Canada). GMP certification for a single facility requires USD 1–5 million (Ch. 11).</p>
+            <h3>Growth Scenarios</h3><p>The book presents three scenarios: conservative (USD 60–70B), base case (USD 100–120B), and accelerated (USD 150B+) by 2030 (Annexe 2).</p>
+            <div class="source-box"><p><strong>Sources:</strong> Reclaiming the Green Gold — Chapters 9, 10, 11; Tables 22, 23, 24; Annexe 2; Annexe 3.</p></div>
+        </div>
+    </article>
+
+</div></div></section>
+
+<section style="padding:0 1.5rem 4rem"><div class="section-inner"><div class="newsletter-box">
+    <h3>📬 Stay Informed</h3>
+    <p>Subscribe to receive policy briefs, data insights, and institutional dialogue updates from the Knowledge Hub. Optional newsletter — coming soon.</p>
+    <a href="contact.html" class="btn btn-outline">Contact / Dialogue</a>
+</div></div></section>
+
+</main>
+<footer class="site-footer" role="contentinfo">
+    <div class="footer-grid">
+        <div class="footer-col"><h4>Reclaiming the Green Gold</h4><p>A neutral global knowledge platform for cannabis governance, institutional readiness, and sustainable development. &copy; 2026 Soobaschand &amp; Sunny Sweenarain.</p></div>
+        <div class="footer-col"><h4>Legal &amp; Trust</h4><a href="disclaimer.html">Disclaimer</a><a href="privacy.html">Privacy Policy</a><a href="cookies.html">Cookie Policy</a><a href="terms.html">Terms of Use</a><a href="terms-sale.html">Terms of Sale</a><a href="licence.html">Digital PDF Licence</a><a href="refunds.html">Refund &amp; Delivery Policy</a></div>
+        <div class="footer-col"><h4>Connect</h4><a href="contact.html">Contact / Dialogue</a><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a><a href="hub.html">Knowledge Hub</a></div>
+        <div class="footer-col"><h4>Book Formats</h4><a href="formats.html">Licensed PDF</a><a href="formats.html">Physical Copy</a><a href="formats.html">Kindle / eBook</a><a href="formats.html">Executive Short Version</a></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Reclaiming the Green Gold. All rights reserved.</div>
+</footer>
+</body>
+</html>

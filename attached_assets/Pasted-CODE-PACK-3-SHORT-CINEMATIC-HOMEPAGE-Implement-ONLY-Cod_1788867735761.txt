@@ -1,0 +1,179 @@
+CODE PACK 3 — SHORT CINEMATIC HOMEPAGE
+
+Implement ONLY Code Pack 3.
+
+OBJECTIVE:
+
+Transform the current very long Home page into a short editorial gateway for the RGG platform.
+
+IMPORTANT:
+This is NOT a generic landing-page redesign.
+
+The visual identity must remain:
+- black / charcoal;
+- deep emerald;
+- muted gold;
+- ivory;
+- editorial serif typography;
+- thin institutional borders;
+- restrained animation;
+- serious policy/research atmosphere.
+
+Do NOT introduce:
+- gradients typical of SaaS websites;
+- rounded startup cards;
+- colourful icons;
+- generic stock imagery;
+- excessive button styling;
+- new dependencies;
+- new UI libraries.
+
+STEP 1 — PRESERVE CURRENT HOME
+
+Before replacing Home.tsx, make an exact copy of the CURRENT post-Code-Pack-2 file:
+
+artifacts/rgg-website/src/pages/Home.tsx
+
+to:
+
+artifacts/rgg-website/src/pages/LegacyHome.tsx
+
+LegacyHome.tsx is an archive/source file for upcoming migration packs.
+
+Do NOT add LegacyHome to App.tsx.
+Do NOT expose LegacyHome as a route.
+Do NOT alter its content after copying.
+
+STEP 2 — REPLACE HOME
+
+Replace:
+
+artifacts/rgg-website/src/pages/Home.tsx
+
+with the supplied Code Pack 3 Home.tsx.
+
+The new homepage must contain ONLY:
+
+1. Cinematic book/platform hero
+2. Platform positioning statement
+3. Book / Research / Consultancy gateway grid
+4. Governance Framework teaser
+5. Closing About RGG invitation
+
+Do NOT copy the old sections underneath the new Home.
+
+The old content is preserved in LegacyHome.tsx.
+
+STEP 3 — MOBILE MENU OVERFLOW
+
+In:
+
+artifacts/rgg-website/src/components/layout/SiteHeader.tsx
+
+add:
+
+overflow-x-hidden
+
+to the full-screen mobile navigation overlay while retaining overflow-y-auto.
+
+Do not apply a blanket body overflow-x hidden as a workaround.
+
+STEP 4 — PRESERVE ARCHITECTURE
+
+Do NOT modify:
+- App.tsx routing;
+- SiteLayout;
+- SiteFooter;
+- Book page;
+- Research page;
+- Framework page;
+- Consultancy page;
+- Authors page;
+- About page;
+- backend;
+- database;
+- BookVault configuration;
+- analytics implementation.
+
+The new Home should use existing Wouter routing and existing trackEvent.
+
+STEP 5 — ASSETS
+
+Reuse the existing book-cover asset:
+
+/images/cover-front.png
+
+Do not generate a replacement cover.
+Do not rename the asset.
+
+STEP 6 — ACCESSIBILITY
+
+Ensure:
+- book cover has meaningful alt text;
+- decorative effects are aria-hidden;
+- navigation gateways are real links;
+- no empty href="#";
+- no fake buttons;
+- no fake publication links;
+- no fake testimonials;
+- no fake endorsements.
+
+STEP 7 — RESPONSIVE BEHAVIOUR
+
+The new Hero MUST NOT use:
+
+min-h-[100dvh] flex items-center
+
+or similar forced viewport-centering architecture.
+
+The page must use content-driven vertical padding so tall mobile devices do not produce the previous giant blank area.
+
+Verify at approximately:
+- 375px mobile;
+- 430px mobile;
+- 768px tablet;
+- 1024px;
+- 1440px desktop.
+
+STEP 8 — BUILD
+
+Run:
+
+tsc -p tsconfig.json --noEmit
+
+and the production build.
+
+Fix ONLY errors introduced by Code Pack 3.
+
+VERIFY:
+
+1. `/` renders the NEW short homepage.
+2. The old long homepage does not appear beneath it.
+3. `LegacyHome.tsx` contains the complete previous Home implementation.
+4. `/book` works.
+5. `/framework` works.
+6. `/research` works.
+7. `/consultancy` works.
+8. `/authors` works.
+9. `/about` works.
+10. Hero book cover loads.
+11. Explore the Book routes to `/book`.
+12. Explore Research routes to `/research`.
+13. Explore Consultancy routes to `/consultancy`.
+14. Explore Framework routes to `/framework`.
+15. About RGG routes to `/about`.
+16. Header remains global.
+17. Footer remains global.
+18. Mobile navigation has no horizontal scrollbar.
+19. No browser console errors.
+20. No TypeScript errors.
+21. Production build succeeds.
+
+Do not make additional architectural changes.
+
+Report:
+- TypeScript result;
+- production build result;
+- route verification;
+- mobile overflow verification;
+- any warnings.

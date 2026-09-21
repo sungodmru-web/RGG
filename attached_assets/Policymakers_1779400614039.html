@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Policymakers & Institutions — Reclaiming the Green Gold</title>
+    <meta name="description" content="Governance models, readiness frameworks, and technical assistance for national and regional cannabis policy development. Capacity-building for sustainable cannabis governance.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        :root{--hemp-raw:#D4C9A8;--hemp-dark:#8B7D5E;--hemp-paper:#F9F6F0;--bark:#2E2A22;--gold:#C49B3E;--gold-hover:#b0892f;--hemp-green:#5A7D3A;--hemp-green-dark:#3D5A22;--sunlit:#EDE6D5;--white:#FFFFFF;--logo-bg:#8B1E1E;--font-heading:'Lora',Georgia,'Times New Roman',serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--shadow-sm:0 1px 3px rgba(46,42,34,0.08);--shadow-md:0 4px 16px rgba(46,42,34,0.10);--shadow-lg:0 8px 28px rgba(46,42,34,0.12);--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--font-body);color:var(--bark);background-color:var(--hemp-paper);background-image:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(180,165,130,.06) 1px,rgba(180,165,130,.06) 2px),repeating-linear-gradient(90deg,transparent,transparent 1px,rgba(160,145,110,.04) 1px,rgba(160,145,110,.04) 3px),repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(170,150,120,.03) 4px,rgba(170,150,120,.03) 6px);background-attachment:fixed;line-height:1.6;-webkit-font-smoothing:antialiased}
+        .skip-link{position:absolute;top:-100px;left:1rem;background:var(--gold);color:var(--white);padding:.5rem 1rem;border-radius:var(--radius-sm);z-index:300;font-weight:500;text-decoration:none;transition:top .3s}.skip-link:focus{top:.5rem}
+        .site-header{background-color:rgba(255,255,255,.96);border-bottom:1px solid rgba(139,125,94,.22);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);backdrop-filter:blur(10px)}
+        .header-inner{max-width:1200px;margin:0 auto;padding:.7rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+        .logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex-shrink:0}
+        .logo-icon-wrap{width:38px;height:38px;border-radius:50%;background-color:var(--logo-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(139,30,30,.3)}.logo-icon-wrap svg{width:22px;height:22px}
+        .logo-text{font-family:var(--font-heading);font-size:1.1rem;font-weight:700;color:var(--bark);letter-spacing:-.01em;line-height:1.2}
+        .logo-text small{display:block;font-family:var(--font-body);font-size:.62rem;font-weight:400;color:#7A6E5A;letter-spacing:.03em;text-transform:uppercase}
+        .main-nav{display:flex;align-items:center;gap:.2rem;flex-wrap:wrap}
+        .nav-link{font-family:var(--font-body);font-size:.82rem;font-weight:500;color:#4A4235;text-decoration:none;padding:.45rem .7rem;border-radius:var(--radius-sm);transition:all .2s;white-space:nowrap}
+        .nav-link:hover,.nav-link.active{background-color:rgba(139,125,94,.1);color:var(--bark)}.nav-link.active{font-weight:600;color:var(--hemp-green-dark)}
+        .nav-cta{font-family:var(--font-body);font-size:.82rem;font-weight:600;background-color:var(--gold);color:var(--white)!important;padding:.5rem 1.2rem;border-radius:var(--radius-sm);text-decoration:none;white-space:nowrap;transition:all .3s;box-shadow:0 2px 8px rgba(196,155,62,.25);margin-left:.3rem}
+        .nav-cta:hover{background-color:var(--gold-hover);box-shadow:0 4px 14px rgba(196,155,62,.4);transform:translateY(-1px)}
+        .lang-toggle{font-size:.8rem;color:var(--hemp-dark);text-decoration:none;font-weight:500;padding:.3rem .6rem;border:1px solid rgba(139,125,94,.3);border-radius:var(--radius-sm);transition:all .2s;white-space:nowrap}.lang-toggle:hover{background-color:rgba(139,125,94,.1);border-color:var(--hemp-dark)}
+        .menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:.5rem;color:var(--bark)}.menu-toggle svg{width:26px;height:26px}
+
+        .page-header{background:linear-gradient(175deg,#F2ECDD 0%,#EDE4D0 50%,#E8DDC5 100%);padding:3.5rem 1.5rem 3rem;text-align:center;border-bottom:1px solid rgba(139,125,94,.2)}
+        .page-header-inner{max-width:800px;margin:0 auto}.breadcrumb{font-size:.78rem;color:#8B7D5E;margin-bottom:1.25rem;letter-spacing:.02em}.breadcrumb a{color:#8B7D5E;text-decoration:none}.breadcrumb a:hover{color:var(--gold)}
+        .page-title{font-family:var(--font-heading);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:600;color:var(--bark);letter-spacing:-.015em;margin-bottom:.75rem}
+        .page-subtitle{font-size:1rem;color:#5A4D3A;max-width:650px;margin:0 auto;line-height:1.55}
+
+        .section{padding:4rem 1.5rem}.section-inner{max-width:900px;margin:0 auto}
+        .section-header{text-align:center;margin-bottom:2.5rem}
+        .section-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--hemp-green);font-weight:600;margin-bottom:.5rem}
+        .section-title{font-family:var(--font-heading);font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:600;color:var(--bark);letter-spacing:-.01em}
+
+        .info-strip{background-color:rgba(255,255,255,.45);border-top:1px solid rgba(139,125,94,.15);border-bottom:1px solid rgba(139,125,94,.15)}
+        .info-strip-alt{background-color:rgba(255,255,255,.3);border-top:1px solid rgba(139,125,94,.15);border-bottom:1px solid rgba(139,125,94,.15)}
+
+        .guidance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:1.5rem}
+        .guidance-card{background-color:rgba(255,255,255,.75);border:1px solid rgba(139,125,94,.14);border-radius:var(--radius-lg);padding:1.75rem;box-shadow:var(--shadow-sm);transition:all .3s}
+        .guidance-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+        .guidance-num{font-family:var(--font-heading);font-size:2rem;font-weight:600;color:var(--gold);opacity:.5;margin-bottom:.25rem}
+        .guidance-card h4{font-family:var(--font-heading);font-size:1.05rem;font-weight:600;margin-bottom:.5rem;color:var(--bark);line-height:1.3}
+        .guidance-card p{font-size:.88rem;color:#5A4D3A;line-height:1.55}
+
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+        .two-col h3{font-family:var(--font-heading);font-size:1.2rem;font-weight:600;margin-bottom:.75rem;color:var(--bark)}
+        .two-col p,.two-col li{font-size:.9rem;color:#4A4235;line-height:1.6;margin-bottom:.75rem}
+        .two-col ul{padding-left:1.2rem}.two-col ul li{margin-bottom:.4rem}
+
+        .capacity-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.25rem}
+        .capacity-card{background-color:rgba(255,255,255,.75);border:1px solid rgba(139,125,94,.14);border-radius:var(--radius-md);padding:1.5rem;text-align:center;box-shadow:var(--shadow-sm);transition:all .3s}
+        .capacity-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+        .capacity-icon{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--sunlit) 0%,#E0D8C0 100%);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;box-shadow:0 3px 12px rgba(46,42,34,.06)}.capacity-icon svg{width:24px;height:24px;color:var(--hemp-green)}
+        .capacity-card h4{font-family:var(--font-heading);font-size:.95rem;font-weight:600;margin-bottom:.4rem;color:var(--bark)}
+        .capacity-card p{font-size:.84rem;color:#5A4D3A;line-height:1.45}
+
+        .assistance-box{background-color:rgba(255,255,255,.7);border:1px solid rgba(139,125,94,.16);border-radius:var(--radius-lg);padding:2rem;box-shadow:var(--shadow-sm)}
+        .assistance-box h3{font-family:var(--font-heading);font-size:1.2rem;font-weight:600;margin-bottom:.75rem;color:var(--bark);text-align:center}
+        .assistance-box p{font-size:.9rem;color:#5A4D3A;line-height:1.6;margin-bottom:.75rem;text-align:center}
+
+        .highlight-box{background-color:rgba(196,155,62,.08);border-left:3px solid var(--gold);padding:1.25rem 1.5rem;border-radius:0 var(--radius-md) var(--radius-md) 0;margin:1.5rem 0}
+        .highlight-box p{font-size:.9rem;color:#4A4235;line-height:1.6}
+
+        .btn{display:inline-block;font-family:var(--font-body);font-weight:600;font-size:.95rem;padding:.85rem 1.9rem;border-radius:var(--radius-sm);cursor:pointer;text-decoration:none;transition:all .3s ease;border:2px solid transparent;letter-spacing:.01em}
+        .btn-primary{background-color:var(--gold);color:var(--white);border-color:var(--gold);box-shadow:0 4px 14px rgba(196,155,62,.3)}.btn-primary:hover{background-color:var(--gold-hover);border-color:var(--gold-hover);box-shadow:0 6px 20px rgba(196,155,62,.4);transform:translateY(-2px)}
+        .btn-outline{background-color:transparent;color:#4A4235;border-color:#8B7D5E}.btn-outline:hover{background-color:#5A4D3A;color:var(--hemp-paper);border-color:#5A4D3A;box-shadow:var(--shadow-md);transform:translateY(-2px)}
+
+        .site-footer{background-color:#4A3D2E;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(212,201,168,.04) 2px,rgba(212,201,168,.04) 3px);color:var(--hemp-paper);padding:3.5rem 1.5rem 1.5rem;position:relative}
+        .site-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold);opacity:.7}
+        .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;max-width:1000px;margin:0 auto 2rem}
+        .footer-col h4{color:var(--white);margin-bottom:.8rem;font-family:var(--font-heading);font-weight:600;font-size:.9rem}
+        .footer-col a{display:block;color:rgba(249,246,240,.7);text-decoration:none;font-size:.82rem;margin-bottom:.45rem;transition:color .2s,padding-left .2s;padding:.1rem 0}.footer-col a:hover{color:var(--gold);padding-left:4px}
+        .footer-col p{font-size:.8rem;opacity:.55;line-height:1.5}
+        .footer-bottom{text-align:center;padding-top:1.25rem;border-top:1px solid rgba(249,246,240,.1);font-size:.75rem;color:rgba(249,246,240,.35);max-width:1000px;margin:0 auto}
+        @media(max-width:860px){.main-nav{display:none}.menu-toggle{display:block}.main-nav.mobile-open{display:flex;flex-direction:column;width:100%;padding-top:.75rem;gap:.3rem}.nav-link,.nav-cta,.lang-toggle{width:100%;text-align:center;padding:.6rem;margin-left:0;border-radius:var(--radius-sm)}.two-col{grid-template-columns:1fr}.guidance-grid{grid-template-columns:1fr}.section{padding:2.5rem 1rem}}
+    </style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<header class="site-header" role="banner">
+    <div class="header-inner">
+        <a href="index.html" class="logo" aria-label="Reclaiming the Green Gold — Home">
+            <span class="logo-icon-wrap" aria-hidden="true"><svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"><path d="M15 26 L15 14" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M15 14 Q12 10 8 7 Q4 4 2 6 Q1 7 3 10 Q7 14 10 16 Q11 17 12.5 18 Q14 19 15 18.5 Q15 17 15 14 Z" fill="white" opacity=".95"/><path d="M15 14 Q18 10 22 7 Q26 4 28 6 Q29 7 27 10 Q23 14 20 16 Q19 17 17.5 18 Q16 19 15 18.5 Q15 17 15 14 Z" fill="white" opacity=".95"/><path d="M15 20 Q12 23 10 25 Q8 27 9 26 Q12 23 14 21 Z" fill="white" opacity=".6"/><path d="M15 20 Q18 23 20 25 Q22 27 21 26 Q18 23 16 21 Z" fill="white" opacity=".6"/></svg></span>
+            <span class="logo-text">Reclaiming the Green Gold<small>Cannabis at the Crossroads of Health, Justice and Sustainable Development</small></span>
+        </a>
+        <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" onclick="document.getElementById('mainNav').classList.toggle('mobile-open');this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <nav class="main-nav" id="mainNav" role="navigation" aria-label="Main navigation">
+            <a href="about.html" class="nav-link">About the Book</a>
+            <a href="frameworks.html" class="nav-link">Frameworks &amp; Tools</a>
+            <a href="economy.html" class="nav-link">Global Cannabis Economy</a>
+            <a href="policymakers.html" class="nav-link active">For Policymakers</a>
+            <a href="hub.html" class="nav-link">Knowledge Hub</a>
+            <a href="partnerships.html" class="nav-link">Partnerships</a>
+            <a href="#" class="lang-toggle">FR</a>
+            <a href="formats.html" class="nav-cta">Get the Book</a>
+        </nav>
+    </div>
+</header>
+<main id="main-content">
+
+<section class="page-header"><div class="page-header-inner"><p class="breadcrumb"><a href="index.html">Home</a> &rsaquo; For Policymakers &amp; Institutions</p><h1 class="page-title">For Policymakers &amp; Institutions</h1><p class="page-subtitle">Governance transition models, readiness frameworks, capacity-building resources, and technical assistance for national and regional cannabis policy development.</p></div></section>
+
+<section class="section"><div class="section-inner"><div class="section-header"><span class="section-label">Policy Guidance</span><h2 class="section-title">Eight Guiding Considerations for LMIC and SIDS</h2></div><div class="guidance-grid">
+    <div class="guidance-card"><div class="guidance-num">1</div><h4>Reframe Cannabis as a Governance and Development Issue</h4><p>Cannabis policy should be integrated into broader frameworks of economic development, public health, and environmental sustainability. Position cannabis within national development strategies — particularly agriculture, industrial policy, and green and blue economy agendas.</p></div>
+    <div class="guidance-card"><div class="guidance-num">2</div><h4>Align Reform Pathways with Institutional Capacity</h4><p>Ambitious regulatory models are unlikely to succeed where administrative and enforcement capacity is limited. Adopt phased approaches matching policy complexity with institutional readiness.</p></div>
+    <div class="guidance-card"><div class="guidance-num">3</div><h4>Promote Inclusive Participation in Emerging Value Chains</h4><p>Cannabis markets risk concentration among well-capitalised actors without deliberate measures to support domestic participation. Facilitate access for smallholders, cooperatives, and local enterprises.</p></div>
+    <div class="guidance-card"><div class="guidance-num">4</div><h4>Move Beyond Primary Production Towards Value Addition</h4><p>Capturing greater value requires moving into processing, manufacturing, and innovation. Encourage local value addition through incentives, infrastructure development, and skills upgrading.</p></div>
+    <div class="guidance-card"><div class="guidance-num">5</div><h4>Strengthen Regulatory Systems and Data Capacity</h4><p>Effective governance depends on the ability to monitor, regulate, and adapt. Investment in licensing, quality assurance, traceability, and data systems is essential.</p></div>
+    <div class="guidance-card"><div class="guidance-num">6</div><h4>Integrate Environmental Sustainability into Policy Design</h4><p>Cannabis cultivation and processing must align with environmental objectives, particularly in resource-constrained and climate-vulnerable contexts.</p></div>
+    <div class="guidance-card"><div class="guidance-num">7</div><h4>Manage Risks of External Dependency and Regulatory Capture</h4><p>Safeguards are needed to ensure national interests are protected — including transparent licensing, limits on market concentration, and clear investment frameworks.</p></div>
+    <div class="guidance-card"><div class="guidance-num">8</div><h4>Adopt Adaptive and Iterative Policy Approaches</h4><p>Given evolving markets and scientific knowledge, policies should incorporate mechanisms for evaluation, feedback, and revision. Pilot programmes and continuous learning reduce risks.</p></div>
+</div></div></section>
+
+<section class="info-strip section"><div class="section-inner"><div class="section-header"><span class="section-label">Knowledge & Capacity-Building</span><h2 class="section-title">Building Institutional Capability</h2></div>
+<p style="text-align:center;max-width:700px;margin:0 auto 2.5rem;font-size:.95rem;color:#5A4D3A;line-height:1.6">Cannabis reform is a test of institutional capability, policy coherence, and social contract. The book's central finding is that developmental outcomes are determined by <strong>governance design, not market size, climate, or comparative advantage</strong>.</p>
+<div class="capacity-grid">
+    <div class="capacity-card"><div class="capacity-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h4>Regulatory & Institutional Strengthening</h4><p>Clear mandates, inter-agency coordination, licensing systems, inspection capacity, and anti-capture safeguards.</p></div>
+    <div class="capacity-card"><div class="capacity-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><h4>Scientific & Laboratory Infrastructure</h4><p>Accredited testing facilities, GMP certification pathways, pharmacovigilance systems, and research partnerships.</p></div>
+    <div class="capacity-card"><div class="capacity-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div><h4>Data Systems & Digital Governance</h4><p>Seed-to-sale traceability, licensing portals, market monitoring databases, and evidence-based policy frameworks.</p></div>
+    <div class="capacity-card"><div class="capacity-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div><h4>Market & Value Chain Development</h4><p>Domestic processing capacity, SME support, cooperative models, export readiness, and fair taxation frameworks.</p></div>
+    <div class="capacity-card"><div class="capacity-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L15 8l6 1-4 4 1 6-5-3-5 3 1-6-4-4 6-1z"/></svg></div><h4>Public Health & Social Protection</h4><p>Patient access pathways, prevention programmes, harm reduction strategies, and human rights safeguards.</p></div>
+    <div class="capacity-card"><div class="capacity-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div><h4>Regional Cooperation Platforms</h4><p>Shared laboratories, harmonised standards, pooled training, mutual recognition of certification, and collective trade negotiation.</p></div>
+</div></div></section>
+
+<section class="info-strip-alt section"><div class="section-inner"><div class="section-header"><span class="section-label">Technical Assistance</span><h2 class="section-title">Support for Policy Development & Implementation</h2></div>
+<div class="two-col">
+    <div><h3>How the Book Serves as a Technical Resource</h3><p><em>Reclaiming the Green Gold</em> is designed as a practical instrument for governments, regional organisations, and development partners. It provides:</p><ul><li><strong>The Cannabis Governance Transition Model</strong> — a seven-layer diagnostic framework.</li><li><strong>The National Cannabis Economy Self-Assessment Framework</strong> — a guided toolkit across 13 readiness dimensions.</li><li><strong>Comparative case studies</strong> from Lesotho, Morocco, Jamaica, Colombia, Thailand, Uruguay, and Canada.</li><li><strong>Annexes with practical instruments</strong> — Global Economy Snapshot, Comparative Governance Models, and Priority Action Matrix.</li></ul></div>
+    <div><h3>Core Principles for Technical Assistance</h3><ul><li><strong>Sequence reform around institutional readiness, not market ambition.</strong></li><li><strong>Use regional cooperation as a strategic platform.</strong></li><li><strong>Treat equity and inclusion as core design principles.</strong></li><li><strong>Invest in adaptive governance systems.</strong></li><li><strong>Apply the Governance Transition Model as a diagnostic tool.</strong></li></ul></div>
+</div>
+<div class="highlight-box"><p><strong>"The window for deliberate design is open.</strong> Countries which invest in the seven governance layers now — before markets consolidate, before regulatory capture sets in, before the political moment passes — will not merely regulate cannabis better. They will have built governance infrastructure capable of navigating whatever complex transition comes next." — <em>Reclaiming the Green Gold</em></p></div>
+</div></section>
+
+<section class="section"><div class="section-inner"><div class="assistance-box"><h3>Collaboration &amp; Partnership Enquiries</h3><p>The authors of <em>Reclaiming the Green Gold</em> welcome engagement from governments, regional economic communities, development partners, research institutions, and civil society organisations seeking technical support on cannabis governance, policy design, institutional capacity-building, and reform sequencing.</p><p style="text-align:center;margin-top:1rem"><a href="contact.html" class="btn btn-primary">Contact / Dialogue</a> <a href="partnerships.html" class="btn btn-outline" style="margin-left:.75rem">View Partnerships</a></p></div></div></section>
+
+<section style="text-align:center;padding:2rem 1.5rem 4rem">
+    <h2 style="font-family:var(--font-heading);font-size:1.5rem;font-weight:600;margin-bottom:.75rem;color:var(--bark)">Access the Full Policy Framework</h2>
+    <p style="color:#5A4D3A;margin-bottom:1.5rem;max-width:500px;margin-left:auto;margin-right:auto">The complete policy guidance, capacity-building frameworks, and technical assistance tools are available in <em>Reclaiming the Green Gold</em>.</p>
+    <a href="formats.html" class="btn btn-primary">Get the Book</a> <a href="frameworks.html" class="btn btn-outline" style="margin-left:.75rem">Explore Frameworks &amp; Tools</a>
+</section>
+
+</main>
+<footer class="site-footer" role="contentinfo">
+    <div class="footer-grid">
+        <div class="footer-col"><h4>Reclaiming the Green Gold</h4><p>A neutral global knowledge platform for cannabis governance, institutional readiness, and sustainable development. &copy; 2026 Soobaschand &amp; Sunny Sweenarain.</p></div>
+        <div class="footer-col"><h4>Legal &amp; Trust</h4><a href="disclaimer.html">Disclaimer</a><a href="privacy.html">Privacy Policy</a><a href="cookies.html">Cookie Policy</a><a href="terms.html">Terms of Use</a><a href="terms-sale.html">Terms of Sale</a><a href="licence.html">Digital PDF Licence</a><a href="refunds.html">Refund &amp; Delivery Policy</a></div>
+        <div class="footer-col"><h4>Connect</h4><a href="contact.html">Contact / Dialogue</a><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a><a href="hub.html">Knowledge Hub</a></div>
+        <div class="footer-col"><h4>Book Formats</h4><a href="formats.html">Licensed PDF</a><a href="formats.html">Physical Copy</a><a href="formats.html">Kindle / eBook</a><a href="formats.html">Executive Short Version</a></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Reclaiming the Green Gold. All rights reserved.</div>
+</footer>
+</body>
+</html>

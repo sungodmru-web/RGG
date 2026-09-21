@@ -1,0 +1,25 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /sign-in
+Disallow: /sign-up
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /sign-in
+Disallow: /sign-up
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+Disallow: /sign-in
+Disallow: /sign-up
+
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /sign-in
+Disallow: /sign-up
+
+Sitemap: https://luxury-web-estate.replit.app/sitemap.xml

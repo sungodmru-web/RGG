@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact / Dialogue — Reclaiming the Green Gold</title>
+    <meta name="description" content="Contact the authors of Reclaiming the Green Gold. Policy dialogue, technical assistance enquiries, institutional collaboration, and media requests.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        :root{--hemp-paper:#F9F6F0;--bark:#2E2A22;--gold:#C49B3E;--gold-hover:#b0892f;--hemp-green:#5A7D3A;--hemp-green-dark:#3D5A22;--hemp-dark:#8B7D5E;--sunlit:#EDE6D5;--white:#FFFFFF;--logo-bg:#8B1E1E;--font-heading:'Lora',Georgia,'Times New Roman',serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--shadow-sm:0 1px 3px rgba(46,42,34,0.08);--shadow-md:0 4px 16px rgba(46,42,34,0.10);--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--font-body);color:var(--bark);background-color:var(--hemp-paper);background-image:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(180,165,130,.06) 1px,rgba(180,165,130,.06) 2px),repeating-linear-gradient(90deg,transparent,transparent 1px,rgba(160,145,110,.04) 1px,rgba(160,145,110,.04) 3px),repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(170,150,120,.03) 4px,rgba(170,150,120,.03) 6px);background-attachment:fixed;line-height:1.6;-webkit-font-smoothing:antialiased}
+        .skip-link{position:absolute;top:-100px;left:1rem;background:var(--gold);color:var(--white);padding:.5rem 1rem;border-radius:var(--radius-sm);z-index:300;font-weight:500;text-decoration:none;transition:top .3s}.skip-link:focus{top:.5rem}
+        .site-header{background-color:rgba(255,255,255,.96);border-bottom:1px solid rgba(139,125,94,.22);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);backdrop-filter:blur(10px)}
+        .header-inner{max-width:1200px;margin:0 auto;padding:.7rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+        .logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex-shrink:0}
+        .logo-icon-wrap{width:38px;height:38px;border-radius:50%;background-color:var(--logo-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(139,30,30,.3)}.logo-icon-wrap svg{width:22px;height:22px}
+        .logo-text{font-family:var(--font-heading);font-size:1.1rem;font-weight:700;color:var(--bark);letter-spacing:-.01em;line-height:1.2}
+        .logo-text small{display:block;font-family:var(--font-body);font-size:.62rem;font-weight:400;color:#7A6E5A;letter-spacing:.03em;text-transform:uppercase}
+        .main-nav{display:flex;align-items:center;gap:.2rem;flex-wrap:wrap}
+        .nav-link{font-family:var(--font-body);font-size:.82rem;font-weight:500;color:#4A4235;text-decoration:none;padding:.45rem .7rem;border-radius:var(--radius-sm);transition:all .2s;white-space:nowrap}
+        .nav-link:hover{background-color:rgba(139,125,94,.1);color:var(--bark)}
+        .nav-cta{font-family:var(--font-body);font-size:.82rem;font-weight:600;background-color:var(--gold);color:var(--white)!important;padding:.5rem 1.2rem;border-radius:var(--radius-sm);text-decoration:none;white-space:nowrap;transition:all .3s;box-shadow:0 2px 8px rgba(196,155,62,.25);margin-left:.3rem}
+        .nav-cta:hover{background-color:var(--gold-hover);box-shadow:0 4px 14px rgba(196,155,62,.4);transform:translateY(-1px)}
+        .lang-toggle{font-size:.8rem;color:var(--hemp-dark);text-decoration:none;font-weight:500;padding:.3rem .6rem;border:1px solid rgba(139,125,94,.3);border-radius:var(--radius-sm);transition:all .2s;white-space:nowrap}.lang-toggle:hover{background-color:rgba(139,125,94,.1);border-color:var(--hemp-dark)}
+        .menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:.5rem;color:var(--bark)}.menu-toggle svg{width:26px;height:26px}
+
+        .page-header{background:linear-gradient(175deg,#F2ECDD 0%,#EDE4D0 50%,#E8DDC5 100%);padding:3.5rem 1.5rem 3rem;text-align:center;border-bottom:1px solid rgba(139,125,94,.2)}
+        .page-header-inner{max-width:800px;margin:0 auto}.breadcrumb{font-size:.78rem;color:#8B7D5E;margin-bottom:1.25rem;letter-spacing:.02em}.breadcrumb a{color:#8B7D5E;text-decoration:none}.breadcrumb a:hover{color:var(--gold)}
+        .page-title{font-family:var(--font-heading);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:600;color:var(--bark);letter-spacing:-.015em;margin-bottom:.75rem}
+        .page-subtitle{font-size:1rem;color:#5A4D3A;max-width:600px;margin:0 auto;line-height:1.55}
+
+        .section{padding:4rem 1.5rem}.section-inner{max-width:850px;margin:0 auto}
+        .section-header{text-align:center;margin-bottom:2.5rem}
+        .section-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--hemp-green);font-weight:600;margin-bottom:.5rem}
+        .section-title{font-family:var(--font-heading);font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:600;color:var(--bark);letter-spacing:-.01em}
+
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+        .contact-info h3{font-family:var(--font-heading);font-size:1.15rem;font-weight:600;margin-bottom:.75rem;color:var(--bark)}
+        .contact-info p{font-size:.9rem;color:#5A4D3A;line-height:1.6;margin-bottom:.75rem}
+        .contact-method{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1.25rem;padding:1rem;background:rgba(255,255,255,.6);border:1px solid rgba(139,125,94,.14);border-radius:var(--radius-md)}
+        .contact-method .method-icon{font-size:1.3rem;flex-shrink:0;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--sunlit) 0%,#E0D8C0 100%);display:flex;align-items:center;justify-content:center}
+        .contact-method h4{font-family:var(--font-heading);font-size:.9rem;font-weight:600;margin-bottom:.15rem;color:var(--bark)}
+        .contact-method p,.contact-method a{font-size:.82rem;color:#5A4D3A;text-decoration:none;line-height:1.4}
+        .contact-method a:hover{color:var(--gold)}
+
+        .contact-form{background-color:rgba(255,255,255,.7);border:1px solid rgba(139,125,94,.16);border-radius:var(--radius-lg);padding:2rem;box-shadow:var(--shadow-sm)}
+        .contact-form h3{font-family:var(--font-heading);font-size:1.15rem;font-weight:600;margin-bottom:.5rem;color:var(--bark);text-align:center}
+        .contact-form .form-subtitle{font-size:.82rem;color:var(--hemp-dark);text-align:center;margin-bottom:1.25rem}
+        .form-group{margin-bottom:1rem}
+        .form-group label{display:block;font-size:.82rem;font-weight:600;margin-bottom:.3rem;color:var(--bark)}
+        .form-group input,.form-group select,.form-group textarea{width:100%;padding:.65rem .85rem;border:1px solid rgba(139,125,94,.25);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:.88rem;color:var(--bark);background:var(--white);transition:border-color .2s}
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(196,155,62,.12)}
+        .form-group textarea{resize:vertical;min-height:120px}
+
+        .btn{display:inline-block;font-family:var(--font-body);font-weight:600;font-size:.95rem;padding:.85rem 1.9rem;border-radius:var(--radius-sm);cursor:pointer;text-decoration:none;transition:all .3s ease;border:2px solid transparent;letter-spacing:.01em}
+        .btn-primary{background-color:var(--gold);color:var(--white);border-color:var(--gold);box-shadow:0 4px 14px rgba(196,155,62,.3);width:100%}.btn-primary:hover{background-color:var(--gold-hover);border-color:var(--gold-hover);box-shadow:0 6px 20px rgba(196,155,62,.4);transform:translateY(-2px)}
+
+        .notice-box{background-color:rgba(196,155,62,.06);border:1px solid rgba(196,155,62,.2);border-radius:var(--radius-md);padding:1rem 1.25rem;margin-top:1.25rem;text-align:center}
+        .notice-box p{font-size:.78rem;color:var(--hemp-dark);line-height:1.5}
+
+        .site-footer{background-color:#4A3D2E;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(212,201,168,.04) 2px,rgba(212,201,168,.04) 3px);color:var(--hemp-paper);padding:3.5rem 1.5rem 1.5rem;position:relative}
+        .site-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold);opacity:.7}
+        .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;max-width:1000px;margin:0 auto 2rem}
+        .footer-col h4{color:var(--white);margin-bottom:.8rem;font-family:var(--font-heading);font-weight:600;font-size:.9rem}
+        .footer-col a{display:block;color:rgba(249,246,240,.7);text-decoration:none;font-size:.82rem;margin-bottom:.45rem;transition:color .2s,padding-left .2s;padding:.1rem 0}.footer-col a:hover{color:var(--gold);padding-left:4px}
+        .footer-col p{font-size:.8rem;opacity:.55;line-height:1.5}
+        .footer-bottom{text-align:center;padding-top:1.25rem;border-top:1px solid rgba(249,246,240,.1);font-size:.75rem;color:rgba(249,246,240,.35);max-width:1000px;margin:0 auto}
+        @media(max-width:860px){.main-nav{display:none}.menu-toggle{display:block}.main-nav.mobile-open{display:flex;flex-direction:column;width:100%;padding-top:.75rem;gap:.3rem}.nav-link,.nav-cta,.lang-toggle{width:100%;text-align:center;padding:.6rem;margin-left:0;border-radius:var(--radius-sm)}.contact-grid{grid-template-columns:1fr}.section{padding:2.5rem 1rem}}
+    </style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<header class="site-header" role="banner">
+    <div class="header-inner">
+        <a href="index.html" class="logo" aria-label="Reclaiming the Green Gold — Home">
+            <span class="logo-icon-wrap" aria-hidden="true"><svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"><path d="M15 26 L15 14" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M15 14 Q12 10 8 7 Q4 4 2 6 Q1 7 3 10 Q7 14 10 16 Q11 17 12.5 18 Q14 19 15 18.5 Q15 17 15 14 Z" fill="white" opacity=".95"/><path d="M15 14 Q18 10 22 7 Q26 4 28 6 Q29 7 27 10 Q23 14 20 16 Q19 17 17.5 18 Q16 19 15 18.5 Q15 17 15 14 Z" fill="white" opacity=".95"/><path d="M15 20 Q12 23 10 25 Q8 27 9 26 Q12 23 14 21 Z" fill="white" opacity=".6"/><path d="M15 20 Q18 23 20 25 Q22 27 21 26 Q18 23 16 21 Z" fill="white" opacity=".6"/></svg></span>
+            <span class="logo-text">Reclaiming the Green Gold<small>Cannabis at the Crossroads of Health, Justice and Sustainable Development</small></span>
+        </a>
+        <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" onclick="document.getElementById('mainNav').classList.toggle('mobile-open');this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <nav class="main-nav" id="mainNav" role="navigation" aria-label="Main navigation">
+            <a href="about.html" class="nav-link">About the Book</a>
+            <a href="frameworks.html" class="nav-link">Frameworks &amp; Tools</a>
+            <a href="economy.html" class="nav-link">Global Cannabis Economy</a>
+            <a href="policymakers.html" class="nav-link">For Policymakers</a>
+            <a href="hub.html" class="nav-link">Knowledge Hub</a>
+            <a href="partnerships.html" class="nav-link">Partnerships</a>
+            <a href="#" class="lang-toggle">FR</a>
+            <a href="formats.html" class="nav-cta">Get the Book</a>
+        </nav>
+    </div>
+</header>
+<main id="main-content">
+
+<section class="page-header"><div class="page-header-inner"><p class="breadcrumb"><a href="index.html">Home</a> &rsaquo; Contact</p><h1 class="page-title">Contact / Dialogue</h1><p class="page-subtitle">Policy dialogue, technical assistance, institutional collaboration, media requests, and general enquiries.</p></div></section>
+
+<section class="section"><div class="section-inner"><div class="contact-grid">
+    <div class="contact-info">
+        <h3>Get in Touch</h3>
+        <p>The authors of <em>Reclaiming the Green Gold</em> welcome engagement from governments, regional economic communities, development partners, research institutions, civil society organisations, and media.</p>
+        <div class="contact-method"><div class="method-icon">✉️</div><div><h4>Email</h4><a href="mailto:contact@reclaimingthegreengold.com">contact@reclaimingthegreengold.com</a><p>Direct email — preferred for all enquiries</p></div></div>
+        <div class="contact-method"><div class="method-icon">🔗</div><div><h4>LinkedIn</h4><a href="https://linkedin.com" target="_blank" rel="noopener">Connect on LinkedIn</a><p>Professional network — link to be added</p></div></div>
+        <h3 style="margin-top:1.5rem">Enquiry Types Welcome</h3>
+        <p>✓ Policy dialogue and technical assistance<br>✓ Institutional and regional partnership enquiries<br>✓ Media and press requests<br>✓ Bulk and institutional book orders<br>✓ Speaking and conference invitations<br>✓ Research collaboration</p>
+    </div>
+    <div class="contact-form">
+        <h3>Send a Message</h3>
+        <p class="form-subtitle">Complete the form below. On submission, your email client will open with the message pre-filled — ready to send.</p>
+        <form id="contactForm" action="#" method="post" onsubmit="return sendEmail()">
+            <div class="form-group"><label for="name">Full Name *</label><input type="text" id="name" name="name" required placeholder="Your full name"></div>
+            <div class="form-group"><label for="emailAddr">Email Address *</label><input type="email" id="emailAddr" name="emailAddr" required placeholder="Your email address"></div>
+            <div class="form-group"><label for="organisation">Organisation / Institution</label><input type="text" id="organisation" name="organisation" placeholder="Your organisation"></div>
+            <div class="form-group"><label for="enquiry">Enquiry Type *</label><select id="enquiry" name="enquiry" required><option value="">Please select…</option><option value="Policy Dialogue / Technical Assistance">Policy Dialogue / Technical Assistance</option><option value="Institutional / Regional Partnership">Institutional / Regional Partnership</option><option value="Media / Press Request">Media / Press Request</option><option value="Bulk / Institutional Book Order">Bulk / Institutional Book Order</option><option value="Speaking / Conference Invitation">Speaking / Conference Invitation</option><option value="Research Collaboration">Research Collaboration</option><option value="Other">Other</option></select></div>
+            <div class="form-group"><label for="message">Message *</label><textarea id="message" name="message" required placeholder="Your message…"></textarea></div>
+            <button type="submit" class="btn btn-primary">Open in Email Client →</button>
+        </form>
+        <div class="notice-box"><p>This form opens your default email application with your message pre-filled. If it doesn't open, please email us directly at <strong>contact@reclaimingthegreengold.com</strong>.</p></div>
+    </div>
+</div></div></section>
+
+</main>
+<footer class="site-footer" role="contentinfo">
+    <div class="footer-grid">
+        <div class="footer-col"><h4>Reclaiming the Green Gold</h4><p>A neutral global knowledge platform for cannabis governance, institutional readiness, and sustainable development. &copy; 2026 Soobaschand &amp; Sunny Sweenarain.</p></div>
+        <div class="footer-col"><h4>Legal &amp; Trust</h4><a href="disclaimer.html">Disclaimer</a><a href="privacy.html">Privacy Policy</a><a href="cookies.html">Cookie Policy</a><a href="terms.html">Terms of Use</a><a href="terms-sale.html">Terms of Sale</a><a href="licence.html">Digital PDF Licence</a><a href="refunds.html">Refund &amp; Delivery Policy</a></div>
+        <div class="footer-col"><h4>Connect</h4><a href="contact.html">Contact / Dialogue</a><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a><a href="hub.html">Knowledge Hub</a></div>
+        <div class="footer-col"><h4>Book Formats</h4><a href="formats.html">Licensed PDF</a><a href="formats.html">Physical Copy</a><a href="formats.html">Kindle / eBook</a><a href="formats.html">Executive Short Version</a></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Reclaiming the Green Gold. All rights reserved.</div>
+</footer>
+<script>
+function sendEmail() {
+    var name = document.getElementById('name').value.trim();
+    var emailAddr = document.getElementById('emailAddr').value.trim();
+    var organisation = document.getElementById('organisation').value.trim();
+    var enquiry = document.getElementById('enquiry').value;
+    var message = document.getElementById('message').value.trim();
+    if (!name || !emailAddr || !enquiry || !message) {
+        alert('Please fill in all required fields (Name, Email, Enquiry Type, and Message).');
+        return false;
+    }
+    var subject = encodeURIComponent('Enquiry: ' + enquiry + ' — from ' + name);
+    var body = encodeURIComponent('Name: ' + name + '\nEmail: ' + emailAddr + '\nOrganisation: ' + (organisation || 'Not provided') + '\nEnquiry Type: ' + enquiry + '\n\nMessage:\n' + message);
+    window.location.href = 'mailto:contact@reclaimingthegreengold.com?subject=' + subject + '&body=' + body;
+    return false;
+}
+</script>
+</body>
+</html>

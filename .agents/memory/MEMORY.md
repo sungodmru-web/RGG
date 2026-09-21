@@ -1,0 +1,12 @@
+- [Clerk and React compatibility](clerk-react-compatibility.md) — keep the website’s React patch separate from the Expo-pinned workspace catalog.
+- [Drizzle migration drift isolation](drizzle-migration-drift-isolation.md) — use package-relative temporary paths; this Drizzle Kit version mishandles absolute output paths.
+- [PostgreSQL schema dump comparison](postgres-schema-dump-comparison.md) — remove pg_dump session restriction keys before comparing otherwise-identical schemas.
+- [Versioned database migrations](versioned-database-migrations.md) — post-merge applies reviewed Drizzle migrations to development; production changes remain in Publish.
+- [Public welcome gate](public-welcome-gate.md) — every fresh public load must show the bilingual gate; internal navigation must not replay it.
+- [WebGL visual checks](webgl-visual-checks.md) — use dedicated Playwright Chromium with SwiftShader; the static preview screenshot service may fall back from WebGL.
+- [Distributed security counters](distributed-security-counters.md) — use database time after locking, and isolate bookkeeping with bounded connections and deadlines.
+- [Admin media visibility](admin-media-visibility.md) — keep uploaded media private until approved content references it; never expose unregistered uploads.
+- [Distributed readiness probes](distributed-readiness-probes.md) — coordinate recovery checks with a database advisory lock and jittered local retries; coordination failure must stay unavailable.
+- [Private object paths](private-object-paths.md) — browser-facing `/objects/` keys are relative to the private directory; media deletion must remove both storage and database records.
+- [Enquiry delivery durability](enquiry-delivery-durability.md) — persist public enquiries before notification attempts, and track delivery separately from review workflow.
+- [PostgreSQL SSL option precedence](postgres-ssl-precedence.md) — URL SSL parameters can replace explicit private-CA settings in node-postgres.

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "english-hardcover",
+    "language": "English",
+    "format": "Hardcover",
+    "href": "https://shop.bookvault.app/product/reclaiming-the-green-gold/",
+    "approvedRedirects": []
+  },
+  {
+    "id": "english-paperback",
+    "language": "English",
+    "format": "Paperback",
+    "href": "https://shop.bookvault.app/product/reclaiming-the-green-gold-cannabis-at-the-crossroads-of-health-justice-sustainable-development/",
+    "approvedRedirects": []
+  },
+  {
+    "id": "french-hardcover",
+    "language": "French",
+    "format": "Hardcover",
+    "href": "https://shop.bookvault.app/product/reconquerir-lor-vert-2/",
+    "approvedRedirects": []
+  },
+  {
+    "id": "french-paperback",
+    "language": "French",
+    "format": "Paperback",
+    "href": "https://shop.bookvault.app/product/reconquerir-lor-vert/",
+    "approvedRedirects": []
+  }
+]

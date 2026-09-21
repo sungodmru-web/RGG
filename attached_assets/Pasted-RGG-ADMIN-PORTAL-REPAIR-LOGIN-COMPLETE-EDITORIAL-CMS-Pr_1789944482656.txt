@@ -1,0 +1,1040 @@
+RGG ADMIN PORTAL — REPAIR LOGIN + COMPLETE EDITORIAL CMS
+
+Proceed with implementation now.
+
+DO NOT just explain the problem.
+
+First diagnose and repair the administrator sign-in/access problem, then verify
+and complete the RGG editorial CMS.
+
+PROJECT:
+Reclaiming the Green Gold
+
+PRIMARY ADMIN EMAIL:
+Sunny@reclaimingthegreengold.com
+
+IMPORTANT:
+Do NOT hardcode passwords.
+Do NOT create a second authentication system.
+KEEP CLERK.
+
+==================================================
+PHASE 1 — DIAGNOSE WHY /ADMIN CANNOT BE ACCESSED
+==================================================
+
+I currently cannot sign into/use the RGG administrator portal.
+
+Before changing architecture, inspect the existing implementation.
+
+Audit:
+
+- Clerk initialization
+- Clerk publishable key configuration
+- Clerk secret key configuration
+- sign-in route
+- /admin route
+- AdminGuard / authorization middleware
+- server-side Clerk authentication
+- publicMetadata.role handling
+- admin session endpoint
+- redirects after sign-in
+- frontend loading/error states
+- API authorization
+- production/development Clerk configuration
+- allowed redirect URLs
+- current administrator records/configuration
+- browser console errors
+- API/server logs
+
+Determine the EXACT failure mode.
+
+Possible examples include:
+
+- account does not exist
+- incorrect Clerk environment
+- role metadata missing
+- role metadata stored in wrong metadata namespace
+- session exists but backend rejects it
+- frontend expects different role format
+- redirect loop
+- Clerk keys mismatch
+- sign-in route incorrectly configured
+- admin API returning 401
+- admin API returning 403
+- Clerk middleware not receiving session
+- development/production Clerk instance mismatch
+
+Do NOT guess.
+
+Report the actual cause from code/runtime evidence.
+
+==================================================
+PHASE 2 — FIRST ADMINISTRATOR
+==================================================
+
+The first authorized administrator email is:
+
+Sunny@reclaimingthegreengold.com
+
+Find whether this Clerk account already exists in the CURRENT Clerk instance.
+
+CASE A — ACCOUNT EXISTS
+
+Verify the account identity and configure the appropriate Clerk metadata:
+
+publicMetadata.role = "admin"
+
+Use the existing secure Clerk management mechanism.
+
+Do not rely on frontend state.
+
+CASE B — ACCOUNT DOES NOT EXIST
+
+Do NOT invent a Clerk user ID.
+
+Prepare/create the proper Clerk invitation/account onboarding flow for:
+
+Sunny@reclaimingthegreengold.com
+
+If Clerk requires owner interaction to create/accept the account, give me the
+exact step required after completing everything else.
+
+==================================================
+PASSWORD
+==================================================
+
+Do NOT put any password in:
+
+source code
+database
+migration
+seed
+frontend
+environment variables
+logs
+
+Authentication credentials belong to Clerk.
+
+Do not create:
+
+users.password
+admin_password
+DEFAULT_ADMIN_PASSWORD
+
+or similar application credentials.
+
+==================================================
+PHASE 3 — SERVER AUTHORIZATION
+==================================================
+
+Preserve the existing security model.
+
+Admin authorization must be enforced SERVER-SIDE.
+
+Authorized:
+
+authenticated Clerk user
+AND
+publicMetadata.role === "admin"
+
+Unauthorized:
+
+anonymous → 401
+
+authenticated user without admin role → 403
+
+Do not rely only on:
+
+email address
+display name
+hidden frontend routes
+localStorage
+query parameters
+
+==================================================
+PHASE 4 — FIX SIGN-IN UX
+==================================================
+
+Ensure there is a working administrator sign-in flow.
+
+Preferred route:
+
+/sign-in
+
+Successful authorized admin sign-in:
+
+→ /admin
+
+Authenticated non-admin:
+
+→ safe Access Denied page
+
+Signed-out visitor opening:
+
+/admin
+
+→ sign-in flow
+
+Avoid redirect loops.
+
+If already signed in as an authorized administrator, visiting /sign-in should
+not leave the user trapped there.
+
+==================================================
+ADMIN LOGIN PAGE
+==================================================
+
+Use the existing Clerk sign-in component/flow.
+
+Keep styling consistent with RGG:
+
+deep black
+deep emerald
+muted gold
+ivory
+restrained institutional appearance
+
+Do NOT build a fake HTML username/password form.
+
+==================================================
+SESSION DIAGNOSTICS
+==================================================
+
+Make the admin loading state useful.
+
+Instead of being stuck indefinitely at:
+
+"Confirming your session"
+
+handle:
+
+loading
+signed out
+authenticated non-admin
+authenticated admin
+authentication-service error
+
+with explicit safe states.
+
+Do not reveal sensitive authorization details publicly.
+
+==================================================
+PHASE 5 — COMPLETE ADMIN PORTAL
+==================================================
+
+After authentication is repaired, verify that /admin is a REAL working
+editorial CMS.
+
+Required navigation:
+
+DASHBOARD
+
+ARTICLES & PUBLICATIONS
+- All Publications
+- New Publication
+- Themes
+
+ENDORSEMENTS
+- All Endorsements
+- New Endorsement
+
+MEDIA
+- Media Library
+
+ENQUIRIES
+- All Enquiries
+
+ADMINISTRATION
+- Administrators
+
+==================================================
+DASHBOARD
+==================================================
+
+Show:
+
+Published Publications
+Draft Publications
+Archived Publications
+Approved Endorsements
+Pending Endorsements
+Media Files
+
+Recent editorial activity.
+
+Quick actions:
+
++ New Article
++ New Publication
++ New Endorsement
++ Upload PDF
+
+==================================================
+PHASE 6 — ARTICLES & PUBLICATIONS
+==================================================
+
+The CMS must let administrators create:
+
+Article
+Research Paper
+Policy Brief
+Commentary
+Report
+Case Study
+
+Use the existing publication database architecture.
+
+Do NOT create independent databases for every type.
+
+==================================================
+PUBLICATION EDITOR
+==================================================
+
+Required fields:
+
+Title
+
+Slug
+
+Subtitle
+
+Abstract / Summary
+
+Main Content
+
+Publication Type
+
+Theme
+
+Authors
+
+Language
+
+Publication Date
+
+Reading Time
+
+Featured
+
+Featured Image
+
+PDF Document
+
+External URL
+
+DOI
+
+SEO Title
+
+SEO Description
+
+Status
+
+Statuses:
+
+Draft
+Published
+Archived
+
+==================================================
+CONTENT EDITOR
+==================================================
+
+Allow me to write an article directly in the admin portal.
+
+Support:
+
+headings
+paragraphs
+bold
+italic
+links
+bullet lists
+numbered lists
+quotes
+
+Tables if safely supported.
+
+Do not allow unsafe arbitrary HTML.
+
+Preserve Markdown if the existing system already uses Markdown.
+
+==================================================
+PHASE 7 — DIRECT PDF UPLOAD
+==================================================
+
+I MUST be able to upload a publication PDF directly from my computer.
+
+UI:
+
+UPLOAD PDF
+
+→ select file
+→ upload progress
+→ validation
+→ successful attachment
+
+Do NOT require manually entering a PDF URL.
+
+==================================================
+PDF STORAGE
+==================================================
+
+Use persistent production-compatible object/file storage.
+
+Do NOT store PDFs as:
+
+base64
+PostgreSQL large blobs
+temporary local files
+runtime Git files
+
+Database stores metadata/reference only.
+
+Store:
+
+id
+storageKey
+originalFilename
+mimeType
+fileSize
+createdAt
+uploadedBy
+
+==================================================
+PDF VALIDATION
+==================================================
+
+Validate server-side:
+
+.pdf extension
+PDF MIME
+PDF magic bytes/signature
+maximum file size
+
+Reject:
+
+fake PDFs
+renamed HTML
+executables
+oversized files
+
+Generate safe unique storage keys.
+
+==================================================
+DRAFT PDF PRIVACY
+==================================================
+
+PDFs attached to drafts must not accidentally become publicly discoverable.
+
+Use private/signed delivery for unpublished material where supported.
+
+Published PDF documents may become publicly accessible through the publication
+page.
+
+==================================================
+PHASE 8 — IMAGE UPLOAD
+==================================================
+
+Allow direct upload for:
+
+publication featured image
+endorsement portrait
+editorial imagery
+
+Validate server-side.
+
+Support safe formats such as:
+
+JPEG
+PNG
+WebP
+AVIF where supported
+
+==================================================
+PHASE 9 — MEDIA LIBRARY
+==================================================
+
+Create:
+
+/admin/media
+
+Show:
+
+PDFs
+Images
+
+Search/filter.
+
+Display:
+
+thumbnail/icon
+filename
+type
+size
+upload date
+uploaded by
+
+Actions:
+
+Preview
+Select
+Copy reference
+Delete when safe
+
+Do not silently delete media referenced by published content.
+
+==================================================
+PHASE 10 — EDITORIAL WORKFLOW
+==================================================
+
+Buttons:
+
+SAVE DRAFT
+PREVIEW
+PUBLISH
+ARCHIVE
+
+Publishing must always be explicit.
+
+Uploading a PDF must NOT automatically publish a publication.
+
+Warn about unsaved changes.
+
+==================================================
+PRIVATE PREVIEW
+==================================================
+
+Admin must be able to preview drafts.
+
+Draft preview must remain authenticated/private.
+
+Do not expose drafts through public predictable preview URLs.
+
+==================================================
+PHASE 11 — PUBLIC PUBLICATION INTEGRATION
+==================================================
+
+Published content automatically appears at:
+
+/publications
+
+Preserve:
+
+Browse by Theme
+A–Z
+Search
+
+Only:
+
+status = published
+
+may appear publicly.
+
+Draft/archived content must be excluded from:
+
+public API
+search
+A–Z
+theme browsing
+sitemap
+structured data
+
+==================================================
+PUBLICATION DETAIL
+==================================================
+
+Use:
+
+/publications/:slug
+
+Show available data:
+
+Type
+Theme
+Language
+Title
+Subtitle
+Authors
+Publication Date
+Abstract
+Content
+Featured Image
+
+When PDF exists:
+
+VIEW PDF
+DOWNLOAD PDF
+
+Do not show empty metadata.
+
+==================================================
+PHASE 12 — ENDORSEMENT CMS
+==================================================
+
+Create/verify:
+
+/admin/endorsements
+
+/admin/endorsements/new
+
+/admin/endorsements/:id
+
+I must be able to upload endorsements myself.
+
+Fields:
+
+Name
+
+Professional Title
+
+Organization / Institution
+
+Endorsement Quote
+
+Portrait / Image Upload
+
+Source URL
+
+Private Verification / Permission Note
+
+Language
+
+Display Order
+
+Status
+
+Statuses:
+
+Draft
+Approved
+Archived
+
+==================================================
+ENDORSEMENT VERIFICATION
+==================================================
+
+Before APPROVE is allowed require:
+
+[ ] I confirm that this endorsement is authentic and authorized for
+publication.
+
+When approved store:
+
+approvedAt
+approvedBy
+
+approvedBy must reference the authenticated Clerk administrator.
+
+Do not expose private verification notes publicly.
+
+==================================================
+PUBLIC ENDORSEMENTS
+==================================================
+
+Connect approved endorsements automatically to:
+
+/endorsements
+
+ONLY:
+
+status = approved
+
+may appear.
+
+Draft and archived endorsements remain private.
+
+Never seed fake endorsements.
+
+==================================================
+PHASE 13 — THEMES
+==================================================
+
+Create/verify:
+
+/admin/themes
+
+Allow management of publication themes without editing code.
+
+Fields:
+
+Name
+Slug
+English Label
+French Label
+Description
+Display Order
+Active
+
+Preserve existing category data.
+
+Use safe additive migration if schema changes are required.
+
+==================================================
+PHASE 14 — ADMINISTRATORS
+==================================================
+
+Create/verify:
+
+/admin/administrators
+
+The CMS should eventually support five administrators.
+
+Do not create fake users.
+
+Use Clerk identities.
+
+Display safely:
+
+Name
+Email
+Role
+Account Status
+Access Status
+Last Sign-In where available
+
+NEVER display:
+
+password
+password hash
+session token
+Clerk secret
+
+==================================================
+EDITORIAL AUDIT IDENTITY
+==================================================
+
+Record administrator identity for important actions.
+
+Where appropriate:
+
+createdBy
+updatedBy
+publishedBy
+archivedBy
+approvedBy
+
+Use Clerk user ID internally.
+
+==================================================
+PHASE 15 — ENQUIRIES
+==================================================
+
+Verify:
+
+/admin/enquiries
+
+if the centralized enquiry system has already been implemented.
+
+All public enquiry forms should route to:
+
+TO:
+Sunny@reclaimingthegreengold.com
+
+CC:
+sweenmru@gmail.com
+
+Do not rebuild this system unnecessarily.
+
+Admin enquiry records must remain private.
+
+==================================================
+PHASE 16 — DATABASE MIGRATIONS
+==================================================
+
+Use PostgreSQL + Drizzle.
+
+Inspect the existing schema BEFORE adding migrations.
+
+Use additive/backward-compatible migrations.
+
+NEVER:
+
+reset production database
+delete legitimate publication records
+rewrite migration history
+
+Run the migration protection tests.
+
+==================================================
+PHASE 17 — LOGIN TESTS
+==================================================
+
+Add/fix automated tests for:
+
+signed-out /admin → sign-in
+
+signed-out admin API → 401
+
+authenticated non-admin → 403
+
+authenticated admin → success
+
+missing admin metadata → denied
+
+incorrect metadata value → denied
+
+email matching Sunny but no admin role → denied
+
+admin role with authorized Clerk identity → allowed
+
+no redirect loop
+
+auth service error → safe state
+
+==================================================
+PHASE 18 — CMS SECURITY TESTS
+==================================================
+
+Verify:
+
+anonymous cannot create publication
+
+non-admin cannot create publication
+
+anonymous cannot upload PDF
+
+non-admin cannot upload PDF
+
+anonymous cannot upload image
+
+non-admin cannot upload image
+
+non-admin cannot publish
+
+non-admin cannot approve endorsement
+
+draft publications remain private
+
+archived publications remain private
+
+draft endorsements remain private
+
+archived endorsements remain private
+
+==================================================
+PHASE 19 — END-TO-END ADMIN TEST
+==================================================
+
+After fixing authentication, perform an actual browser workflow using an
+authorized TEST/OWNER-controlled Clerk administrator where credentials are
+available through the proper secure environment.
+
+Verify:
+
+SIGN IN
+→ /admin loads
+
+Create temporary draft article
+
+Save
+
+Edit
+
+Preview
+
+Publish
+
+Verify /publications
+
+Archive
+
+Verify removed publicly
+
+Then:
+
+Create temporary publication
+
+Upload a test PDF
+
+Upload a test image
+
+Preview
+
+Publish
+
+Verify PDF access
+
+Archive
+
+Then:
+
+Create temporary endorsement
+
+Upload portrait
+
+Verify authorization checkbox
+
+Approve
+
+Verify /endorsements
+
+Archive
+
+Clean up temporary test content/files.
+
+Do not leave fake material publicly visible.
+
+==================================================
+PHASE 20 — STORAGE FAILURE
+==================================================
+
+If direct file upload cannot yet work because persistent object storage has not
+been configured:
+
+DO NOT fake completion.
+
+Implement the storage abstraction and UI safely.
+
+Then tell me EXACTLY:
+
+provider required
+account/setup required
+environment variables required
+
+Everything else must still be implemented.
+
+==================================================
+PHASE 21 — DO NOT BREAK
+==================================================
+
+Preserve:
+
+Wouter
+Clerk
+PostgreSQL
+Drizzle
+CSRF
+trusted-origin checks
+rate limiting
+security logging
+publication visibility protections
+English/French architecture
+welcome experience
+3D hardcover viewer
+
+Do not reintroduce explicit Mauritius references into public content.
+
+==================================================
+PHASE 22 — RESPONSIVE ADMIN
+==================================================
+
+Test admin at:
+
+390px
+768px
+1024px
+1440px
+
+No horizontal overflow.
+
+Desktop should remain the primary editorial experience.
+
+==================================================
+PHASE 23 — COMPLETE VERIFICATION
+==================================================
+
+Run CURRENT:
+
+TypeScript checks
+
+website tests
+
+API tests
+
+admin authorization tests
+
+upload tests
+
+publication workflow tests
+
+endorsement workflow tests
+
+migration:check
+
+migration:rebuild-check
+
+migration existing-record protection
+
+production website build
+
+production API build
+
+Report ACTUAL test counts.
+
+Do not repeat historical test numbers.
+
+==================================================
+PHASE 24 — FINAL REPORT
+==================================================
+
+Return:
+
+A. LOGIN DIAGNOSIS
+
+1. exact reason admin login/access failed
+2. evidence
+3. files/config involved
+4. repair performed
+5. Clerk environment used
+6. status of Sunny@reclaimingthegreengold.com
+7. whether publicMetadata.role=admin is configured
+8. any owner action still required
+
+B. ADMIN PORTAL
+
+9. /admin status
+10. dashboard status
+11. publication manager
+12. article editor
+13. direct PDF upload
+14. PDF storage provider
+15. image upload
+16. media library
+17. themes manager
+18. endorsement manager
+19. endorsement image upload
+20. endorsement verification
+21. administrators page
+22. enquiries page
+
+C. SECURITY
+
+23. server-side authorization result
+24. 401 test
+25. 403 test
+26. admin success test
+27. upload authorization tests
+28. draft privacy tests
+29. endorsement privacy tests
+
+D. DATA
+
+30. migrations created
+31. existing-data preservation
+32. storage architecture
+33. required secrets/configuration
+
+E. VERIFICATION
+
+34. TypeScript result
+35. website tests
+36. API tests
+37. CMS tests
+38. migration tests
+39. production builds
+40. browser login test
+41. publication E2E test
+42. PDF E2E test
+43. endorsement E2E test
+44. responsive test
+
+F. OWNER ACTION
+
+45. Give me exact numbered instructions for anything I personally still need to
+do in Clerk/Replit/storage configuration.
+
+DO NOT RETURN ONLY A PLAN.
+
+DIAGNOSE THE CURRENT FAILURE, IMPLEMENT THE REPAIR, COMPLETE THE CMS, TEST IT,
+AND REPORT THE RESULTS.

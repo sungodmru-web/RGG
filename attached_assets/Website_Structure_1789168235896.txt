@@ -1,0 +1,27 @@
+RECLAIMINGTHEGREEN GOLD.COM
+├── Home
+│   ├── Book cover (hero image)
+│   ├── Tagline: "A Global Handbook on Cannabis Economy – 2026"
+│   ├── Buy Now button
+│   └── Email sign‑up
+├── About the Book
+│   ├── Full synopsis
+│   ├── The seven‑layer Cannabis Governance Transition Model
+│   ├── Who this book is for
+│   └── Endorsements (to be added)
+├── About the Authors
+│   ├── Author bios and photos
+│   └── Contact details
+├── Buy / Shop
+│   ├── Paperback ($59.95)
+│   ├── Paperback – Developing Country Discount ($29.95)
+│   ├── Hardcover ($89.95)
+│   └── E‑book ($14.99)
+├── Free Download
+│   ├── PDF (Creative Commons)
+│   └── Email capture form
+├── Contact / Bulk Orders
+│   ├── Contact form
+│   ├── Institutional enquiry template
+│   └── Email and WhatsApp
+└── Blog (optional, for future content marketing)

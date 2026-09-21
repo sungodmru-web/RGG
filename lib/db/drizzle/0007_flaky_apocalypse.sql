@@ -1,0 +1,1 @@
+ALTER TABLE "endorsements" ADD CONSTRAINT "endorsements_photo_media_id_media_id_fk" FOREIGN KEY ("photo_media_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;

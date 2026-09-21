@@ -1,0 +1,96 @@
+import { useEffect } from "react";
+import {
+  Switch,
+  Route,
+  Router as WouterRouter,
+  useLocation,
+} from "wouter";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+
+import Home from "@/pages/Home";
+import Book from "@/pages/Book";
+import Framework from "@/pages/Framework";
+import Research from "@/pages/Research";
+import ResearchArticle from "@/pages/ResearchArticle";
+import Consultancy from "@/pages/Consultancy";
+import Authors from "@/pages/Authors";
+import About from "@/pages/About";
+import NotFound from "@/pages/not-found";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60_000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+function ScrollToTop() {
+  const [location] = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, [location]);
+
+  return null;
+}
+
+function AppRoutes() {
+  return (
+    <>
+      <ScrollToTop />
+
+      <Switch>
+        <Route path="/" component={Home} />
+
+        <Route path="/book" component={Book} />
+
+        <Route path="/framework" component={Framework} />
+
+        <Route path="/research" component={Research} />
+
+        <Route
+          path="/research/:slug"
+          component={ResearchArticle}
+        />
+
+        <Route
+          path="/consultancy"
+          component={Consultancy}
+        />
+
+        <Route path="/authors" component={Authors} />
+
+        <Route path="/about" component={About} />
+
+        <Route component={NotFound} />
+      </Switch>
+    </>
+  );
+}
+
+function App() {
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <WouterRouter base={basePath}>
+          <AppRoutes />
+        </WouterRouter>
+
+        <Toaster />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;

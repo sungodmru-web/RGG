@@ -1,0 +1,1019 @@
+RGG WEBSITE SIMPLIFICATION — INFORMATION ARCHITECTURE + HORIZONTAL EXPERIENCE
+
+OBJECTIVE
+
+Simplify the Reclaiming the Green Gold public website.
+
+The current site contains too many public pages and too much vertical scrolling.
+
+The new experience should feel:
+
+- concise
+- institutional
+- premium
+- editorial
+- easy to navigate
+- less bulky
+- less repetitive
+- easier to explore on mobile
+
+IMPORTANT:
+
+Do NOT remove important information.
+
+Instead, consolidate existing information into fewer stronger pages.
+
+Preserve:
+
+- Wouter as the router
+- Clerk as the ONLY authentication provider
+- PostgreSQL/Drizzle
+- English/French public-site parity
+- existing publication security
+- existing 3D book functionality
+- existing welcome gate behavior
+- existing approved visual identity
+- no explicit Mauritius references in public website copy
+
+Do NOT create a second auth system.
+
+==================================================
+1. NEW PRIMARY PUBLIC NAVIGATION
+==================================================
+
+Replace the current primary navigation with:
+
+THE BOOK
+ARTICLES & PUBLICATIONS
+TECHNICAL ASSISTANCE
+AUTHORS
+ENDORSEMENTS
+
+The RGG logo itself returns to:
+
+/
+
+Do not add a separate Home navigation item.
+
+Rename:
+
+Research
+→ Articles & Publications
+
+Consultancy
+→ Technical Assistance
+
+Authors remains:
+
+Authors
+
+Create:
+
+Endorsements
+
+==================================================
+2. FINAL CORE ROUTE STRUCTURE
+==================================================
+
+Primary routes should become:
+
+/
+ /book
+ /publications
+ /technical-assistance
+ /authors
+ /endorsements
+
+Keep legal/support routes outside primary navigation where required:
+
+/disclaimer
+/cookies
+
+Admin remains private:
+
+/admin
+/admin/publications
+/admin/publications/new
+/admin/publications/:id
+
+Preserve sign-in/auth routes required by Clerk.
+
+==================================================
+3. CONSOLIDATE EXISTING PUBLIC CONTENT
+==================================================
+
+Do NOT simply delete useful information.
+
+Review all existing pages and migrate their important content.
+
+Current routes/content include approximately:
+
+/framework
+/economy
+/policymakers
+/research
+/consultancy
+/about
+/contact
+/formats
+/partnerships
+/media
+
+Consolidate them as follows.
+
+--------------------------------
+THE BOOK
+--------------------------------
+
+/book should contain:
+
+- book introduction
+- central thesis
+- official 3D hardcover viewer
+- Governance Transition Model summary
+- why the book matters
+- structure/contents
+- target institutional readers
+- format/publication-status information that is verified
+- authors teaser
+- publication-status statement
+
+Move relevant material from:
+
+/framework
+/formats
+
+into /book.
+
+Do NOT make /book excessively long.
+
+Use collapsible/interactive sections where appropriate.
+
+--------------------------------
+ARTICLES & PUBLICATIONS
+--------------------------------
+
+/publications replaces /research.
+
+Move all legitimate publication/research content here.
+
+This becomes the knowledge-library page.
+
+Do not include the old fake LegacyHome JOURNAL_ARTICLES.
+
+--------------------------------
+TECHNICAL ASSISTANCE
+--------------------------------
+
+/technical-assistance replaces /consultancy.
+
+Consolidate important institutional material from:
+
+/consultancy
+/policymakers
+/economy
+/partnerships
+/contact
+
+into this page.
+
+Position it as:
+
+Technical Assistance
+
+not freelance consulting.
+
+Core framing:
+
+- Governance & Regulation
+- Health & Evidence
+- Economic Development
+- Institutional Capacity
+- Implementation Strategy
+- Research & Policy Support
+
+Use an institutional process such as:
+
+ASSESS
+DIAGNOSE
+DESIGN
+IMPLEMENT
+EVALUATE
+
+Only use language supported by existing RGG content.
+
+Do not invent clients, governments, partnerships, contracts or case studies.
+
+Provide a clear enquiry/contact route inside this page.
+
+--------------------------------
+AUTHORS
+--------------------------------
+
+/authors remains.
+
+Keep this page focused only on:
+
+Dr Soobaschand Sweenarain
+Sunny Sweenarain
+
+Use existing verified biographies.
+
+Do not invent qualifications.
+
+--------------------------------
+ENDORSEMENTS
+--------------------------------
+
+Create:
+
+/endorsements
+
+This page is for future verified:
+
+- endorsements
+- institutional comments
+- expert reviews
+- academic comments
+- foreword quotations
+- professional recommendations
+
+CRITICAL:
+
+Do NOT invent endorsements.
+
+If no verified endorsement exists, show a polished institutional empty state:
+
+"Endorsements and independent commentary will be added following verification and authorization."
+
+Do not display fake names, quotes, institutions, logos or testimonials.
+
+==================================================
+4. OLD ROUTE HANDLING
+==================================================
+
+Do NOT leave duplicate public content across many pages.
+
+Old routes should not remain as independent full pages unless technically necessary.
+
+Routes to consolidate include:
+
+/framework
+/economy
+/policymakers
+/research
+/consultancy
+/about
+/contact
+/formats
+/partnerships
+/media
+
+Use clean redirects where practical.
+
+Recommended:
+
+/research
+→ /publications
+
+/consultancy
+→ /technical-assistance
+
+/framework
+→ /book#framework
+
+/formats
+→ /book#formats
+
+/policymakers
+→ /technical-assistance
+
+/economy
+→ /technical-assistance
+
+/partnerships
+→ /technical-assistance
+
+/contact
+→ /technical-assistance#contact
+
+/about
+→ /authors or appropriate consolidated homepage section
+
+/media
+→ /publications or remove if no unique verified content exists
+
+Use Wouter-compatible redirect behavior.
+
+Avoid duplicate indexable content.
+
+==================================================
+5. HOMEPAGE — REDUCE VERTICAL SCROLL
+==================================================
+
+Redesign the homepage into a horizontal editorial experience.
+
+Do NOT make the entire website horizontal.
+
+Only the homepage/core gateway experience should use horizontal navigation.
+
+Use CSS scroll-snap.
+
+Structure approximately:
+
+PANEL 1
+Welcome / core RGG proposition
+
+PANEL 2
+The Book
+
+PANEL 3
+Articles & Publications
+
+PANEL 4
+Technical Assistance
+
+PANEL 5
+Authors
+
+PANEL 6
+Endorsements / Enter the platform
+
+Each panel should occupy most of the available content width.
+
+Keep copy concise.
+
+Avoid long paragraphs.
+
+==================================================
+6. HORIZONTAL SWIPE INTERACTION
+==================================================
+
+Mobile:
+
+swipe left/right
+
+Desktop:
+
+mouse wheel/trackpad horizontal support where natural
+visible Previous / Next arrows
+clickable progress indicators
+
+Keyboard:
+
+Left Arrow
+Right Arrow
+
+Do NOT make swipe the only navigation method.
+
+Use real buttons for arrows.
+
+Use accessible labels such as:
+
+Previous section
+Next section
+
+==================================================
+7. SCROLL-SNAP IMPLEMENTATION
+==================================================
+
+Use CSS scroll snapping rather than a heavy carousel library.
+
+Target architecture:
+
+overflow-x: auto
+display: flex/grid
+scroll-snap-type: x mandatory
+
+Each panel:
+
+scroll-snap-align: start
+
+Hide decorative scrollbars only if accessibility remains acceptable.
+
+Do NOT cause document-level horizontal overflow.
+
+The horizontal experience must stay inside its own controlled container.
+
+==================================================
+8. MOBILE PAGE SCROLLING
+==================================================
+
+Do NOT block normal vertical mobile scrolling.
+
+Horizontal gestures should only change panels when the horizontal intent is clear.
+
+Preserve the existing successful mobile gesture protections around the 3D book.
+
+The audit confirms mobile book gesture handling currently passes.
+
+Do not regress it.
+
+==================================================
+9. ARTICLES & PUBLICATIONS PAGE
+==================================================
+
+Replace the current Research experience with:
+
+ARTICLES & PUBLICATIONS
+
+Primary discovery modes:
+
+1. Browse by Theme
+2. A–Z
+3. Search
+
+==================================================
+10. BROWSE BY THEME
+==================================================
+
+Create a theme-based publication browser.
+
+Themes should be derived from verified publication categories/data.
+
+Do NOT invent publication themes merely to populate the page.
+
+Where useful, existing RGG intellectual areas can be represented as filters only if supported by actual content.
+
+Potential thematic structure from existing RGG subject matter may include:
+
+Health
+Justice
+Governance
+Sustainable Development
+Economics
+Evidence
+Digital Systems
+International Cooperation
+
+BUT:
+
+Do not automatically create these as publication claims.
+
+Inspect current publication/category data and use legitimate categories.
+
+Allow:
+
+All Themes
+
+as default.
+
+==================================================
+11. ALPHABETICAL BROWSER
+==================================================
+
+Add an A–Z navigation.
+
+Display:
+
+A B C D E F G H I J K L M
+N O P Q R S T U V W X Y Z
+
+Selecting a letter filters publications by title.
+
+Example:
+
+G
+→ publications beginning with G
+
+Letters without publications should be visibly disabled or inactive.
+
+Also support:
+
+ALL
+
+Sort alphabetical mode by title:
+
+A → Z
+
+==================================================
+12. SEARCH
+==================================================
+
+Keep a search input.
+
+Search:
+
+- title
+- subtitle
+- abstract
+- authors
+- category/theme
+- publication type
+
+Search should combine cleanly with theme and A–Z filtering.
+
+Provide:
+
+Clear filters
+
+when filters are active.
+
+==================================================
+13. PUBLICATION TYPES
+==================================================
+
+Preserve publication types where present:
+
+Research Paper
+Policy Brief
+Article
+Commentary
+Report
+Case Study
+
+Do not overload the top interface with too many controls.
+
+Theme + A–Z + Search should be primary.
+
+Publication type can be a secondary filter.
+
+==================================================
+14. PUBLICATIONS EMPTY STATE
+==================================================
+
+If no publications exist:
+
+do not create fake content.
+
+Show:
+
+"The publication library is being prepared."
+
+If a filter returns zero results:
+
+"No publications match this selection."
+
+==================================================
+15. ADMIN PUBLISHING PORTAL
+==================================================
+
+Expand the EXISTING Clerk-protected admin system.
+
+Do NOT create a new admin/auth architecture.
+
+The existing audit confirms:
+
+- Clerk server-side admin role protection exists
+- signed-out admin access is denied
+- publication security exists
+
+Reuse it.
+
+Admin must support uploading/managing:
+
+ARTICLES
+PUBLICATIONS
+
+==================================================
+16. ADMIN PUBLICATION FIELDS
+==================================================
+
+The existing publishing form should support at minimum:
+
+Title
+Slug
+Subtitle
+Abstract
+Content
+
+Publication Type
+Theme / Category
+Authors
+
+Publication Date
+Reading Time
+Featured
+
+Featured Image
+PDF
+External URL
+DOI
+
+SEO Title
+SEO Description
+
+Status:
+
+Draft
+Published
+Archived
+
+==================================================
+17. FILE UPLOADS
+==================================================
+
+If the admin currently only accepts URLs for:
+
+PDF
+featured image
+
+inspect the current storage architecture.
+
+Do NOT fake file uploads.
+
+If secure file storage already exists:
+reuse it.
+
+If no file-storage system exists:
+keep URL fields working and create a clearly separated follow-up task for secure upload storage.
+
+Do NOT store large PDFs as base64 in PostgreSQL.
+
+==================================================
+18. ADMIN LIBRARY MANAGEMENT
+==================================================
+
+Admin list should support:
+
+Search
+Status filter
+Publication type filter
+Theme/category filter
+
+Show:
+
+Title
+Type
+Theme
+Status
+Publication date
+Updated date
+
+Actions:
+
+Edit
+Preview
+Publish
+Archive
+
+Permanent Delete should remain secondary and require confirmation.
+
+==================================================
+19. ENDORSEMENTS ADMIN PREPARATION
+==================================================
+
+Prepare the data architecture so endorsements can later be managed from admin.
+
+Do NOT create public fake data.
+
+Recommended fields:
+
+id
+name
+title
+organization
+quote
+photoUrl
+sourceUrl
+status
+displayOrder
+createdAt
+updatedAt
+
+Status:
+
+draft
+approved
+archived
+
+Only:
+
+approved
+
+endorsements should ever display publicly.
+
+IMPORTANT:
+
+If adding this database model requires a migration, use the existing Drizzle migration discipline.
+
+Do not reset or recreate the database.
+
+==================================================
+20. PUBLIC ENDORSEMENTS PAGE
+==================================================
+
+If verified approved endorsements exist:
+
+display them elegantly.
+
+If none exist:
+
+show the institutional empty state.
+
+No fake testimonials.
+
+No placeholder institutional logos.
+
+==================================================
+21. HEADER SIMPLIFICATION
+==================================================
+
+Desktop primary navigation:
+
+The Book
+Articles & Publications
+Technical Assistance
+Authors
+Endorsements
+
+Remove all secondary clutter.
+
+Mobile uses the same structure.
+
+The admin link should NOT be promoted in public primary navigation.
+
+Admin remains accessible by its private route.
+
+==================================================
+22. FOOTER SIMPLIFICATION
+==================================================
+
+Footer should remain concise.
+
+Recommended groups:
+
+Explore:
+Book
+Articles & Publications
+Technical Assistance
+Authors
+Endorsements
+
+Legal:
+Disclaimer
+Cookies
+
+Do not reproduce the entire sitemap in the footer.
+
+==================================================
+23. CONTENT PRESERVATION AUDIT
+==================================================
+
+Before deleting/consolidating any page:
+
+make an inventory of its meaningful content.
+
+For each old page report:
+
+- what unique content exists
+- where that content was moved
+- what was removed because it was duplicate
+- whether anything was removed because it was unverified
+
+Do not silently lose important RGG material.
+
+==================================================
+24. URL / SEO IMPACT
+==================================================
+
+Because routes are changing:
+
+update:
+
+page metadata
+canonical routing
+robots/sitemap logic where applicable
+internal links
+footer links
+header links
+
+Do not create broken links.
+
+The refreshed audit already identifies SEO issues.
+
+Do not worsen them.
+
+==================================================
+25. BILINGUAL PARITY
+==================================================
+
+Everything created or renamed must work in:
+
+English
+French
+
+Examples:
+
+Articles & Publications
+→ Articles et publications
+
+Technical Assistance
+→ Assistance technique
+
+Authors
+→ Auteurs
+
+Endorsements
+→ use an approved French institutional translation consistently.
+
+Do not translate the protected book title inconsistently.
+
+Use the current bilingual architecture.
+
+==================================================
+26. DESIGN
+==================================================
+
+Preserve:
+
+near-black
+deep emerald
+muted gold
+warm ivory
+Playfair/editorial typography
+fine borders
+restrained motion
+
+Avoid:
+
+rounded SaaS cards
+huge vertical whitespace
+giant sections
+excessive repeated copy
+neon
+generic cannabis imagery
+
+The new site should feel like:
+
+BOOK
++
+KNOWLEDGE PLATFORM
++
+INSTITUTIONAL TECHNICAL ASSISTANCE
+
+not a giant brochure.
+
+==================================================
+27. ACCESSIBILITY
+==================================================
+
+Horizontal homepage experience must support:
+
+touch
+mouse
+keyboard
+screen readers
+
+Requirements:
+
+- swipe is NOT the only control
+- real arrow buttons
+- visible focus
+- logical DOM order
+- proper headings
+- no focus traps
+- prefers-reduced-motion support
+- no essential information hidden by animation
+
+Do not damage the current good accessibility foundation.
+
+==================================================
+28. PERFORMANCE
+==================================================
+
+Do not add a carousel dependency.
+
+Use CSS scroll snap and lightweight React logic.
+
+Keep the 3D book lazy-loaded.
+
+Do not preload the 3D book from every homepage visit.
+
+Preserve future asset optimization work.
+
+==================================================
+29. DO NOT MODIFY
+==================================================
+
+Do not change:
+
+Clerk authentication provider
+admin authorization role rules
+PostgreSQL/Drizzle architecture
+publication privacy protections
+CSRF/origin/security protections
+existing working mobile 3D gestures
+welcome gate replay behavior
+
+Do not reintroduce Mauritius references.
+
+==================================================
+30. TEST ROUTES
+==================================================
+
+Verify:
+
+/
+ /book
+ /publications
+ /technical-assistance
+ /authors
+ /endorsements
+ /disclaimer
+ /cookies
+
+Legacy redirects:
+
+/research
+/framework
+/consultancy
+/economy
+/policymakers
+/formats
+/partnerships
+/contact
+/about
+/media
+
+Admin:
+
+/admin
+/admin/publications
+/admin/publications/new
+/admin/publications/:id
+
+==================================================
+31. RESPONSIVE TESTING
+==================================================
+
+Test:
+
+320
+375
+390
+430
+768
+1024
+1440
+
+Verify:
+
+- no document-level horizontal overflow
+- horizontal homepage panels swipe correctly
+- vertical page scrolling remains normal
+- keyboard navigation works
+- mobile menu works
+- book gesture behavior remains correct
+- no cropped essential text
+
+==================================================
+32. REGRESSION
+==================================================
+
+Current audit baseline:
+
+Website:
+30/30 tests passing
+
+API:
+67/67 tests passing
+
+Dedicated book workflow:
+3/3 Playwright tests passing
+
+Do not accept regressions.
+
+Run:
+
+TypeScript
+website tests
+API tests
+book Playwright tests
+production website build
+production API build
+
+==================================================
+33. FINAL REPORT
+==================================================
+
+Report:
+
+1. final public navigation
+2. final public route map
+3. pages removed/consolidated
+4. content migration map
+5. homepage panel structure
+6. horizontal navigation implementation
+7. mobile swipe behavior
+8. keyboard navigation
+9. publication theme system
+10. A–Z implementation
+11. search behavior
+12. admin publishing changes
+13. endorsement page implementation
+14. endorsement database/admin preparation
+15. bilingual labels
+16. redirects
+17. accessibility result
+18. 320/375/390/430/768/1024/1440 responsive result
+19. document horizontal overflow result
+20. website test count
+21. API test count
+22. book Playwright test count
+23. TypeScript result
+24. website production build
+25. API production build
+26. warnings
+
+Do not make unrelated changes.

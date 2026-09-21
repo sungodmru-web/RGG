@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Reclaiming the Green Gold"
+version = "1.0.0"
+id = "artifacts/rgg-website"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23016
+
+[services.development]
+run = "pnpm --filter @workspace/rgg-website run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/rgg-website", "run", "build" ]
+publicDir = "artifacts/rgg-website/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23016"
+BASE_PATH = "/"

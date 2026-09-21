@@ -1,0 +1,749 @@
+RGG INTERACTIVE 3D BOOK — IMPLEMENTATION PACK
+
+OBJECTIVE
+
+Create a real interactive 360° 3D hardcover book viewer for:
+
+RECLAIMING THE GREEN GOLD / RÉCONQUÉRIR L’OR VERT
+
+Use the exact uploaded full-wrap cover artwork as the visual source.
+
+The viewer must allow visitors to:
+
+- drag horizontally with mouse
+- swipe/drag with finger on mobile
+- rotate the book through a full 360°
+- see the front cover
+- see the spine
+- see the back cover
+- see realistic page edges
+- see realistic hardcover thickness
+- allow slow idle auto-rotation
+- pause auto-rotation during user interaction
+
+This must be a REAL interactive WebGL model, not a video, GIF, sprite animation, or fake 2D perspective effect.
+
+==================================================
+1. SOURCE ARTWORK
+==================================================
+
+Use the exact RGG wrap artwork already supplied for the hardcover.
+
+The artwork contains:
+
+LEFT:
+back cover
+
+CENTER:
+spine
+
+RIGHT:
+front cover
+
+It also includes 3 mm bleed.
+
+Do NOT regenerate the cover using AI.
+
+Do NOT rewrite any cover text.
+
+Do NOT substitute another cover.
+
+Preserve the actual printed artwork.
+
+Copy the artwork into an appropriate public asset location, for example:
+
+artifacts/rgg-website/public/images/rgg-hardcover-wrap.jpg
+
+Use the project's actual asset conventions if different.
+
+==================================================
+2. INSPECT DEPENDENCIES FIRST
+==================================================
+
+Inspect package.json.
+
+If the project already contains:
+
+three
+@react-three/fiber
+@react-three/drei
+
+reuse them.
+
+If not, install only the minimal required dependencies:
+
+three
+@react-three/fiber
+@react-three/drei
+
+Do not add unnecessary 3D libraries.
+
+==================================================
+3. CREATE COMPONENT
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/components/book/RGGBook3D.tsx
+
+The component must:
+
+- render only on the client
+- use React Three Fiber
+- be responsive
+- support mouse and touch dragging
+- have accessible fallback
+- respect prefers-reduced-motion
+- not block vertical mobile scrolling unnecessarily
+
+==================================================
+4. TEXTURE PREPARATION
+==================================================
+
+Do NOT map the entire wrap onto one cube face.
+
+The wrap must be split/cropped into:
+
+BACK COVER
+SPINE
+FRONT COVER
+
+Use the artwork geometry itself.
+
+The source print dimensions shown are:
+
+TOTAL WIDTH WITH BLEED:
+444 mm
+
+TOTAL HEIGHT WITH BLEED:
+257 mm
+
+BLEED:
+3 mm
+
+Do not guess panel dimensions blindly.
+
+Inspect the visible trim guides / artwork geometry.
+
+Create a helper that crops the original image into textures for:
+
+front
+back
+spine
+
+The final textures should exclude external printer marks and unnecessary bleed.
+
+If exact crop coordinates cannot be derived safely from the source image:
+implement configurable crop constants in one clearly documented file.
+
+Example:
+
+src/components/book/bookTextureConfig.ts
+
+with:
+
+front: { x, y, width, height }
+back: { x, y, width, height }
+spine: { x, y, width, height }
+
+Report the crop values used.
+
+==================================================
+5. BOOK GEOMETRY
+==================================================
+
+The 3D model should represent a premium hardcover book.
+
+Use approximate proportions based on the actual cover dimensions.
+
+Target visual proportions:
+
+height:
+1.0
+
+cover width:
+approximately 0.68–0.72 relative to height
+
+spine thickness:
+approximately 0.07–0.10 relative to book width
+
+Use the actual wrap geometry where possible.
+
+Book parts:
+
+1. front hardcover board
+2. rear hardcover board
+3. spine
+4. page block
+5. slight board overhang beyond page block
+
+Do not create an unrealistically thick book.
+
+==================================================
+6. FRONT COVER
+==================================================
+
+Map the front-cover crop to the outside front board.
+
+Preserve aspect ratio.
+
+Do not distort the typography.
+
+Do not mirror the texture.
+
+Use proper color-space configuration so the printed colors remain accurate.
+
+==================================================
+7. BACK COVER
+==================================================
+
+Map the back-cover crop to the outside rear board.
+
+Important:
+
+When the visitor rotates the model to view the back, the back-cover text must read normally.
+
+Do not accidentally mirror it.
+
+==================================================
+8. SPINE
+==================================================
+
+Map the actual spine artwork to the spine geometry.
+
+Spine text must remain upright and readable in the expected physical orientation.
+
+Do not replace the spine with plain green.
+
+==================================================
+9. PAGE BLOCK
+==================================================
+
+Create realistic page edges.
+
+Color:
+
+warm ivory / natural paper
+
+Not pure white.
+
+Add subtle visual page-line texture using shader/material or very lightweight procedural treatment.
+
+Do not add thousands of page meshes.
+
+Performance matters.
+
+==================================================
+10. HARDCOVER MATERIAL
+==================================================
+
+The cover should feel like a physical hardcover.
+
+Use a restrained material:
+
+roughness around 0.65–0.8
+
+very low metallic value
+
+slight specular response
+
+Do not make the book look like polished plastic.
+
+The printed gold artwork itself should appear luminous through lighting but should not behave like a mirror.
+
+==================================================
+11. LIGHTING
+==================================================
+
+Create premium studio lighting.
+
+Use:
+
+soft key light
+subtle fill light
+gentle warm rim light
+
+Dark / deep charcoal environment.
+
+Keep lighting aligned with RGG visual identity:
+
+black
+deep emerald
+muted gold
+ivory
+
+Do not use bright neon effects.
+
+==================================================
+12. FLOOR + SHADOW
+==================================================
+
+Add a subtle ground plane or contact shadow.
+
+The book should feel physically grounded rather than floating.
+
+Use soft shadow only.
+
+No giant glow.
+
+==================================================
+13. INITIAL CAMERA
+==================================================
+
+Initial view:
+
+front cover visible
+slightly turned 10–18 degrees
+slightly elevated camera
+book centered
+
+The viewer should immediately recognize the physical book.
+
+Do not start with the spine or back.
+
+==================================================
+14. INTERACTION
+==================================================
+
+Horizontal pointer movement rotates the book.
+
+Desktop:
+click + drag
+
+Mobile:
+touch + drag
+
+Do not require users to drag vertically.
+
+Avoid hijacking normal page scroll.
+
+Use pointer events carefully.
+
+Provide a secondary accessible control:
+
+Rotate Left
+Rotate Right
+
+Buttons can appear below the canvas on mobile/accessibility layouts.
+
+==================================================
+15. FULL 360 ROTATION
+==================================================
+
+Rotation must not be clamped to a small range.
+
+Allow continuous rotation:
+
+0°
+→ 90° spine
+→ 180° back
+→ 270° opposite edge
+→ 360° front
+
+Rotation should feel smooth.
+
+Use damping/inertia but keep it restrained.
+
+==================================================
+16. IDLE AUTO ROTATION
+==================================================
+
+If user has not interacted for approximately 3 seconds:
+
+begin very slow rotation.
+
+Example:
+
+roughly 6–10 degrees per second maximum.
+
+When user interacts:
+
+stop auto rotation immediately.
+
+After a few seconds of inactivity:
+resume gently.
+
+Respect:
+
+prefers-reduced-motion
+
+If reduced motion is enabled:
+disable auto rotation.
+
+==================================================
+17. DRAG HINT
+==================================================
+
+Add a subtle overlay below/near the viewer:
+
+Drag to explore 360°
+
+On touch devices:
+
+Swipe to explore 360°
+
+Use muted gold/ivory styling.
+
+Do not obscure the book.
+
+==================================================
+18. OPTIONAL VIEW CONTROLS
+==================================================
+
+Add small buttons:
+
+Front
+Spine
+Back
+
+Clicking should smoothly rotate to:
+
+Front = 0°
+Spine = 90°
+Back = 180°
+
+Keep the primary experience drag-first.
+
+Do not make this look like a SaaS toolbar.
+
+==================================================
+19. LOADING EXPERIENCE
+==================================================
+
+Before textures/WebGL are ready:
+
+show a clean fallback with:
+
+RGG hardcover image
+and text:
+
+Loading 3D edition…
+
+No spinner required.
+
+If WebGL fails completely:
+
+show the front-cover image and:
+
+3D preview unavailable on this device.
+
+Never show a blank box.
+
+==================================================
+20. RESPONSIVE LAYOUT
+==================================================
+
+Test at:
+
+375 px
+430 px
+768 px
+1024 px
+1440 px
+
+Mobile:
+viewer occupies most available width
+reasonable height
+no horizontal page overflow
+touch rotation works
+
+Desktop:
+book can be larger
+leave room for Book page typography/CTA
+
+Do not use a giant forced 100vh section.
+
+==================================================
+21. PERFORMANCE
+==================================================
+
+Optimize textures.
+
+Do not use the original enormous source image directly if it produces excessive GPU memory use.
+
+Generate optimized versions while preserving readable typography.
+
+Target:
+
+2048 px or 4096 px maximum per major cover texture depending on quality/performance.
+
+Use mipmaps appropriately.
+
+Do not load unnecessary 3D assets.
+
+Do not use an HDR file unless already available and justified.
+
+==================================================
+22. ACCESSIBILITY
+==================================================
+
+Canvas must have an accessible description.
+
+Add text such as:
+
+Interactive 3D model of the Reclaiming the Green Gold hardcover book. Use drag or the controls below to rotate the book.
+
+Controls must use real buttons.
+
+Keyboard:
+
+Left Arrow
+rotate left
+
+Right Arrow
+rotate right
+
+Front / Spine / Back buttons accessible via keyboard.
+
+Do not make essential information available only inside WebGL.
+
+==================================================
+23. CREATE BOOK VIEWER SECTION
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/components/book/Book3DSection.tsx
+
+Suggested layout:
+
+LEFT / TOP:
+heading
+
+THE HARDCOVER EDITION
+
+“Explore the book in 360°.”
+
+short description
+
+RIGHT / BELOW:
+RGGBook3D viewer
+
+Supporting line:
+
+Front · Spine · Back
+
+==================================================
+24. VISUAL STYLE
+==================================================
+
+Use existing RGG visual system.
+
+Background:
+#080D09 / near-black
+
+Gold:
+existing muted RGG gold
+
+Emerald:
+existing deep RGG emerald
+
+Ivory:
+existing RGG ivory
+
+Typography:
+existing Playfair/editorial system
+
+Avoid:
+
+rounded SaaS cards
+bright gradients
+neon green
+glowing buttons
+gaming UI
+thick control panels
+
+The 3D book should be the hero.
+
+==================================================
+25. ADD TO /book
+==================================================
+
+Modify:
+
+artifacts/rgg-website/src/pages/Book.tsx
+
+Insert the 3D hardcover section AFTER the main Book hero and BEFORE the deeper book contents.
+
+The order should become approximately:
+
+Book Hero
+↓
+Interactive Hardcover 360°
+↓
+Central Thesis
+↓
+Why It Matters
+↓
+Contents
+↓
+Framework
+↓
+Editions
+↓
+Authors
+
+Do not remove existing Book page content.
+
+==================================================
+26. LAZY LOADING
+==================================================
+
+Because Three.js is heavy:
+
+lazy-load the 3D component.
+
+Do not increase the initial homepage bundle unnecessarily.
+
+The 3D code must only load when the Book page needs it.
+
+Use React lazy/Suspense or an equivalent existing architecture.
+
+==================================================
+27. HOMEPAGE
+==================================================
+
+Do NOT add the heavy 3D viewer to the homepage in this pack.
+
+Homepage may continue using the lightweight book-cover image.
+
+Only /book gets the full interactive viewer.
+
+==================================================
+28. DO NOT MODIFY
+==================================================
+
+Do not redesign:
+
+Home
+Framework
+Research
+Consultancy
+Authors
+About
+Admin
+
+Do not change API/database/authentication.
+
+Do not change BookVault behavior.
+
+Do not modify publication content.
+
+==================================================
+29. TESTS
+==================================================
+
+Verify:
+
+/book HTTP 200
+
+3D model renders
+
+front texture correct
+
+back texture correct
+
+spine texture correct
+
+no mirrored text
+
+no distorted aspect ratio
+
+drag rotation works
+
+touch rotation works
+
+360° rotation works
+
+Front button works
+
+Spine button works
+
+Back button works
+
+Left/Right keyboard controls work
+
+idle rotation works
+
+interaction stops idle rotation
+
+prefers-reduced-motion disables automatic movement
+
+fallback works
+
+no horizontal overflow
+
+no console errors
+
+==================================================
+30. RESPONSIVE VERIFICATION
+==================================================
+
+Verify at:
+
+375
+430
+768
+1024
+1440
+
+Specifically confirm:
+
+mobile vertical scrolling still works naturally
+
+canvas does not trap page scrolling
+
+controls do not overflow
+
+book remains visible at useful scale
+
+==================================================
+31. BUILD
+==================================================
+
+Run:
+
+tsc -p tsconfig.json --noEmit
+
+Run website tests.
+
+Run production build.
+
+Compare bundle size before/after.
+
+Confirm the 3D libraries are lazy-loaded into their own chunk rather than being added to the homepage's main initial bundle.
+
+==================================================
+32. FINAL REPORT
+==================================================
+
+Report:
+
+1. files created
+2. files modified
+3. 3D libraries used
+4. whether libraries were already installed
+5. exact source artwork file used
+6. source artwork dimensions
+7. crop coordinates for front
+8. crop coordinates for spine
+9. crop coordinates for back
+10. optimized texture dimensions
+11. book geometry proportions
+12. front orientation test
+13. spine orientation test
+14. back orientation test
+15. mouse drag test
+16. touch drag test
+17. keyboard test
+18. 360° rotation test
+19. reduced-motion test
+20. WebGL fallback test
+21. responsive results
+22. bundle/lazy-loading result
+23. TypeScript result
+24. website test result
+25. production build result
+26. console warnings/errors
+
+Do not make unrelated changes.

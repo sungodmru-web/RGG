@@ -1,0 +1,251 @@
+RGG ADMIN PORTAL — ADMINISTRATOR ACCESS CONFIGURATION
+
+Proceed with implementation.
+
+The RGG editorial portal must initially support these authorized administrators:
+
+1. Soobaschand Sweenarain
+2. Shiva Sweenarain
+3. Gavishta Harkoo
+4. Neha Sweenarain
+
+A fifth administrator will be added later.
+
+IMPORTANT SECURITY DECISION
+
+Do NOT implement the proposed shared default password "RGGf@mily".
+
+Do not hardcode any administrator password in:
+- source code
+- database migrations
+- environment variables shared by all administrators
+- frontend JavaScript
+- seed files
+- repository configuration
+
+The application already uses Clerk.
+
+KEEP CLERK AS THE ONLY AUTHENTICATION PROVIDER.
+
+==================================================
+ADMIN ACCOUNT MODEL
+==================================================
+
+Each administrator must have an individual Clerk account.
+
+Each account must use its own:
+- email/login identity
+- password/passkey/authentication credentials
+- Clerk user ID
+
+Authorization must remain SERVER-SIDE.
+
+Do not authorize somebody merely because their displayed name matches one of
+the names above.
+
+==================================================
+ADMIN ROLE
+==================================================
+
+Preserve the existing exact server-side authorization rule:
+
+Clerk publicMetadata.role === "admin"
+
+Only explicitly authorized administrator accounts should receive this role.
+
+Do not allow public users to assign or modify their own role.
+
+==================================================
+ADMIN ALLOWLIST
+==================================================
+
+Create a controlled administrator registry/allowlist if the existing
+architecture needs one.
+
+Use immutable Clerk user IDs as the primary identity once accounts exist.
+
+Display names:
+
+Soobaschand Sweenarain
+Shiva Sweenarain
+Gavishta Harkoo
+Neha Sweenarain
+
+Do not rely on display names for security.
+
+Until the corresponding Clerk IDs are configured, do not invent them.
+
+==================================================
+FIRST-TIME ACCOUNT SETUP
+==================================================
+
+Provide a secure setup procedure for each administrator.
+
+Preferred flow:
+
+Administrator receives invitation
+→ creates/activates individual Clerk account
+→ establishes their own credentials
+→ account identity is verified
+→ owner assigns admin role
+→ admin portal becomes available
+
+Do not send a common password to all administrators.
+
+==================================================
+ADMIN MANAGEMENT
+==================================================
+
+Inside the protected admin portal, create:
+
+/admin/administrators
+
+Only authorized administrators may access it.
+
+Display:
+
+Name
+Account status
+Role
+Last sign-in where Clerk safely provides it
+Access status
+
+Do NOT display:
+- passwords
+- password hashes
+- session tokens
+- Clerk secrets
+
+==================================================
+AUDIT IDENTITY
+==================================================
+
+For important editorial actions, record the authenticated administrator
+identity where appropriate.
+
+Examples:
+
+publication created by
+publication published by
+publication archived by
+endorsement approved by
+endorsement archived by
+
+Use Clerk user ID internally.
+
+Display the corresponding administrator name in the private admin interface.
+
+This is especially important because multiple family administrators will use
+the CMS.
+
+==================================================
+ENDORSEMENT APPROVAL
+==================================================
+
+When an endorsement is approved, record:
+
+approvedAt
+approvedBy
+
+The administrator must still explicitly confirm:
+
+"I confirm that this endorsement is authentic and authorized for publication."
+
+==================================================
+ADMINISTRATOR PERMISSIONS
+==================================================
+
+For the initial version, all approved administrators may have the same
+editorial administrator role.
+
+They may:
+
+- create articles
+- edit articles
+- upload PDFs
+- upload images
+- create publications
+- preview drafts
+- publish
+- archive
+- manage themes
+- create endorsements
+- approve verified endorsements
+- manage media
+
+However, administrator-account management itself must remain protected from
+accidental privilege escalation.
+
+Do not let a compromised ordinary admin silently create unlimited new admins
+unless the existing Clerk management architecture explicitly supports a safe
+owner-level workflow.
+
+==================================================
+SECURITY TESTS
+==================================================
+
+Test:
+
+anonymous → admin portal denied
+
+authenticated non-admin → denied
+
+approved admin → allowed
+
+name matching an administrator but wrong Clerk identity → denied
+
+admin metadata removed → access immediately denied on next authorization check
+
+administrator cannot change their own frontend role to gain access
+
+no password appears in frontend bundles
+
+no password appears in repository
+
+no Clerk secret appears in browser
+
+audit actions identify the actual authenticated administrator
+
+==================================================
+CURRENT CMS WORK
+==================================================
+
+Integrate this administrator configuration into the existing RGG Admin Portal
+implementation.
+
+Do NOT rebuild the CMS from scratch.
+
+Preserve:
+
+Clerk
+PostgreSQL/Drizzle
+CSRF protection
+trusted-origin validation
+rate limiting
+security logging
+publication visibility protections
+PDF upload security
+endorsement verification workflow
+
+==================================================
+FINAL REPORT
+==================================================
+
+Report:
+
+1. administrators configured
+2. Clerk account/invitation process
+3. authorization mechanism
+4. administrator registry implementation
+5. admin-management route
+6. role-assignment process
+7. audit identity implementation
+8. publication created/published-by tracking
+9. endorsement approved-by tracking
+10. security tests
+11. configuration still required for each administrator
+12. fifth administrator status
+
+Do not create shared passwords.
+
+IMPLEMENT NOW.

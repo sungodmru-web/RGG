@@ -1,0 +1,411 @@
+// Replit AI Prompt — FULL WEBSITE BUILD
+// Paste this entire prompt into Replit AI Agent
+// Stack: Next.js + Tailwind + Framer Motion
+// Goal: Cinematic luxury institutional website focused on selling the book
+// IMPORTANT: ALL WEBSITE CONTENT MUST BE BASED ONLY ON THE EXECUTIVE SUMMARY PROVIDED
+
+Build a premium cinematic luxury website for the book:
+
+"Reclaiming the Green Gold"
+"Cannabis at the Crossroads of Health, Justice and Sustainable Development"
+
+IMPORTANT POSITIONING:
+This website is NOT a cannabis dispensary, smoke shop, or lifestyle brand.
+
+The website must feel like:
+- a luxury publishing house
+- a global governance think tank
+- a premium documentary platform
+- a strategic institutional publication
+- an international policy intelligence platform
+
+The emotional tone:
+- intellectual
+- visionary
+- cinematic
+- institutional
+- authoritative
+- elegant
+- globally credible
+
+PRIMARY GOAL:
+SELL THE BOOK.
+
+Book formats:
+- Hardcover
+- Paperback
+- Ebook
+
+Printing and fulfillment handled by BookVault.
+
+==================================================
+TECH STACK
+==================================================
+
+Use:
+- Next.js App Router
+- TailwindCSS
+- Framer Motion
+- GSAP
+- Three.js (for animated 3D book)
+- TypeScript
+
+==================================================
+DESIGN SYSTEM
+==================================================
+
+COLORS:
+- Background Black: #0B0B0B
+- Emerald: #0D3B2E
+- Gold: #C8A96B
+- Ivory: #F4F1EA
+- Charcoal: #161616
+
+TYPOGRAPHY:
+Headings:
+- Playfair Display
+or
+- Cormorant Garamond
+
+Body:
+- Inter
+
+DESIGN STYLE:
+- Apple-level presentation quality
+- Cinematic scrolling
+- Massive whitespace
+- Minimalist luxury
+- Editorial layout
+- Elegant hover effects
+- Soft gold glows
+- Smooth animations
+- Slow premium motion
+- Matte black aesthetic
+
+DO NOT USE:
+- neon green
+- marijuana leaf icons
+- smoke effects
+- psychedelic design
+- dispensary aesthetics
+- cheap ecommerce layouts
+
+==================================================
+GLOBAL LAYOUT
+==================================================
+
+Create:
+- sticky transparent navbar
+- cinematic hero section
+- dark immersive background
+- subtle emerald gradients
+- floating particles
+- smooth section transitions
+- responsive mobile design
+
+Navbar links:
+- Book
+- Framework
+- Journal
+- Authors
+- Advisory
+- Contact
+
+Navbar CTA:
+"Buy the Book"
+
+==================================================
+SECTION 1 — HERO
+==================================================
+
+Fullscreen cinematic hero section.
+
+LEFT SIDE:
+Large typography:
+
+Headline:
+"Reclaiming the Green Gold"
+
+Subtitle:
+"Cannabis at the Crossroads of Health, Justice and Sustainable Development"
+
+Strategic Statement:
+"Cannabis reform is not a binary legal choice. It is a governance transition."
+
+Supporting paragraph:
+"A landmark global handbook examining cannabis governance, institutional readiness, sustainable development, public health, economic transformation, and justice in an era of global transition."
+
+Buttons:
+- Buy Hardcover
+- Buy Paperback
+- Buy Ebook
+- Read Executive Summary
+
+RIGHT SIDE:
+Large animated 3D book mockup:
+- floating animation
+- subtle rotation
+- realistic lighting
+- gold embossed title
+- premium shadows
+
+Background:
+- dark cinematic gradients
+- emerald atmospheric glow
+- subtle particles
+- premium lighting
+
+==================================================
+SECTION 2 — GLOBAL TRANSITION
+==================================================
+
+Section title:
+"A Global Governance Transition"
+
+Use content inspired ONLY from the executive summary.
+
+Include:
+- governments reforming faster than governance systems
+- institutional readiness
+- laboratories
+- certification systems
+- policy sequencing
+- governance gaps
+
+Use editorial grid layout.
+
+Include cinematic cards with:
+- subtle hover animation
+- gold borders
+- elegant typography
+
+==================================================
+SECTION 3 — THE SEVEN GOVERNANCE LAYERS
+==================================================
+
+Create a premium interactive section titled:
+
+"The Seven Layers of Governance Readiness"
+
+Create 7 animated cards:
+
+1. Evidence Credibility
+2. Differentiated Public Health
+3. Value Capture
+4. Justice Repair
+5. Inclusive Finance
+6. Digital Trust
+7. Adaptive Institutional Legitimacy
+
+Each card:
+- gold line animations
+- glassmorphism dark surface
+- subtle motion
+- luxury editorial styling
+
+Add connecting animated lines between layers.
+
+==================================================
+SECTION 4 — WHY THIS WORK MATTERS
+==================================================
+
+Section title:
+"Why This Work Matters"
+
+Create elegant editorial blocks for:
+
+- Governance
+- Justice
+- Sustainable Development
+- Economic Transformation
+- Adaptive Governance
+
+Use direct conceptual inspiration ONLY from the executive summary.
+
+Include key statement:
+"Legalisation is the easy part. Readiness is the work."
+
+==================================================
+SECTION 5 — BOOK FORMATS
+==================================================
+
+Luxury product showcase section.
+
+Display 3 premium cards:
+
+1. Hardcover
+Label:
+"The collector's institutional edition."
+
+2. Paperback
+Label:
+"The accessible strategic edition."
+
+3. Ebook
+Label:
+"The portable global handbook."
+
+Each card includes:
+- elegant book mockup
+- premium shadows
+- subtle hover scaling
+- CTA button
+- gold accent borders
+
+==================================================
+SECTION 6 — ABOUT THE AUTHORS
+==================================================
+
+Create elegant institutional author section.
+
+AUTHOR 1:
+Dr Soobaschand (Sunil) Sweenarain
+
+Description:
+Senior natural resource economist with expertise in sustainable development, governance, renewable resource management, regional cooperation, and policy advisory.
+
+AUTHOR 2:
+Sunny Sweenarain
+
+Description:
+Medical cannabis specialist, researcher, and international consultant focused on evidence-based medical cannabis, patient-oriented care, ethics, public health, and harm reduction.
+
+Design:
+- cinematic portraits
+- black and white treatment
+- luxury typography
+- editorial spacing
+
+==================================================
+SECTION 7 — GREEN GOLD JOURNAL
+==================================================
+
+Premium editorial section.
+
+Title:
+"The Green Gold Journal"
+
+Create luxury article cards with:
+- large cinematic images
+- category labels
+- reading time
+- elegant hover effects
+
+Categories:
+- Governance
+- Public Health
+- Sustainable Development
+- Justice
+- Industrial Hemp
+- Economic Transformation
+- Regulatory Intelligence
+- Digital Sovereignty
+
+==================================================
+SECTION 8 — ADVISORY DIVISION
+==================================================
+
+Section title:
+"Governance & Strategic Advisory"
+
+Position as institutional and professional.
+
+Services:
+- Governance readiness assessments
+- Institutional capacity building
+- Regulatory strategy
+- Public health frameworks
+- Sustainable cannabis economy development
+- Policy sequencing
+- Justice and inclusion frameworks
+- Digital governance strategy
+
+Design:
+- think tank aesthetic
+- executive presentation
+- premium institutional styling
+
+==================================================
+SECTION 9 — NEWSLETTER
+==================================================
+
+Title:
+"The Green Gold Brief"
+
+Subtitle:
+"Weekly intelligence on governance, public health, sustainable development and global reform."
+
+Create:
+- elegant email input
+- gold button
+- minimal luxury design
+
+==================================================
+SECTION 10 — FOOTER
+==================================================
+
+Premium institutional footer.
+
+Include:
+- Book
+- Framework
+- Journal
+- Advisory
+- Media Inquiries
+- Contact
+- Legal
+- Privacy Policy
+
+Style:
+- minimal
+- dark luxury
+- elegant typography
+
+==================================================
+ANIMATIONS
+==================================================
+
+Use Framer Motion heavily:
+- fade reveals
+- stagger animations
+- slow cinematic transitions
+- floating effects
+- scroll-triggered animations
+- smooth hover effects
+
+==================================================
+RESPONSIVENESS
+==================================================
+
+Must be fully responsive:
+- desktop
+- tablet
+- mobile
+
+Mobile must still feel cinematic and luxurious.
+
+==================================================
+FINAL REQUIREMENTS
+==================================================
+
+The entire experience should feel like:
+- a landmark global publication
+- a strategic governance platform
+- a luxury intellectual brand
+- a premium institutional documentary experience
+
+The book must remain the visual and emotional center of the entire website.
+
+The website should emotionally communicate:
+importance, authority, intelligence, credibility, and historical relevance.
+
+Generate:
+- full project structure
+- all React components
+- Tailwind styling
+- animations
+- responsive layouts
+- dark luxury theme
+- reusable components
+- elegant motion system
+- production-ready code

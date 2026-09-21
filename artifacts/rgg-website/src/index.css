@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  
+  --color-gold: #C8A96B;
+  --color-gold-bright: #EDD99A;
+  --color-gold-dim: #9A7A3A;
+  --color-emerald: #0D3B2E;
+  --color-surface-start: #0F1A14;
+  --color-surface-end: #162B1E;
+  --color-ivory: #F4F1EA;
+  --color-muted-text: #C8BFA0;
+  --color-forest-muted: #4A6055;
+  --color-charcoal: #161616;
+}
+
+:root {
+  --background: #0B0B0B;
+  --foreground: #F4F1EA;
+  --border: #C8A96B;
+  
+  --card: #162B1E;
+  --card-foreground: #F4F1EA;
+  
+  --primary: #C8A96B;
+  --primary-foreground: #0B0B0B;
+
+  --app-font-sans: 'Inter', sans-serif;
+  --app-font-serif: 'Playfair Display', serif;
+}
+
+.dark {
+  --background: #0B0B0B;
+  --foreground: #F4F1EA;
+  --border: #C8A96B;
+  
+  --card: #162B1E;
+  --card-foreground: #F4F1EA;
+  
+  --primary: #C8A96B;
+  --primary-foreground: #0B0B0B;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/*
+ * Accessibility baseline for visible actions. The original editorial styling
+ * used 9–10px uppercase labels; these minimums keep calls to action legible
+ * and provide comfortable touch targets without enlarging icon-only controls.
+ */
+button:not([aria-label]),
+a[class*="inline-flex"] {
+  min-height: 3.25rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.1em !important;
+}
+
+.book-mockup-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.book-mockup {
+  width: 300px;
+  height: 450px;
+  background: linear-gradient(135deg, var(--color-emerald), #051A13);
+  box-shadow: 
+    inset 4px 0 10px rgba(0, 0, 0, 0.5),
+    inset -1px 0 2px rgba(255, 255, 255, 0.1),
+    20px 20px 40px rgba(0, 0, 0, 0.8),
+    -1px 0 2px var(--color-gold);
+  border-radius: 2px 6px 6px 2px;
+  position: relative;
+  transform: rotateY(-20deg) rotateX(10deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  border-left: 4px solid #082218;
+}
+
+.book-mockup::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -10px;
+  width: 10px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    #F4F1EA,
+    #F4F1EA 1px,
+    #E0DCD0 1px,
+    #E0DCD0 2px
+  );
+  transform-origin: left;
+  transform: rotateY(90deg);
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.book-mockup::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: repeating-linear-gradient(
+    to right,
+    #F4F1EA,
+    #F4F1EA 1px,
+    #E0DCD0 1px,
+    #E0DCD0 2px
+  );
+  transform-origin: bottom;
+  transform: rotateX(90deg);
+  border-top-left-radius: 2px;
+  border-top-right-radius: 6px;
+  box-shadow: inset 0 -2px 5px var(--color-gold-dim);
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: var(--color-gold);
+  border-radius: 50%;
+  opacity: 0;
+  animation: float-up linear infinite;
+}
+
+@keyframes float-up {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: translateY(-100px) scale(0); opacity: 0; }
+}
+
+.edition-cta-shine {
+  box-shadow:
+    0 0 18px rgba(200, 169, 107, 0.38),
+    0 0 42px rgba(237, 217, 154, 0.16);
+}
+
+.edition-cta-shine::after {
+  position: absolute;
+  inset: -40% auto -40% -45%;
+  width: 32%;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.75),
+    transparent
+  );
+  transform: skewX(-18deg);
+  animation: edition-cta-shine 2.8s ease-in-out infinite;
+}
+
+@keyframes edition-cta-shine {
+  0%, 28% { left: -45%; }
+  68%, 100% { left: 125%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edition-cta-shine::after {
+    animation: none;
+  }
+}
+
+.ambient-glow {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle at center, rgba(13, 59, 46, 0.4) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+:focus-visible {
+  outline: 2px solid #EDD99A;
+  outline-offset: 4px;
+}
+
+/* Keep muted copy readable against the site's near-black surfaces. */
+.text-\[\#4A6055\],
+.text-\[\#56685D\],
+.text-\[\#65736B\],
+.text-\[\#718078\] {
+  color: #9AA79F !important;
+}
+
+.placeholder\:text-\[\#405246\]::placeholder {
+  color: #89978F !important;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "mediaId": "database UUID",
+    "storageKey": "provider object key, never a signed URL",
+    "originalFilename": "original client filename",
+    "mimeType": "application/pdf",
+    "fileSize": 0,
+    "purpose": "publication-pdf | publication-image | endorsement-portrait | general",
+    "associatedPublicationId": "database UUID or null",
+    "associatedEndorsementId": "database UUID or null",
+    "visibility": "private | published",
+    "source": "Replit App Storage",
+    "destination": "Hostinger-compatible S3 bucket"
+  }
+]

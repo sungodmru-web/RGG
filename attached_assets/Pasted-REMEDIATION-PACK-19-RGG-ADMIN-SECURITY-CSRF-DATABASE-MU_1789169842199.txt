@@ -1,0 +1,505 @@
+REMEDIATION PACK #19
+RGG ADMIN SECURITY + CSRF + DATABASE MUTATION HARDENING
+
+Implement ONLY Remediation #19.
+
+This is a P0 security task.
+
+Do not redesign the website.
+Do not add new editorial features.
+Do not add commerce.
+Do not alter publication content.
+
+==================================================
+1. INSPECT EXISTING SECURITY
+==================================================
+
+First inspect the current Pack 7 + Pack 8 implementation.
+
+Identify:
+
+- admin login/authentication mechanism
+- session implementation
+- session cookie
+- AdminGuard
+- admin API middleware
+- public API middleware
+- CORS configuration
+- Express body parsing
+- publication validation
+- publication database service
+- environment configuration
+
+Report the existing mechanism before replacing anything.
+
+Reuse existing authentication architecture whenever possible.
+
+Do not create a competing authentication system.
+
+==================================================
+2. SERVER-SIDE ADMIN AUTHORIZATION
+==================================================
+
+Create or strengthen one centralized server middleware such as:
+
+requireAdmin
+
+All:
+
+GET /api/admin/*
+POST /api/admin/*
+PATCH /api/admin/*
+DELETE /api/admin/*
+
+that expose privileged information must require a valid authenticated administrator.
+
+Public:
+
+GET /api/publications
+GET /api/publications/slug/:slug
+
+remain public.
+
+Frontend route protection is NOT sufficient.
+
+==================================================
+3. SESSION COOKIE SECURITY
+==================================================
+
+Ensure authentication cookies are:
+
+HttpOnly
+
+Secure in production
+
+SameSite=Lax or stricter where compatible
+
+Path=/
+
+Use a finite expiration.
+
+Do not expose session identifiers to frontend JavaScript.
+
+If supported by the existing session system, regenerate session identifier after successful authentication.
+
+==================================================
+4. CSRF PROTECTION
+==================================================
+
+Because admin authentication is cookie-backed, implement server-side CSRF protection.
+
+Protect mutation methods:
+
+POST
+PATCH
+PUT
+DELETE
+
+for privileged/admin endpoints.
+
+Preferred flow:
+
+GET /api/admin/csrf
+
+requires admin authentication and returns a per-session CSRF token.
+
+Admin frontend sends:
+
+X-CSRF-Token
+
+on privileged mutations.
+
+Validate server-side.
+
+Do not:
+- hard-code token
+- use global token
+- store token in URL
+- use localStorage for permanent CSRF storage
+
+Adapt to the best secure pattern supported by existing dependencies.
+
+==================================================
+5. TRUSTED ORIGIN CHECK
+==================================================
+
+Protect admin mutations with explicit trusted-origin verification.
+
+Use environment configuration such as:
+
+APP_ORIGIN
+
+If multiple legitimate production origins exist, define them explicitly.
+
+Do not use wildcard origin for credentialed privileged requests.
+
+Reject untrusted mutation origins with 403.
+
+==================================================
+6. CORS
+==================================================
+
+Inspect current CORS behavior.
+
+Do not use:
+
+Access-Control-Allow-Origin: *
+
+together with credentialed admin requests.
+
+Prefer same-origin architecture.
+
+If cross-origin is genuinely required, whitelist explicit trusted origins.
+
+==================================================
+7. FRONTEND ADMIN API
+==================================================
+
+Update the existing Pack 8 admin API client.
+
+Preserve:
+
+credentials: "include"
+
+Fetch/use a valid CSRF token for mutations.
+
+Do not create a duplicate API client if generated/existing clients can be securely extended.
+
+Handle security failures with user-safe messages.
+
+==================================================
+8. AUTH SESSION ENDPOINT
+==================================================
+
+Ensure there is one canonical server endpoint equivalent to:
+
+GET /api/admin/session
+
+AdminGuard must use server state.
+
+Possible response:
+
+authenticated true/false
+
+Do not expose unnecessary admin profile data.
+
+AdminGuard must not briefly render protected content before session verification completes.
+
+==================================================
+9. LOGOUT
+==================================================
+
+Ensure a real server-backed logout exists.
+
+Example:
+
+POST /api/admin/logout
+
+It must:
+- invalidate/destroy server session
+- clear authentication cookie
+
+After logout all privileged endpoints must reject the previous session.
+
+==================================================
+10. TEMPORARY PACK 7 GATE
+==================================================
+
+Pack 7 may contain:
+
+ADMIN_API_ENABLED
+
+Do not use this as authorization.
+
+Now that Pack 8 authentication exists, every admin endpoint must require actual authenticated authorization.
+
+The development flag may remain only as an additional non-production safeguard if useful.
+
+==================================================
+11. INPUT SAFETY
+==================================================
+
+Continue schema validation for all publication mutations.
+
+Validate route IDs.
+
+If IDs are UUID:
+
+reject malformed UUIDs before database access.
+
+Never allow client control of:
+
+id
+createdAt
+updatedAt
+
+Strip or reject protected fields.
+
+==================================================
+12. DATABASE SAFETY
+==================================================
+
+Preserve all Pack 7 database data.
+
+Do not drop/recreate publication tables.
+
+Do not reset database.
+
+Use transactions for multi-step mutation integrity such as featured-publication uniqueness.
+
+Update updatedAt server-side.
+
+Preserve original publicationDate unless deliberately changed.
+
+==================================================
+13. DELETE SAFETY
+==================================================
+
+DELETE must:
+
+- require admin authentication
+- require trusted origin
+- require valid CSRF
+- use DELETE method
+- never mutate via GET
+
+Preserve frontend explicit confirmation.
+
+Archive remains the preferred normal lifecycle for previously published institutional content.
+
+==================================================
+14. BODY LIMIT
+==================================================
+
+Review Express JSON body limits.
+
+Set a reasonable explicit size limit.
+
+Do not allow PDF/base64 file uploads through publication JSON.
+
+==================================================
+15. LOGIN BRUTE-FORCE PROTECTION
+==================================================
+
+If login is username/password based, rate-limit failed login attempts.
+
+Use existing rate-limiting support where available.
+
+Do not reveal whether username/email exists.
+
+Return generic invalid-credential responses.
+
+Do not log passwords.
+
+==================================================
+16. PASSWORD SECURITY
+==================================================
+
+If password credentials are stored:
+
+verify they are securely hashed using an appropriate password hashing algorithm.
+
+Never store plaintext passwords.
+
+Never return hashes through API.
+
+Never place admin passwords in frontend code.
+
+==================================================
+17. ERROR HYGIENE
+==================================================
+
+Production API responses must not reveal:
+
+stack traces
+SQL
+database host
+DATABASE_URL
+file paths
+environment variables
+internal framework errors
+
+Return generic public-safe 500 errors.
+
+Detailed diagnostics remain server-side.
+
+==================================================
+18. LOGGING HYGIENE
+==================================================
+
+Do not log:
+
+passwords
+session cookies
+session IDs
+CSRF tokens
+DATABASE_URL
+authorization secrets
+private credentials
+
+==================================================
+19. SECURITY HEADERS
+==================================================
+
+Inspect whether Helmet or equivalent already exists.
+
+If available, configure appropriate production security headers.
+
+Review:
+
+Content-Security-Policy
+frame-ancestors/clickjacking protection
+X-Content-Type-Options
+Referrer-Policy
+HSTS for HTTPS production
+
+Do not deploy a CSP that breaks the website.
+
+Test external fonts/assets currently required by RGG.
+
+==================================================
+20. ENVIRONMENT SECRETS
+==================================================
+
+Verify secrets are server-side environment values.
+
+Expected categories include:
+
+DATABASE_URL
+SESSION_SECRET
+APP_ORIGIN
+CSRF_SECRET if required
+
+.env.example must contain placeholders only.
+
+Never commit real secrets.
+
+Never expose them via Vite/public environment variables.
+
+==================================================
+21. SECURITY API TESTS
+==================================================
+
+Add/extend tests for:
+
+A. unauthenticated privileged read
+→ 401/403
+
+B. unauthenticated POST
+→ 401/403
+
+C. unauthenticated PATCH
+→ 401/403
+
+D. unauthenticated DELETE
+→ 401/403
+
+E. authenticated mutation without CSRF
+→ 403
+
+F. authenticated mutation with invalid CSRF
+→ 403
+
+G. authenticated mutation from untrusted Origin
+→ 403
+
+H. authenticated valid mutation
+→ success
+
+I. logout invalidates session
+
+J. public API remains accessible
+
+K. draft remains absent from public API
+
+L. archived remains absent from public API
+
+Confirm rejected mutations do NOT change database state.
+
+==================================================
+22. REGRESSION TESTS
+==================================================
+
+Retest:
+
+admin publication list
+create draft
+edit draft
+publish
+archive
+delete
+logout
+
+Public:
+
+/
+ /book
+ /framework
+ /research
+ /research/:slug
+ /consultancy
+ /authors
+ /about
+
+Do not introduce regressions.
+
+==================================================
+23. BUILD
+==================================================
+
+Run all relevant:
+
+TypeScript checks
+website tests
+API tests
+website production build
+API production build
+
+The existing audit baseline was:
+
+Website tests: 15/15 passed
+API tests: 17/17 passed
+
+Do not reduce coverage or accept regressions.
+
+==================================================
+24. REPORT
+==================================================
+
+Report exactly:
+
+1. authentication mechanism found
+2. session mechanism found
+3. cookie configuration before/after
+4. CSRF implementation selected
+5. CSRF endpoint
+6. trusted-origin strategy
+7. allowed production origins
+8. admin middleware chain
+9. CORS result
+10. logout behavior
+11. brute-force protection result
+12. body-size limit
+13. transaction protections
+14. secrets audit
+15. security headers result
+16. unauthenticated GET result
+17. unauthenticated POST result
+18. unauthenticated PATCH result
+19. unauthenticated DELETE result
+20. missing-CSRF result
+21. invalid-CSRF result
+22. malicious-Origin result
+23. successful authenticated mutation result
+24. logout invalidation result
+25. draft privacy result
+26. archived privacy result
+27. website test count
+28. API test count
+29. website TypeScript result
+30. API TypeScript result
+31. website production build result
+32. API production build result
+33. warnings
+
+Do not make unrelated changes.

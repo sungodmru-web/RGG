@@ -1,0 +1,108 @@
+PROCEED WITH IMPLEMENTATION.
+
+You are explicitly authorized to implement the complete RGG website restructure described in the specification I provided.
+
+Treat that specification as the source of truth.
+
+Proceed with the implementation now.
+
+IMPORTANT PRIORITIES
+
+1. Simplify the public website to five primary destinations:
+   - The Book
+   - Articles & Publications
+   - Technical Assistance
+   - Authors
+   - Endorsements
+
+2. Preserve all important existing information by consolidating it into those destinations rather than simply deleting content.
+
+3. Redesign the homepage as a concise horizontal left/right swipe and scroll-snap experience instead of a long vertical page.
+
+4. Replace Research with Articles & Publications.
+
+5. Replace Consultancy with Technical Assistance.
+
+6. Build the Articles & Publications library around:
+   - Browse by Theme
+   - A–Z
+   - Search
+   - secondary publication-type filtering
+
+7. Expand the EXISTING Clerk-protected administrator area so authorized administrators can create, edit, preview, publish, archive, and manage articles/publications.
+
+8. Create the Endorsements public page and prepare its admin/database architecture, but DO NOT invent endorsements, quotations, people, institutions, or logos.
+
+9. Preserve:
+   - Wouter
+   - Clerk as the only authentication provider
+   - PostgreSQL/Drizzle
+   - current security controls
+   - English/French parity
+   - welcome-gate behavior
+   - working 3D book
+   - mobile book gesture protections
+
+10. Do not reintroduce Mauritius references into the public website.
+
+11. Do not invent publication facts, credentials, partnerships, testimonials, endorsements, prices, ISBNs, publication dates, or institutional affiliations.
+
+IMPLEMENTATION METHOD
+
+Before modifying files:
+
+A. Inspect the current repository.
+B. Create a concise content-migration map showing where every meaningful piece of content from the old pages will move.
+C. Identify any conflicts between the current codebase and the specification.
+D. Then proceed with implementation without waiting for another confirmation unless there is a genuinely destructive or irreversible operation requiring approval.
+
+Do not reset the database.
+Do not delete existing publication records.
+Do not replace Clerk.
+Do not weaken authentication or authorization.
+Do not remove security protections.
+
+After implementation, run the complete regression suite.
+
+Current expected baseline:
+
+Website tests: 30/30
+API tests: 67/67
+Dedicated book Playwright tests: 3/3
+
+Also run:
+
+- TypeScript checks
+- migration checks
+- website production build
+- API production build
+
+Test responsive behavior at:
+
+320
+375
+390
+430
+768
+1024
+1440
+
+Pay particular attention to:
+
+- horizontal homepage swipe
+- normal vertical mobile scrolling
+- keyboard Left/Right navigation
+- accessible Previous/Next controls
+- mobile menu
+- 3D book gestures
+- no document-level horizontal overflow
+- bilingual navigation
+- publication filters
+- legacy redirects
+- admin authorization
+
+Do not stop after planning.
+
+IMPLEMENT THE CHANGES.
+
+When finished, provide the full implementation report requested in the original specification, including the final route map, content migration map, changed files, database/migration changes, test results, build results, responsive results, and any remaining issues.

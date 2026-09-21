@@ -1,0 +1,157 @@
+uploads = []
+
+[[generated]]
+id = "RDnSQQPK5ClQ15gSb1PrF"
+uri = "file://artifacts/rgg-website/public/images/journal-governance.png"
+type = "image"
+title = "Abstract governance policy architectural forms"
+
+[[generated]]
+id = "riQsQSj-PZVZqxHAa6Y9S"
+uri = "file://artifacts/rgg-website/public/images/journal-health.png"
+type = "image"
+title = "Abstract public health data networks"
+
+[[generated]]
+id = "VdLMN9TY2rv3Sti2KnHNf"
+uri = "file://artifacts/rgg-website/public/images/journal-sustainability.png"
+type = "image"
+title = "Abstract sustainable development maps"
+
+[[generated]]
+id = "bvTMoVz3oxBv_MJ7eXfeR"
+uri = "file://artifacts/rgg-website/public/images/journal-justice.png"
+type = "image"
+title = "Abstract justice scales"
+
+[[generated]]
+id = "5zDkIVdbS55ZgeAOQWBLi"
+uri = "file://artifacts/rgg-website/public/images/journal-hemp.png"
+type = "image"
+title = "Abstract industrial hemp forms"
+
+[[generated]]
+id = "iwA9SyttScbL0OStI48q6"
+uri = "file://artifacts/rgg-website/public/images/journal-economy.png"
+type = "image"
+title = "Abstract economic data networks"
+
+[[generated]]
+id = "p2bQZxNofZbSwE2HX68zB"
+uri = "file://attached_assets/generated_images/abstract_dark_editorial_architectural_8fd0.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "rkZRmRKK4YS7JWoKM3G-1"
+uri = "file://attached_assets/generated_images/abstract_dark_editorial_global_fbcb.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "7h50wZJSAfL0vaRfa69gQ"
+uri = "file://attached_assets/generated_images/abstract_dark_editorial_circular_7f13.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "-tUiP1m5u-AbzWiDkbdKF"
+uri = "file://attached_assets/generated_images/abstract_dark_editorial_scales_7d5c.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "6K1eA3aNg8vYVQez7tgX-"
+uri = "file://attached_assets/generated_images/abstract_dark_editorial_hemp_0a90.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "ox3_D5vrDezI0LriiO7sO"
+uri = "file://attached_assets/generated_images/abstract_dark_editorial_economic_cdd7.png"
+type = "image"
+title = "generated_image"
+
+[[outputs]]
+id = "VyyNnMyT6pMdNQ1jWDabQ"
+uri = "file://RGG-WEBSITE-SOURCE.zip"
+type = "unspecified"
+title = "RGG Website Source"
+description = "Complete export of the existing website, API server, shared libraries, configuration, and public assets. Secrets, private uploads, dependencies, caches, and Git history are excluded."
+logical_id = "86a78c35-55e2-44ff-aedd-6f35fafb5b30"
+content_hash = "sha256:4dfcd0fe9bc9b9228c1c35212e1fde4798903836d6405a215bacd06cccd3bdd0"
+size = 11092834
+mtime_ms = 1788863499372
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:c438b8e7-d866-4a6d-96f7-c9ee2fb493ff/86a78c35-55e2-44ff-aedd-6f35fafb5b30/afb7c7e1-9199-4e69-9558-cf7e991ca7fc"
+storage_version_token = "1788863504273731"
+content_type = "application/octet-stream"
+
+[[outputs]]
+id = "qmhmiUYvwuh5jJCacBk4K"
+uri = "file://reports/reclaiming-the-green-gold-full-audit-for-chatgpt.md"
+type = "text"
+title = "Reclaiming the Green Gold — Full Audit for ChatGPT"
+description = "Standalone technical, content, legal-readiness, security, accessibility, SEO, and commerce audit with prioritized findings and a copy-paste ChatGPT handoff prompt."
+logical_id = "7348b236-286a-429e-bfc9-33659b50edbe"
+content_hash = "sha256:6bcc49872fe10a197a83a39bd44f1b9aaaeb1882cfad3d211246a98bd0bb1ba1"
+size = 27654
+mtime_ms = 1789168888575
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:c438b8e7-d866-4a6d-96f7-c9ee2fb493ff/7348b236-286a-429e-bfc9-33659b50edbe/46f19e2e-b744-44ff-8d1a-ba25f1f3906e"
+storage_version_token = "1789168912165205"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "vNeCBBJKD38hbazKI0Gwj"
+uri = "file://reports/rgg-full-audit-for-chatgpt.md"
+type = "text"
+title = "Updated RGG Full Audit for ChatGPT"
+description = "A 3,490-word audit covering architecture, security, API/admin, database migrations, performance, SEO, accessibility, bilingual UX, responsive behavior, validation results, current task overlap, and a ready-to-use ChatGPT planning prompt. Refreshed 14 September 2026."
+logical_id = "b7017556-29e3-4c68-85e6-d76738de04fe"
+content_hash = "sha256:d217950b575a2c310dc4f12d4470262c66846abea8fd750c706214f76501b9cb"
+size = 25605
+mtime_ms = 1789391567122
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:c438b8e7-d866-4a6d-96f7-c9ee2fb493ff/b7017556-29e3-4c68-85e6-d76738de04fe/14fa5380-ebed-4018-be15-61f07a4b0a6f"
+storage_version_token = "1789391596575117"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "X8WFMW33vpu1fQW2VWL8n"
+uri = "file://reports/rgg-simplification-implementation-report.md"
+type = "text"
+title = "RGG Simplification Implementation Report"
+description = "Final route map, content migration, endorsement architecture, responsive behavior, verification results, and remaining warnings."
+logical_id = "18e27d93-a7ed-4e3e-bf98-b95dc45ee4f1"
+content_hash = "sha256:e39f67ab5926a34c24224744981892494828e2ba55b89d865635da47b4530473"
+size = 9884
+mtime_ms = 1789395699652
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:c438b8e7-d866-4a6d-96f7-c9ee2fb493ff/18e27d93-a7ed-4e3e-bf98-b95dc45ee4f1/56d80ce2-a0ee-4e1f-aa45-868399c58244"
+storage_version_token = "1789395723252465"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "hjreCgrPNrp5acGe2M2zi"
+uri = "file://screenshots/rgg-book-final.jpg"
+type = "image"
+title = "RGG Final Book Page"
+description = "Final desktop visual snapshot of the consolidated Book destination."
+logical_id = "433af21f-6076-428b-96b4-f361456f34df"
+content_hash = "sha256:dd31acd169fbf61aa3d123e227169a2454f3714fa65e300e2d04dade04e1a0e4"
+size = 111089
+mtime_ms = 1789395591573
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:c438b8e7-d866-4a6d-96f7-c9ee2fb493ff/433af21f-6076-428b-96b4-f361456f34df/6227accc-2715-4379-9b24-2ee64043c1db"
+storage_version_token = "1789395723941248"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "sxX84TiG_miL72-JwC7By"
+uri = "file://screenshots/book-bilingual/six-views.png"
+type = "image"
+title = "Bilingual hardcover 3D verification"
+description = "English and French front, spine, and back views captured from the live WebGL viewer."
+logical_id = "e7710de2-bfc9-4ce2-b883-9e8aa429d54f"
+content_hash = "sha256:3af66e8b696b133621815fb39109ead33a60d2211759172a2ba311e5d71484f4"
+size = 264741
+mtime_ms = 1790020521782
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:c438b8e7-d866-4a6d-96f7-c9ee2fb493ff/e7710de2-bfc9-4ce2-b883-9e8aa429d54f/9f423d91-056e-49f1-aabf-6ca49bd1492a"
+storage_version_token = "1790020526654016"
+content_type = "image/png"

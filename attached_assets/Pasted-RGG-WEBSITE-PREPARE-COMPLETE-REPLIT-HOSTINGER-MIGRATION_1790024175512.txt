@@ -1,0 +1,1310 @@
+RGG WEBSITE — PREPARE COMPLETE REPLIT → HOSTINGER MIGRATION
+
+Proceed with implementation and verification.
+
+PROJECT:
+Reclaiming the Green Gold (RGG)
+
+OBJECTIVE
+
+Prepare the COMPLETE RGG application so it can be migrated from Replit to
+Hostinger while preserving all current functionality.
+
+IMPORTANT:
+
+DO NOT shut down the current Replit deployment.
+
+DO NOT change DNS.
+
+DO NOT delete the Replit database.
+
+DO NOT delete Replit storage.
+
+DO NOT remove the working Replit deployment.
+
+DO NOT publish a Hostinger deployment automatically unless credentials and
+explicit authorization are provided.
+
+This task is:
+
+AUDIT
+→ DECOUPLE REPLIT-SPECIFIC DEPENDENCIES
+→ PREPARE PORTABLE APPLICATION
+→ PREPARE DATABASE MIGRATION
+→ PREPARE FILE/STORAGE MIGRATION
+→ PREPARE ENVIRONMENT CONFIGURATION
+→ TEST
+→ PRODUCE HOSTINGER DEPLOYMENT INSTRUCTIONS
+
+The existing Replit version must remain usable during this work.
+
+==================================================
+1. CURRENT RGG ARCHITECTURE
+==================================================
+
+Preserve the existing architecture wherever possible:
+
+React
+Vite
+TypeScript
+Tailwind
+Wouter
+Framer Motion
+Three.js / React Three Fiber
+Express
+PostgreSQL
+Drizzle
+
+Also preserve:
+
+RGG Admin Portal
+Articles & Publications CMS
+PDF uploads
+Image uploads
+Endorsements CMS
+Enquiries
+English/French interface
+360° English/French hardcover viewer
+Welcome experience
+SEO
+Security protections
+
+Do NOT rewrite the application into another framework simply to migrate it.
+
+==================================================
+2. AUDIT ALL REPLIT DEPENDENCIES
+==================================================
+
+Search the COMPLETE repository for dependencies on Replit infrastructure.
+
+Search for:
+
+replit
+repl.co
+replit.app
+REPLIT
+REPL_ID
+REPL_SLUG
+REPL_OWNER
+Replit database
+Replit object storage
+Replit secrets
+Replit deployment
+development/Picard URLs
+hard-coded deployment hostnames
+
+Also inspect:
+
+package.json
+workspace configuration
+Vite config
+Express configuration
+database configuration
+Drizzle configuration
+storage services
+email services
+authentication
+CORS
+CSRF
+trusted origins
+robots
+sitemap
+canonical URLs
+OpenGraph URLs
+API base URLs
+
+Produce an inventory.
+
+==================================================
+3. DO NOT REMOVE REQUIRED FEATURES
+==================================================
+
+The migrated website must preserve:
+
+/
+
+ /book
+
+ /publications
+
+ /publications/:slug
+
+ /technical-assistance
+
+ /authors
+
+ /endorsements
+
+ /admin
+
+and all required private admin routes.
+
+Do not simplify the site merely to make deployment easier.
+
+==================================================
+4. PLATFORM-INDEPENDENT SERVER
+==================================================
+
+Make the Express server portable.
+
+The application must use:
+
+process.env.PORT
+
+with a safe local fallback only for development.
+
+The server must bind appropriately for hosted deployment.
+
+Do not hardcode:
+
+localhost
+Replit hostnames
+Replit ports
+
+Production must work behind Hostinger's proxy.
+
+==================================================
+5. PRODUCTION BUILD
+==================================================
+
+Create/verify a reliable production build.
+
+I want predictable commands such as:
+
+npm install
+npm run build
+npm run start
+
+or the correct pnpm equivalents for this repository.
+
+Inspect the actual package manager.
+
+DO NOT change package manager unnecessarily.
+
+The final report must tell me EXACTLY:
+
+Install command
+Build command
+Start command
+Node version
+
+==================================================
+6. NODE VERSION
+==================================================
+
+Inspect the dependencies and determine the correct production Node.js version.
+
+Add the appropriate:
+
+engines
+
+configuration if missing and safe.
+
+Do not arbitrarily upgrade Node or dependencies during migration preparation.
+
+==================================================
+7. FRONTEND + EXPRESS DEPLOYMENT
+==================================================
+
+Determine the cleanest Hostinger architecture for this existing application.
+
+If appropriate:
+
+Express should serve the production Vite build.
+
+Ensure SPA routing works when visitors directly open routes such as:
+
+/book
+/publications
+/publications/example-slug
+/technical-assistance
+/authors
+/endorsements
+/admin
+
+A browser refresh on these routes must NOT return a Hostinger 404.
+
+==================================================
+8. DATABASE — KEEP POSTGRESQL
+==================================================
+
+DO NOT convert the RGG database to MySQL.
+
+KEEP:
+
+PostgreSQL
+Drizzle
+
+Make database configuration provider-independent using:
+
+DATABASE_URL
+
+Do not depend on Replit-specific database variables unless they are converted
+through a compatibility layer.
+
+==================================================
+9. DATABASE CONNECTION SECURITY
+==================================================
+
+Support secure external PostgreSQL connections.
+
+Where the future provider requires SSL, support it through environment
+configuration.
+
+Do not disable certificate verification globally just to make deployment work.
+
+Do not commit database credentials.
+
+==================================================
+10. DATABASE INVENTORY
+==================================================
+
+Inspect the existing database schema and migrations.
+
+Inventory tables related to:
+
+publications
+themes/categories
+endorsements
+media
+enquiries
+admin/editorial activity
+security/rate limiting
+
+and any other application tables.
+
+Report the complete actual schema inventory.
+
+==================================================
+11. DATABASE MIGRATIONS
+==================================================
+
+Preserve Drizzle migration history.
+
+DO NOT:
+
+reset database
+drop production tables
+rewrite migration history
+squash migrations without explicit authorization
+
+Run:
+
+migration:check
+migration:rebuild-check
+
+and any existing migration/data-preservation tests.
+
+==================================================
+12. DATABASE BACKUP PROCEDURE
+==================================================
+
+Prepare a safe PostgreSQL export procedure.
+
+Prefer standard PostgreSQL tools such as:
+
+pg_dump
+
+where appropriate.
+
+Create documentation for:
+
+FULL BACKUP
+SCHEMA + DATA
+
+and restoration to the future PostgreSQL provider.
+
+Do NOT place the actual production dump inside the Git repository.
+
+Do NOT expose database credentials in scripts.
+
+==================================================
+13. DATABASE RESTORE PROCEDURE
+==================================================
+
+Document the safe restore sequence:
+
+Create new PostgreSQL database
+
+→ configure credentials
+
+→ restore backup
+
+→ verify schema
+
+→ verify migration state
+
+→ run safe migrations if required
+
+→ verify record counts
+
+→ test application
+
+Do not run destructive production restore operations automatically.
+
+==================================================
+14. DATABASE VERIFICATION
+==================================================
+
+Prepare a verification script/process comparing important record counts before
+and after migration.
+
+At minimum:
+
+Publications
+Published Publications
+Draft Publications
+Archived Publications
+Themes
+Endorsements
+Approved Endorsements
+Media Records
+Enquiries
+
+The migration should not silently lose data.
+
+==================================================
+15. FILE STORAGE AUDIT
+==================================================
+
+Inspect how uploaded files are currently stored.
+
+Identify storage for:
+
+publication PDFs
+publication images
+endorsement portraits
+other CMS media
+
+Determine whether these currently depend on:
+
+Replit Object Storage
+local filesystem
+database
+external object storage
+
+Report the actual implementation.
+
+==================================================
+16. PORTABLE OBJECT STORAGE
+==================================================
+
+The application must use a storage abstraction.
+
+Target interface should support operations such as:
+
+upload
+read/get
+delete
+metadata
+public URL or signed URL
+
+Do not couple CMS logic directly to one storage vendor.
+
+==================================================
+17. FUTURE STORAGE
+==================================================
+
+Prepare the architecture so a production object-storage provider can be used
+after leaving Replit.
+
+Do NOT store uploaded PDFs/images in the application repository.
+
+Do NOT store large PDFs as PostgreSQL blobs.
+
+Do NOT rely on ephemeral runtime filesystem storage.
+
+If an existing portable provider is already configured, preserve it.
+
+If Replit Object Storage is currently used, create a clean adapter boundary
+and document how existing files will be exported and imported.
+
+==================================================
+18. STORAGE MIGRATION MANIFEST
+==================================================
+
+Prepare a migration manifest format containing, where available:
+
+media database ID
+storage key
+original filename
+MIME type
+file size
+associated publication/endorsement
+visibility
+current source
+future destination
+
+Do not expose private signed URLs unnecessarily.
+
+==================================================
+19. DRAFT FILE PRIVACY
+==================================================
+
+Preserve privacy for unpublished files.
+
+Draft publication PDFs must not become publicly enumerable simply because
+storage providers change.
+
+Preserve:
+
+private objects
+signed access
+
+where supported.
+
+Published files can use the existing intended public delivery mechanism.
+
+==================================================
+20. EMAIL DELIVERY
+==================================================
+
+Audit the enquiry email service.
+
+Preserve centralized routing:
+
+TO:
+Sunny@reclaimingthegreengold.com
+
+CC:
+sweenmru@gmail.com
+
+Email provider configuration must use environment variables.
+
+Do NOT hardcode API credentials.
+
+Do NOT use Replit-specific mail functionality if a portable transactional
+email provider can be used.
+
+==================================================
+21. AUTHENTICATION / ADMIN
+==================================================
+
+Preserve the existing secure admin authentication architecture while making
+deployment provider-independent.
+
+If Clerk remains the authentication provider:
+
+remove any dependency on Replit URLs.
+
+Prepare the new production domain for:
+
+allowed origins
+redirect URLs
+callback URLs
+
+Do not remove server-side authorization.
+
+Do not replace authentication with a hard-coded password.
+
+==================================================
+22. ADMIN PORTAL
+==================================================
+
+After migration the following workflow must remain functional:
+
+/admin
+
+→ Sign In
+
+→ Dashboard
+
+→ Create Article
+
+→ Upload PDF
+
+→ Upload Image
+
+→ Save Draft
+
+→ Preview
+
+→ Publish
+
+and:
+
+→ Create Endorsement
+
+→ Upload Portrait
+
+→ Verify
+
+→ Approve
+
+No Replit Agent should be required for normal publishing.
+
+==================================================
+23. ENVIRONMENT VARIABLES
+==================================================
+
+Audit every environment variable actually used by the application.
+
+Create:
+
+.env.example
+
+containing VARIABLE NAMES ONLY and safe placeholder descriptions.
+
+NEVER place real credentials inside it.
+
+Classify variables:
+
+REQUIRED PRODUCTION
+OPTIONAL
+DEVELOPMENT ONLY
+LEGACY / REMOVE
+
+Likely areas include:
+
+DATABASE_URL
+PUBLIC_SITE_URL
+authentication
+email provider
+object storage
+security configuration
+upload limits
+
+But inspect the code and report the ACTUAL variables.
+
+Do not invent unnecessary configuration.
+
+==================================================
+24. REMOVE HARDCODED PRODUCTION HOSTS
+==================================================
+
+Search for all hardcoded:
+
+replit.app
+repl.co
+Picard/development hostnames
+localhost production references
+
+Replace production URL logic with centralized configuration such as:
+
+PUBLIC_SITE_URL
+
+where appropriate.
+
+Do not replace them with an invented Hostinger URL.
+
+==================================================
+25. CANONICAL SITE URL
+==================================================
+
+Use one centralized production-origin configuration.
+
+The intended final public domain is the RGG domain configured by the owner.
+
+Do not guess DNS status.
+
+Canonical URL
+OpenGraph URL
+structured data
+sitemap
+robots
+
+must derive consistently from the configured production origin.
+
+==================================================
+26. CORS / TRUSTED ORIGINS
+==================================================
+
+Update the architecture so trusted origins can support:
+
+current Replit deployment during migration
+
+temporary Hostinger testing domain
+
+final production domain
+
+without hardcoding insecure wildcards.
+
+DO NOT use:
+
+Access-Control-Allow-Origin: *
+
+for authenticated/admin APIs.
+
+==================================================
+27. CSRF
+==================================================
+
+Preserve existing CSRF protections.
+
+Ensure they continue to function behind Hostinger's reverse proxy.
+
+Do not disable CSRF merely because deployment origin changes.
+
+==================================================
+28. PROXY AWARENESS
+==================================================
+
+Review Express proxy configuration.
+
+Configure trust proxy only to the degree required by the actual hosting
+environment.
+
+Do not blindly trust arbitrary forwarded headers.
+
+Preserve correct:
+
+secure cookies
+rate limiting
+protocol detection
+client handling
+
+==================================================
+29. HEALTH ENDPOINT
+==================================================
+
+Improve/verify the production health endpoint.
+
+It should distinguish:
+
+application running
+
+and where appropriate:
+
+database connectivity
+
+without leaking credentials or internal details.
+
+Use something suitable for deployment monitoring.
+
+==================================================
+30. GRACEFUL SHUTDOWN
+==================================================
+
+Ensure production server handles:
+
+SIGTERM
+SIGINT
+
+cleanly.
+
+Close:
+
+HTTP server
+database pool/connections
+
+where applicable.
+
+Do not corrupt active writes during normal deployment restarts.
+
+==================================================
+31. LOGGING
+==================================================
+
+Keep logging provider-independent.
+
+Do not rely solely on Replit console behavior.
+
+Never log:
+
+passwords
+Clerk secrets
+database URLs
+email API keys
+storage secrets
+cookies
+authorization headers
+
+==================================================
+32. STATIC ASSETS
+==================================================
+
+Verify all required public assets are included in production deployment:
+
+RGG logo
+English book assets
+French book assets
+360° textures
+author imagery
+welcome assets
+fonts/icons
+other public imagery
+
+Do not rely on files outside the repository unless intentionally stored in
+object storage.
+
+==================================================
+33. 360° BOOK VIEWER
+==================================================
+
+The migration must preserve:
+
+interactive 360° hardcover
+English cover selector
+French cover selector
+front/spine/back textures
+mobile gestures
+WebGL fallback
+lazy loading
+reduced motion
+
+Test after production build.
+
+==================================================
+34. MOBILE
+==================================================
+
+Preserve all responsive/mobile work.
+
+Test production build at:
+
+390px
+768px
+1440px
+
+Pay special attention to:
+
+navigation
+homepage
+Book viewer
+Publications
+Technical Assistance
+Admin portal
+
+==================================================
+35. GITHUB PREPARATION
+==================================================
+
+Prepare the repository so it can safely be pushed to a PRIVATE GitHub
+repository.
+
+Audit:
+
+.gitignore
+
+Ensure it excludes:
+
+.env
+.env.local
+production secrets
+database dumps
+private keys
+temporary uploads
+storage exports containing private files
+build artifacts where appropriate
+
+Do not delete source assets required for deployment.
+
+==================================================
+36. SECRET SCAN
+==================================================
+
+Before declaring GitHub readiness, scan the repository for accidentally
+committed:
+
+database credentials
+Clerk secret keys
+email provider API keys
+storage credentials
+passwords
+tokens
+private URLs containing credentials
+
+Report findings.
+
+If a real credential is already committed:
+
+do not print it in the report.
+
+Identify the file/location safely and recommend rotation.
+
+==================================================
+37. HOSTINGER DEPLOYMENT DOCUMENT
+==================================================
+
+Create:
+
+docs/HOSTINGER_DEPLOYMENT.md
+
+It must contain exact project-specific instructions.
+
+Include:
+
+required Hostinger plan/capabilities
+Node version
+repository deployment
+install command
+build command
+start command
+environment variables
+PostgreSQL configuration
+object storage configuration
+email configuration
+authentication configuration
+temporary-domain testing
+final-domain connection
+SSL
+post-deployment tests
+
+Do not write generic hosting documentation.
+
+Base it on this repository.
+
+==================================================
+38. HOSTINGER DATABASE DECISION
+==================================================
+
+If the selected Hostinger product does not provide the PostgreSQL environment
+this application requires, explicitly document:
+
+KEEP APPLICATION ON HOSTINGER
+
++
+
+USE EXTERNAL MANAGED POSTGRESQL
+
+Do NOT convert the app to MySQL merely because Hostinger offers MySQL.
+
+==================================================
+39. HOSTINGER STORAGE DECISION
+==================================================
+
+Determine whether the selected Hostinger deployment provides suitable
+persistent object storage for the CMS uploads.
+
+If not, document a compatible external object-storage requirement.
+
+Do not pretend ordinary application filesystem storage is safe for permanent
+CMS PDFs.
+
+==================================================
+40. TEMPORARY HOSTINGER DEPLOYMENT
+==================================================
+
+The future migration sequence should be:
+
+CURRENT REPLIT LIVE SITE
+        ↓
+PRIVATE GITHUB
+        ↓
+HOSTINGER TEMPORARY DEPLOYMENT
+        ↓
+NEW POSTGRESQL DATABASE
+        ↓
+RESTORE DATA
+        ↓
+MIGRATE MEDIA
+        ↓
+CONFIGURE AUTH
+        ↓
+CONFIGURE EMAIL
+        ↓
+FULL TEST
+        ↓
+DOMAIN SWITCH
+        ↓
+MONITOR
+        ↓
+ONLY THEN retire Replit
+
+Document this sequence.
+
+==================================================
+41. DO NOT CHANGE DNS NOW
+==================================================
+
+Do not modify:
+
+DNS
+nameservers
+MX records
+domain registration
+
+during preparation.
+
+Email must not be interrupted.
+
+Domain cutover happens only after Hostinger passes validation.
+
+==================================================
+42. DNS CUTOVER DOCUMENT
+==================================================
+
+Document the eventual DNS cutover separately.
+
+Before cutover recommend reducing DNS TTL where appropriate.
+
+At cutover:
+
+point only the required website records.
+
+Do NOT casually change MX/email records.
+
+The website migration must not break:
+
+Sunny@reclaimingthegreengold.com
+
+==================================================
+43. PRE-CUTOVER VALIDATION
+==================================================
+
+Before the domain is ever pointed away from Replit, the temporary Hostinger
+deployment must pass:
+
+Homepage
+EN/FR interface
+Book page
+360° English book
+360° French book
+Publications
+Publication detail
+Technical Assistance
+Authors
+Endorsements
+Enquiry form
+Admin login
+Admin dashboard
+Create draft article
+PDF upload
+Image upload
+Private preview
+Publish
+Archive
+Create endorsement
+Portrait upload
+Approve endorsement
+Media library
+Mobile
+Desktop
+
+==================================================
+44. EMAIL VALIDATION
+==================================================
+
+Submit a test enquiry.
+
+Verify delivery to:
+
+Sunny@reclaimingthegreengold.com
+
+Verify copy to:
+
+sweenmru@gmail.com
+
+Verify Reply-To points to the visitor's validated email.
+
+Do not alter MX records just to test application email delivery.
+
+==================================================
+45. DATABASE VALIDATION
+==================================================
+
+Compare old/new record counts.
+
+Verify at least:
+
+publications
+themes
+endorsements
+media
+enquiries
+
+Randomly verify representative records where safe.
+
+Do not assume a successful restore means all data is correct.
+
+==================================================
+46. MEDIA VALIDATION
+==================================================
+
+Verify migrated:
+
+PDFs
+featured images
+endorsement portraits
+
+Check:
+
+file exists
+database reference works
+public/private visibility correct
+download/view works where appropriate
+
+==================================================
+47. ADMIN VALIDATION
+==================================================
+
+On the future Hostinger deployment verify:
+
+Admin authentication
+Server authorization
+Dashboard
+Publication editor
+PDF upload
+Image upload
+Preview
+Publish
+Archive
+Endorsement editor
+Endorsement approval
+Media library
+Enquiries
+
+==================================================
+48. SECURITY VALIDATION
+==================================================
+
+Verify:
+
+anonymous admin API → 401
+
+authenticated non-admin → 403
+
+admin → success
+
+draft publications not public
+
+archived publications not public
+
+draft endorsements not public
+
+private PDFs not publicly enumerable
+
+CSRF working
+
+trusted origins working
+
+upload validation working
+
+==================================================
+49. PERFORMANCE
+==================================================
+
+Compare the production Hostinger-ready build with current deployment.
+
+Report:
+
+JS bundle sizes
+CSS size
+major asset sizes
+3D bundle
+welcome media
+largest images
+
+Do not introduce migration-related performance regressions.
+
+==================================================
+50. ROLLBACK PLAN
+==================================================
+
+Create a rollback procedure.
+
+If Hostinger fails after DNS cutover:
+
+restore previous DNS target to the known-good Replit deployment.
+
+Therefore:
+
+DO NOT destroy the Replit deployment immediately after migration.
+
+Recommend maintaining it temporarily as rollback until Hostinger stability is
+confirmed.
+
+==================================================
+51. PORTABILITY DOCUMENT
+==================================================
+
+Create:
+
+docs/DEPLOYMENT_PORTABILITY.md
+
+Document how RGG can be deployed to another Node-compatible provider in the
+future without major code changes.
+
+The goal is to avoid vendor lock-in.
+
+==================================================
+52. MIGRATION CHECKLIST
+==================================================
+
+Create:
+
+docs/MIGRATION_CHECKLIST.md
+
+Use checkboxes covering:
+
+[ ] GitHub ready
+[ ] secrets removed
+[ ] database backed up
+[ ] PostgreSQL destination ready
+[ ] database restored
+[ ] record counts verified
+[ ] media exported
+[ ] media imported
+[ ] environment configured
+[ ] authentication configured
+[ ] email configured
+[ ] temporary deployment tested
+[ ] mobile tested
+[ ] admin tested
+[ ] enquiry tested
+[ ] DNS ready
+[ ] final domain connected
+[ ] SSL working
+[ ] post-cutover monitoring
+[ ] rollback still available
+[ ] Replit retirement approved
+
+==================================================
+53. DO NOT PERFORM DESTRUCTIVE CLEANUP
+==================================================
+
+During this task:
+
+DO NOT delete:
+
+old database
+old storage
+old deployment
+old secrets required by live Replit
+old working domain configuration
+
+Preparation must be non-destructive.
+
+==================================================
+54. RUN CURRENT TESTS
+==================================================
+
+After portability changes run the actual current:
+
+TypeScript checks
+website tests
+API tests
+admin tests
+upload tests
+publication workflow tests
+endorsement tests
+migration checks
+production website build
+production API build
+
+Also test the production start command locally where possible.
+
+Report actual current counts/results.
+
+Do not reuse historical test counts.
+
+==================================================
+55. HOSTINGER READINESS RESULT
+==================================================
+
+At the end classify the project:
+
+READY FOR HOSTINGER
+
+or
+
+READY EXCEPT FOR OWNER CONFIGURATION
+
+or
+
+NOT READY
+
+If configuration is still required, clearly distinguish CODE work from
+ACCOUNT/CREDENTIAL work.
+
+==================================================
+56. OWNER ACTIONS
+==================================================
+
+Give me a short numbered list of things I personally need to do.
+
+Examples only if actually required:
+
+1. Create private GitHub repository.
+2. Connect repository to Hostinger.
+3. Create external PostgreSQL database.
+4. Add environment variables.
+5. Configure object storage.
+6. Configure authentication production domain.
+7. Test temporary deployment.
+8. Point domain.
+
+Do not make me perform tasks the Agent can safely complete itself.
+
+==================================================
+57. COST / RESOURCE INVENTORY
+==================================================
+
+Report the actual runtime resources this application requires so I can select
+the cheapest appropriate Hostinger plan.
+
+Include:
+
+Node runtime requirement
+approximate build requirements
+RAM considerations
+persistent disk requirement
+PostgreSQL requirement
+object-storage requirement
+bandwidth-heavy assets
+background processes, if any
+
+Do not recommend an unnecessarily large server.
+
+==================================================
+58. FINAL REPORT
+==================================================
+
+Return:
+
+1. Replit dependencies discovered
+2. dependencies removed/abstracted
+3. Node version
+4. package manager
+5. install command
+6. build command
+7. start command
+8. server portability status
+9. SPA routing status
+10. PostgreSQL portability status
+11. database schema inventory
+12. database backup procedure
+13. database restore procedure
+14. media/storage implementation discovered
+15. media migration approach
+16. email portability
+17. authentication portability
+18. environment-variable inventory
+19. hardcoded hostnames removed
+20. canonical URL configuration
+21. trusted-origin configuration
+22. CSRF status
+23. health endpoint status
+24. graceful shutdown status
+25. GitHub readiness
+26. secret scan result
+27. Hostinger deployment documentation
+28. migration checklist
+29. rollback procedure
+30. mobile validation
+31. 360° book validation
+32. admin validation
+33. publication workflow validation
+34. endorsement workflow validation
+35. enquiry validation
+36. TypeScript result
+37. website tests
+38. API tests
+39. migration tests
+40. production build
+41. production start test
+42. resource requirements
+43. exact owner actions
+44. final Hostinger readiness classification
+45. files created
+46. files modified
+47. remaining risks
+
+IMPORTANT:
+
+DO NOT MIGRATE OR SHUT DOWN THE LIVE SITE YET.
+
+MAKE RGG PORTABLE AND HOSTINGER-READY FIRST.
+
+THE CURRENT REPLIT DEPLOYMENT MUST REMAIN AVAILABLE AS THE ROLLBACK UNTIL I
+EXPLICITLY APPROVE FINAL CUTOVER.

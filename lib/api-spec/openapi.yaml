@@ -1,0 +1,1183 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: publications
+    description: Published Research & Insights records
+  - name: editorial
+    description: Administrator-only publication management
+  - name: endorsements
+    description: Approved endorsements and administrator-only endorsement management
+  - name: enquiries
+    description: Public website enquiries and administrator review
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /readyz:
+    get:
+      operationId: readinessCheck
+      tags: [health]
+      summary: Readiness check
+      description: Returns whether the API can reach PostgreSQL
+      responses:
+        "200":
+          description: Ready to receive traffic
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReadinessStatus"
+        "503":
+          description: Not ready to receive traffic
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReadinessStatus"
+  /publications:
+    get:
+      operationId: listPublications
+      tags: [publications]
+      summary: List published publications
+      responses:
+        "200":
+          description: Published publications ordered newest first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Publication"
+  /publications/{slug}:
+    get:
+      operationId: getPublication
+      tags: [publications]
+      summary: Get a published publication by slug
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Published publication
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Publication"
+        "404":
+          description: Publication not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: Publication must be archived before permanent deletion, or changed during deletion
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /admin/publications:
+    get:
+      operationId: listAdminPublications
+      tags: [editorial]
+      summary: List all publications for administrators
+      responses:
+        "200":
+          description: All publications ordered by most recently updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminPublication"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Administrator role required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    post:
+      operationId: createAdminPublication
+      tags: [editorial]
+      summary: Create a publication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PublicationInput"
+      responses:
+        "201":
+          description: Publication created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminPublication"
+        "400":
+          description: Invalid publication
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Administrator role required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: Publication slug already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /admin/publications/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: getAdminPublication
+      tags: [editorial]
+      summary: Get a publication by ID
+      responses:
+        "200":
+          description: Publication
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminPublication"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Administrator role required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Publication not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    patch:
+      operationId: updateAdminPublication
+      tags: [editorial]
+      summary: Update, publish, or archive a publication by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PublicationUpdate"
+      responses:
+        "200":
+          description: Updated publication
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminPublication"
+        "400":
+          description: Invalid publication update
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Administrator role required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Publication not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: Publication slug already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    delete:
+      operationId: deleteAdminPublication
+      tags: [editorial]
+      summary: Permanently delete a publication by ID
+      responses:
+        "204":
+          description: Publication deleted
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Administrator role required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Publication not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /endorsements:
+    get:
+      operationId: listEndorsements
+      tags: [endorsements]
+      summary: List approved endorsements
+      description: Returns only endorsements that have been approved for public display.
+      responses:
+        "200":
+          description: Approved endorsements ordered for display
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Endorsement"
+  /admin/administrators:
+    get:
+      operationId: listAdministrators
+      tags: [editorial]
+      summary: List the controlled administrator registry
+      responses:
+        "200":
+          description: Registered administrator identities and access status
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Administrator"
+        "401":
+          description: Authentication required
+        "403":
+          description: Administrator role required
+  /admin/endorsements:
+    get:
+      operationId: listAdminEndorsements
+      tags: [editorial]
+      summary: List all endorsements for administrators
+      responses:
+        "200":
+          description: All endorsements ordered for administration
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminEndorsement"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Administrator role required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    post:
+      operationId: createAdminEndorsement
+      tags: [editorial]
+      summary: Create an endorsement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EndorsementInput"
+      responses:
+        "201":
+          description: Endorsement created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminEndorsement"
+        "400":
+          description: Invalid endorsement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Administrator role required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /admin/endorsements/order:
+    patch:
+      operationId: reorderAdminEndorsements
+      tags: [editorial]
+      summary: Set endorsement display order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EndorsementOrderInput"
+      responses:
+        "200":
+          description: Reordered endorsements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminEndorsement"
+        "400":
+          description: Invalid endorsement order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Administrator role required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /admin/endorsements/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: getAdminEndorsement
+      tags: [editorial]
+      summary: Get an endorsement by ID
+      responses:
+        "200":
+          description: Endorsement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminEndorsement"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Administrator role required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Endorsement not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    patch:
+      operationId: updateAdminEndorsement
+      tags: [editorial]
+      summary: Update, approve, or archive an endorsement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EndorsementUpdate"
+      responses:
+        "200":
+          description: Updated endorsement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminEndorsement"
+        "400":
+          description: Invalid endorsement update
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Administrator role required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Endorsement not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    delete:
+      operationId: deleteAdminEndorsement
+      tags: [editorial]
+      summary: Permanently delete an endorsement by ID
+      responses:
+        "204":
+          description: Endorsement deleted
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Administrator role required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Endorsement not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /enquiries:
+    post:
+      operationId: createEnquiry
+      tags: [enquiries]
+      summary: Submit a website enquiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnquiryInput"
+      responses:
+        "200":
+          description: Generic success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnquirySubmission"
+        "400": { description: Invalid enquiry, content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } } }
+        "429": { description: Too many submissions, content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } } }
+  /admin/enquiries:
+    get:
+      operationId: listAdminEnquiries
+      tags: [enquiries]
+      summary: List enquiries for administrators
+      responses:
+        "200":
+          description: Enquiries and summary counts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminEnquiryList"
+        "401": { description: Authentication required }
+        "403": { description: Administrator role required }
+  /admin/enquiries/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      operationId: getAdminEnquiry
+      tags: [enquiries]
+      summary: Get an enquiry
+      responses:
+        "200":
+          description: Enquiry detail
+          content: { application/json: { schema: { $ref: "#/components/schemas/AdminEnquiry" } } }
+        "404": { description: Enquiry not found }
+    patch:
+      operationId: updateAdminEnquiry
+      tags: [enquiries]
+      summary: Update enquiry review status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EnquiryUpdate" }
+      responses:
+        "200":
+          description: Updated enquiry
+          content: { application/json: { schema: { $ref: "#/components/schemas/AdminEnquiry" } } }
+        "400": { description: Invalid update }
+        "404": { description: Enquiry not found }
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    ReadinessStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [ready, unavailable]
+      required:
+        - status
+    PublicationAuthor:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        role:
+          type: string
+    PublicationType:
+      type: string
+      enum:
+        - research-paper
+        - policy-brief
+        - article
+        - commentary
+        - report
+        - case-study
+    PublicationStatus:
+      type: string
+      enum:
+        - draft
+        - published
+        - archived
+    Publication:
+      type: object
+      required:
+        - id
+        - slug
+        - title
+        - abstract
+        - publicationType
+        - authors
+        - publicationDate
+        - featured
+      properties:
+        id:
+          type: string
+          format: uuid
+        slug:
+          type: string
+        title:
+          type: string
+        subtitle:
+          type: string
+        abstract:
+          type: string
+        publicationType:
+          $ref: "#/components/schemas/PublicationType"
+        category:
+          type: string
+        themeId:
+          type: ["string", "null"]
+          format: uuid
+        language:
+          type: string
+          enum: [english, french, bilingual]
+        authors:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicationAuthor"
+        publicationDate:
+          type: string
+          format: date
+        readingTime:
+          type: integer
+          minimum: 1
+        featured:
+          type: boolean
+        featuredImage:
+          type: string
+        featuredImageMediaId:
+          type: ["string", "null"]
+          format: uuid
+        pdfUrl:
+          type: string
+        pdfMediaId:
+          type: ["string", "null"]
+          format: uuid
+        externalUrl:
+          type: string
+        doi:
+          type: string
+        content:
+          type: string
+        seoTitle:
+          type: string
+        seoDescription:
+          type: string
+    AdminPublication:
+      type: object
+      required:
+        - id
+        - slug
+        - title
+        - abstract
+        - publicationType
+        - authors
+        - featured
+         - themeId
+         - language
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        slug:
+          type: string
+        title:
+          type: string
+        subtitle:
+          type: string
+        abstract:
+          type: string
+        publicationType:
+          $ref: "#/components/schemas/PublicationType"
+        category:
+          type: string
+        themeId:
+          type: ["string", "null"]
+          format: uuid
+        language:
+          type: string
+          enum: [english, french, bilingual]
+        authors:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicationAuthor"
+        publicationDate:
+          type: string
+          format: date
+        readingTime:
+          type: integer
+          minimum: 1
+        featured:
+          type: boolean
+        featuredImage:
+          type: string
+        featuredImageMediaId:
+          type: ["string", "null"]
+          format: uuid
+        pdfUrl:
+          type: string
+        pdfMediaId:
+          type: ["string", "null"]
+          format: uuid
+        externalUrl:
+          type: string
+        doi:
+          type: string
+        content:
+          type: string
+        seoTitle:
+          type: string
+        seoDescription:
+          type: string
+        status:
+          $ref: "#/components/schemas/PublicationStatus"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: ["string", "null"]
+        updatedBy:
+          type: ["string", "null"]
+        publishedBy:
+          type: ["string", "null"]
+        publishedAt:
+          type: ["string", "null"]
+          format: date-time
+        archivedBy:
+          type: ["string", "null"]
+        archivedAt:
+          type: ["string", "null"]
+          format: date-time
+    PublicationInput:
+      type: object
+      required:
+        - slug
+        - title
+        - abstract
+        - publicationType
+        - authors
+        - featured
+        - status
+      properties:
+        slug:
+          type: string
+          minLength: 1
+          pattern: "^[a-z0-9-]+$"
+        title:
+          type: string
+          minLength: 1
+        subtitle:
+          type: string
+          nullable: true
+        abstract:
+          type: string
+          minLength: 1
+        publicationType:
+          $ref: "#/components/schemas/PublicationType"
+        category:
+          type: string
+          nullable: true
+        themeId:
+          type: string
+          format: uuid
+          nullable: true
+        language:
+          type: string
+          enum: [english, french, bilingual]
+        authors:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/PublicationAuthor"
+        publicationDate:
+          type: string
+          format: date
+          nullable: true
+        readingTime:
+          type: integer
+          minimum: 1
+          nullable: true
+        featured:
+          type: boolean
+        featuredImage:
+          type: string
+          format: uri
+          nullable: true
+        featuredImageMediaId:
+          type: string
+          format: uuid
+          nullable: true
+        pdfUrl:
+          type: string
+          format: uri
+          nullable: true
+        pdfMediaId:
+          type: string
+          format: uuid
+          nullable: true
+        externalUrl:
+          type: string
+          format: uri
+          nullable: true
+        doi:
+          type: string
+          nullable: true
+        content:
+          type: string
+          nullable: true
+        status:
+          $ref: "#/components/schemas/PublicationStatus"
+        seoTitle:
+          type: string
+          nullable: true
+        seoDescription:
+          type: string
+          nullable: true
+    PublicationUpdate:
+      minProperties: 1
+      type: object
+      properties:
+        slug:
+          type: string
+          minLength: 1
+          pattern: "^[a-z0-9-]+$"
+        title:
+          type: string
+          minLength: 1
+        subtitle:
+          type: string
+          nullable: true
+        abstract:
+          type: string
+          minLength: 1
+        publicationType:
+          $ref: "#/components/schemas/PublicationType"
+        category:
+          type: string
+          nullable: true
+        themeId:
+          type: string
+          format: uuid
+          nullable: true
+        language:
+          type: string
+          enum: [english, french, bilingual]
+        authors:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/PublicationAuthor"
+        publicationDate:
+          type: string
+          format: date
+          nullable: true
+        readingTime:
+          type: integer
+          minimum: 1
+          nullable: true
+        featured:
+          type: boolean
+        featuredImage:
+          type: string
+          format: uri
+          nullable: true
+        featuredImageMediaId:
+          type: string
+          format: uuid
+          nullable: true
+        pdfUrl:
+          type: string
+          format: uri
+          nullable: true
+        pdfMediaId:
+          type: string
+          format: uuid
+          nullable: true
+        externalUrl:
+          type: string
+          format: uri
+          nullable: true
+        doi:
+          type: string
+          nullable: true
+        content:
+          type: string
+          nullable: true
+        status:
+          $ref: "#/components/schemas/PublicationStatus"
+        seoTitle:
+          type: string
+          nullable: true
+        seoDescription:
+          type: string
+          nullable: true
+    ApiError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+    EndorsementStatus:
+      type: string
+      enum: [draft, approved, archived]
+    Endorsement:
+      type: object
+      required: [id, name, quote, displayOrder]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+        title:
+          type: ["string", "null"]
+        organization:
+          type: ["string", "null"]
+        quote:
+          type: string
+          minLength: 1
+        photoUrl:
+          type: ["string", "null"]
+          format: uri
+        photoMediaId:
+          type: ["string", "null"]
+          format: uuid
+        language:
+          type: string
+          enum: [english, french, bilingual]
+        sourceUrl:
+          type: ["string", "null"]
+          format: uri
+        displayOrder:
+          type: integer
+    AdminEndorsement:
+      allOf:
+        - $ref: "#/components/schemas/Endorsement"
+        - type: object
+          required: [status, createdAt, updatedAt]
+          properties:
+            status:
+              $ref: "#/components/schemas/EndorsementStatus"
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            approvedBy:
+              type: ["string", "null"]
+            approvedAt:
+              type: ["string", "null"]
+              format: date-time
+            language:
+              type: string
+              enum: [english, french, bilingual]
+            verificationNote:
+              type: ["string", "null"]
+            verified:
+              type: boolean
+            photoMediaId:
+              type: ["string", "null"]
+              format: uuid
+    EndorsementInput:
+      type: object
+      required: [name, quote, status]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        title:
+          type: ["string", "null"]
+        organization:
+          type: ["string", "null"]
+        quote:
+          type: string
+          minLength: 1
+        photoUrl:
+          type: ["string", "null"]
+          format: uri
+        sourceUrl:
+          type: ["string", "null"]
+          format: uri
+        language:
+          type: string
+          enum: [english, french, bilingual]
+        verificationNote:
+          type: string
+          nullable: true
+        verified:
+          type: boolean
+        photoMediaId:
+          type: string
+          format: uuid
+          nullable: true
+        status:
+          $ref: "#/components/schemas/EndorsementStatus"
+        displayOrder:
+          type: integer
+          minimum: 0
+    EndorsementUpdate:
+      minProperties: 1
+      type: object
+      properties:
+        approvalConfirmation:
+          type: string
+        name:
+          type: string
+          minLength: 1
+        title:
+          type: ["string", "null"]
+        organization:
+          type: ["string", "null"]
+        quote:
+          type: string
+          minLength: 1
+        photoUrl:
+          type: ["string", "null"]
+          format: uri
+        sourceUrl:
+          type: ["string", "null"]
+          format: uri
+        language:
+          type: string
+          enum: [english, french, bilingual]
+        verificationNote:
+          type: string
+          nullable: true
+        verified:
+          type: boolean
+        photoMediaId:
+          type: string
+          format: uuid
+          nullable: true
+        status:
+          $ref: "#/components/schemas/EndorsementStatus"
+        displayOrder:
+          type: integer
+          minimum: 0
+    Administrator:
+      type: object
+      required: [id, name, clerkUserId, accountStatus, role, accessStatus]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        clerkUserId:
+          type: ["string", "null"]
+        accountStatus:
+          type: string
+        role:
+          type: string
+        lastSignInAt:
+          type: ["string", "null"]
+          format: date-time
+        email:
+          type: ["string", "null"]
+        accessStatus:
+          type: string
+    EndorsementOrderInput:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required: [id, displayOrder]
+            properties:
+              id:
+                type: string
+                format: uuid
+              displayOrder:
+                type: integer
+                minimum: 0
+    EnquiryInput:
+      type: object
+      additionalProperties: false
+      required: [name, email, enquiryType, subject, message, language, honeypot]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 120 }
+        email: { type: string, format: email, maxLength: 320 }
+        organization: { type: ["string", "null"], maxLength: 160 }
+        enquiryType: { type: string, enum: [technical_assistance, strategic_advisory, academic_collaboration, policy_dialogue, other] }
+        subject: { type: string, minLength: 1, maxLength: 200 }
+        message: { type: string, minLength: 1, maxLength: 10000 }
+        language: { type: string, enum: [english, french] }
+        honeypot: { type: string, maxLength: 0 }
+    EnquirySubmission:
+      type: object
+      additionalProperties: false
+      required: [accepted]
+      properties: { accepted: { type: boolean, enum: [true] } }
+    EnquiryReviewStatus:
+      type: string
+      enum: [new, in_progress, resolved]
+    EnquiryDeliveryStatus:
+      type: string
+      enum: [pending, sent, failed]
+    AdminEnquiry:
+      type: object
+      required: [id, name, email, enquiryType, subject, message, language, reviewStatus, deliveryStatus, createdAt, updatedAt]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        email: { type: string, format: email }
+        organization: { type: ["string", "null"] }
+        enquiryType: { type: string }
+        subject: { type: string }
+        message: { type: string }
+        language: { type: string }
+        reviewStatus: { $ref: "#/components/schemas/EnquiryReviewStatus" }
+        deliveryStatus: { $ref: "#/components/schemas/EnquiryDeliveryStatus" }
+        providerId: { type: ["string", "null"] }
+        providerError: { type: ["string", "null"] }
+        deliveryAttemptedAt: { type: ["string", "null"], format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    EnquiryUpdate:
+      type: object
+      additionalProperties: false
+      required: [reviewStatus]
+      properties:
+        reviewStatus: { $ref: "#/components/schemas/EnquiryReviewStatus" }
+    AdminEnquiryList:
+      type: object
+      required: [items, counts]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/AdminEnquiry" }
+        counts:
+          type: object
+          required: [total, new, inProgress, resolved, deliveryFailed]
+          properties:
+            total: { type: integer }
+            new: { type: integer }
+            inProgress: { type: integer }
+            resolved: { type: integer }
+            deliveryFailed: { type: integer }
+

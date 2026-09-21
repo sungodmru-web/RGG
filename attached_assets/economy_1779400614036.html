@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Cannabis Economy — Reclaiming the Green Gold</title>
+    <meta name="description" content="Data, maps, and comparative analysis of cannabis markets, regulatory regimes, and trade dynamics worldwide. Global market size, value chains, production economics, and growth scenarios.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        :root{--hemp-raw:#D4C9A8;--hemp-dark:#8B7D5E;--hemp-paper:#F9F6F0;--bark:#2E2A22;--gold:#C49B3E;--gold-hover:#b0892f;--hemp-green:#5A7D3A;--hemp-green-dark:#3D5A22;--sunlit:#EDE6D5;--white:#FFFFFF;--logo-bg:#8B1E1E;--font-heading:'Lora',Georgia,'Times New Roman',serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--shadow-sm:0 1px 3px rgba(46,42,34,0.08);--shadow-md:0 4px 16px rgba(46,42,34,0.10);--shadow-lg:0 8px 28px rgba(46,42,34,0.12);--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--font-body);color:var(--bark);background-color:var(--hemp-paper);background-image:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(180,165,130,.06) 1px,rgba(180,165,130,.06) 2px),repeating-linear-gradient(90deg,transparent,transparent 1px,rgba(160,145,110,.04) 1px,rgba(160,145,110,.04) 3px),repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(170,150,120,.03) 4px,rgba(170,150,120,.03) 6px);background-attachment:fixed;line-height:1.6;-webkit-font-smoothing:antialiased}
+        .skip-link{position:absolute;top:-100px;left:1rem;background:var(--gold);color:var(--white);padding:.5rem 1rem;border-radius:var(--radius-sm);z-index:300;font-weight:500;text-decoration:none;transition:top .3s}.skip-link:focus{top:.5rem}
+        .site-header{background-color:rgba(255,255,255,.96);border-bottom:1px solid rgba(139,125,94,.22);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);backdrop-filter:blur(10px)}
+        .header-inner{max-width:1200px;margin:0 auto;padding:.7rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+        .logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex-shrink:0}
+        .logo-icon-wrap{width:38px;height:38px;border-radius:50%;background-color:var(--logo-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(139,30,30,.3)}.logo-icon-wrap svg{width:22px;height:22px}
+        .logo-text{font-family:var(--font-heading);font-size:1.1rem;font-weight:700;color:var(--bark);letter-spacing:-.01em;line-height:1.2}
+        .logo-text small{display:block;font-family:var(--font-body);font-size:.62rem;font-weight:400;color:#7A6E5A;letter-spacing:.03em;text-transform:uppercase}
+        .main-nav{display:flex;align-items:center;gap:.2rem;flex-wrap:wrap}
+        .nav-link{font-family:var(--font-body);font-size:.82rem;font-weight:500;color:#4A4235;text-decoration:none;padding:.45rem .7rem;border-radius:var(--radius-sm);transition:all .2s;white-space:nowrap}
+        .nav-link:hover,.nav-link.active{background-color:rgba(139,125,94,.1);color:var(--bark)}.nav-link.active{font-weight:600;color:var(--hemp-green-dark)}
+        .nav-cta{font-family:var(--font-body);font-size:.82rem;font-weight:600;background-color:var(--gold);color:var(--white)!important;padding:.5rem 1.2rem;border-radius:var(--radius-sm);text-decoration:none;white-space:nowrap;transition:all .3s;box-shadow:0 2px 8px rgba(196,155,62,.25);margin-left:.3rem}
+        .nav-cta:hover{background-color:var(--gold-hover);box-shadow:0 4px 14px rgba(196,155,62,.4);transform:translateY(-1px)}
+        .lang-toggle{font-size:.8rem;color:var(--hemp-dark);text-decoration:none;font-weight:500;padding:.3rem .6rem;border:1px solid rgba(139,125,94,.3);border-radius:var(--radius-sm);transition:all .2s;white-space:nowrap}.lang-toggle:hover{background-color:rgba(139,125,94,.1);border-color:var(--hemp-dark)}
+        .menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:.5rem;color:var(--bark)}.menu-toggle svg{width:26px;height:26px}
+
+        .page-header{background:linear-gradient(175deg,#F2ECDD 0%,#EDE4D0 50%,#E8DDC5 100%);padding:3.5rem 1.5rem 3rem;text-align:center;border-bottom:1px solid rgba(139,125,94,.2)}
+        .page-header-inner{max-width:800px;margin:0 auto}.breadcrumb{font-size:.78rem;color:#8B7D5E;margin-bottom:1.25rem;letter-spacing:.02em}.breadcrumb a{color:#8B7D5E;text-decoration:none}.breadcrumb a:hover{color:var(--gold)}
+        .page-title{font-family:var(--font-heading);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:600;color:var(--bark);letter-spacing:-.015em;margin-bottom:.75rem}
+        .page-subtitle{font-size:1rem;color:#5A4D3A;max-width:650px;margin:0 auto;line-height:1.55}
+
+        .section{padding:4rem 1.5rem}.section-inner{max-width:950px;margin:0 auto}
+        .section-header{text-align:center;margin-bottom:2.5rem}
+        .section-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--hemp-green);font-weight:600;margin-bottom:.5rem}
+        .section-title{font-family:var(--font-heading);font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:600;color:var(--bark);letter-spacing:-.01em}
+
+        .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;margin-bottom:2rem}
+        .stat-card{background-color:rgba(255,255,255,.8);border:1px solid rgba(139,125,94,.15);border-radius:var(--radius-md);padding:1.5rem;text-align:center;box-shadow:var(--shadow-sm)}
+        .stat-value{font-family:var(--font-heading);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:600;color:var(--gold);line-height:1.15;margin-bottom:.35rem}
+        .stat-label{font-size:.82rem;color:var(--hemp-dark);line-height:1.4}
+
+        .info-section{background-color:rgba(255,255,255,.45);border-top:1px solid rgba(139,125,94,.15);border-bottom:1px solid rgba(139,125,94,.15)}
+        .info-section-alt{background-color:rgba(255,255,255,.3);border-top:1px solid rgba(139,125,94,.15);border-bottom:1px solid rgba(139,125,94,.15)}
+
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+        .two-col h3{font-family:var(--font-heading);font-size:1.2rem;font-weight:600;margin-bottom:.75rem;color:var(--bark)}
+        .two-col p,.two-col li{font-size:.9rem;color:#4A4235;line-height:1.6;margin-bottom:.75rem}
+        .two-col ul{padding-left:1.2rem}.two-col ul li{margin-bottom:.4rem}
+
+        .table-wrap{overflow-x:auto;margin:1.5rem 0}
+        table{width:100%;border-collapse:collapse;font-size:.85rem}
+        th{text-align:left;padding:.7rem .9rem;background-color:rgba(139,125,94,.12);font-family:var(--font-heading);font-weight:600;color:var(--bark);font-size:.8rem;letter-spacing:.03em;white-space:nowrap}
+        td{padding:.65rem .9rem;border-bottom:1px solid rgba(139,125,94,.12);color:#4A4235;vertical-align:top}
+        tr:hover td{background-color:rgba(196,155,62,.04)}
+
+        .scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.25rem}
+        .scenario-card{background-color:rgba(255,255,255,.7);border:1px solid rgba(139,125,94,.14);border-radius:var(--radius-md);padding:1.5rem;box-shadow:var(--shadow-sm)}
+        .scenario-card h4{font-family:var(--font-heading);font-size:1rem;font-weight:600;margin-bottom:.5rem;color:var(--bark)}
+        .scenario-card .scenario-value{font-family:var(--font-heading);font-size:1.4rem;font-weight:600;color:var(--hemp-green);margin-bottom:.5rem}
+        .scenario-card p{font-size:.84rem;color:#5A4D3A;line-height:1.5}
+
+        .highlight-box{background-color:rgba(196,155,62,.08);border-left:3px solid var(--gold);padding:1.25rem 1.5rem;border-radius:0 var(--radius-md) var(--radius-md) 0;margin:1.5rem 0}
+        .highlight-box p{font-size:.9rem;color:#4A4235;line-height:1.6}
+
+        .btn{display:inline-block;font-family:var(--font-body);font-weight:600;font-size:.95rem;padding:.85rem 1.9rem;border-radius:var(--radius-sm);cursor:pointer;text-decoration:none;transition:all .3s ease;border:2px solid transparent;letter-spacing:.01em}
+        .btn-primary{background-color:var(--gold);color:var(--white);border-color:var(--gold);box-shadow:0 4px 14px rgba(196,155,62,.3)}.btn-primary:hover{background-color:var(--gold-hover);border-color:var(--gold-hover);box-shadow:0 6px 20px rgba(196,155,62,.4);transform:translateY(-2px)}
+        .btn-outline{background-color:transparent;color:#4A4235;border-color:#8B7D5E}.btn-outline:hover{background-color:#5A4D3A;color:var(--hemp-paper);border-color:#5A4D3A;box-shadow:var(--shadow-md);transform:translateY(-2px)}
+
+        .site-footer{background-color:#4A3D2E;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(212,201,168,.04) 2px,rgba(212,201,168,.04) 3px);color:var(--hemp-paper);padding:3.5rem 1.5rem 1.5rem;position:relative}
+        .site-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold);opacity:.7}
+        .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;max-width:1000px;margin:0 auto 2rem}
+        .footer-col h4{color:var(--white);margin-bottom:.8rem;font-family:var(--font-heading);font-weight:600;font-size:.9rem}
+        .footer-col a{display:block;color:rgba(249,246,240,.7);text-decoration:none;font-size:.82rem;margin-bottom:.45rem;transition:color .2s,padding-left .2s;padding:.1rem 0}.footer-col a:hover{color:var(--gold);padding-left:4px}
+        .footer-col p{font-size:.8rem;opacity:.55;line-height:1.5}
+        .footer-bottom{text-align:center;padding-top:1.25rem;border-top:1px solid rgba(249,246,240,.1);font-size:.75rem;color:rgba(249,246,240,.35);max-width:1000px;margin:0 auto}
+        @media(max-width:860px){.main-nav{display:none}.menu-toggle{display:block}.main-nav.mobile-open{display:flex;flex-direction:column;width:100%;padding-top:.75rem;gap:.3rem}.nav-link,.nav-cta,.lang-toggle{width:100%;text-align:center;padding:.6rem;margin-left:0;border-radius:var(--radius-sm)}.two-col{grid-template-columns:1fr}.section{padding:2.5rem 1rem}}
+    </style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<header class="site-header" role="banner">
+    <div class="header-inner">
+        <a href="index.html" class="logo" aria-label="Reclaiming the Green Gold — Home">
+            <span class="logo-icon-wrap" aria-hidden="true"><svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"><path d="M15 26 L15 14" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M15 14 Q12 10 8 7 Q4 4 2 6 Q1 7 3 10 Q7 14 10 16 Q11 17 12.5 18 Q14 19 15 18.5 Q15 17 15 14 Z" fill="white" opacity=".95"/><path d="M15 14 Q18 10 22 7 Q26 4 28 6 Q29 7 27 10 Q23 14 20 16 Q19 17 17.5 18 Q16 19 15 18.5 Q15 17 15 14 Z" fill="white" opacity=".95"/><path d="M15 20 Q12 23 10 25 Q8 27 9 26 Q12 23 14 21 Z" fill="white" opacity=".6"/><path d="M15 20 Q18 23 20 25 Q22 27 21 26 Q18 23 16 21 Z" fill="white" opacity=".6"/></svg></span>
+            <span class="logo-text">Reclaiming the Green Gold<small>Cannabis at the Crossroads of Health, Justice and Sustainable Development</small></span>
+        </a>
+        <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" onclick="document.getElementById('mainNav').classList.toggle('mobile-open');this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <nav class="main-nav" id="mainNav" role="navigation" aria-label="Main navigation">
+            <a href="about.html" class="nav-link">About the Book</a>
+            <a href="frameworks.html" class="nav-link">Frameworks &amp; Tools</a>
+            <a href="economy.html" class="nav-link active">Global Cannabis Economy</a>
+            <a href="policymakers.html" class="nav-link">For Policymakers</a>
+            <a href="hub.html" class="nav-link">Knowledge Hub</a>
+            <a href="partnerships.html" class="nav-link">Partnerships</a>
+            <a href="#" class="lang-toggle">FR</a>
+            <a href="formats.html" class="nav-cta">Get the Book</a>
+        </nav>
+    </div>
+</header>
+<main id="main-content">
+
+<section class="page-header"><div class="page-header-inner"><p class="breadcrumb"><a href="index.html">Home</a> &rsaquo; Global Cannabis Economy</p><h1 class="page-title">Global Cannabis Economy</h1><p class="page-subtitle">Data, maps, and comparative analysis of cannabis markets, regulatory regimes, value chains, and trade dynamics worldwide.</p></div></section>
+
+<section class="section"><div class="section-inner"><div class="section-header"><span class="section-label">Market Overview</span><h2 class="section-title">The Global Cannabis Economy at a Glance</h2></div>
+<div class="stat-grid">
+    <div class="stat-card"><div class="stat-value">USD 35–40B</div><div class="stat-label">Global legal cannabis market (2024)</div></div>
+    <div class="stat-card"><div class="stat-value">USD 100B+</div><div class="stat-label">Projected market value by 2030</div></div>
+    <div class="stat-card"><div class="stat-value">~200M</div><div class="stat-label">Past-year cannabis users worldwide</div></div>
+    <div class="stat-card"><div class="stat-value">400,000+</div><div class="stat-label">Full-time equivalent jobs in North American regulated markets</div></div>
+    <div class="stat-card"><div class="stat-value">~60%</div><div class="stat-label">Medical cannabis share of legal cross-border trade by value</div></div>
+    <div class="stat-card"><div class="stat-value">~70%</div><div class="stat-label">North America's share of global legal sales</div></div>
+</div>
+<div class="highlight-box"><p><strong>Cannabis is no longer only a criminal justice issue.</strong> It has become a complex economic and governance frontier spanning medicine, agriculture, retail, industry, and public finance. Outcomes depend less on the formal legal status of cannabis than on the institutional capacity, policy coherence, and adaptive learning systems that states bring to implementation.</p></div>
+</div></section>
+
+<section class="info-section section"><div class="section-inner"><div class="section-header"><span class="section-label">Value Chains & Trade</span><h2 class="section-title">How Value Is Created and Distributed</h2></div>
+<div class="two-col">
+    <div><h3>Value Distribution Across Segments</h3><p>Value tends to accumulate as products move <strong>downstream</strong> from primary production toward higher-value functions:</p><div class="table-wrap"><table><tr><th>Segment</th><th>Share of Final Value</th><th>Entry Barriers</th></tr><tr><td>Upstream — Cultivation</td><td>10–20%</td><td>Low–Moderate</td></tr><tr><td>Primary Processing</td><td>5–10%</td><td>Moderate</td></tr><tr><td>Extraction & Refining</td><td>15–20%</td><td>High</td></tr><tr><td>Testing & Certification</td><td>5–10%</td><td>Very High</td></tr><tr><td>Formulation</td><td>15–20%</td><td>High</td></tr><tr><td>Branding & Marketing</td><td>15–20%</td><td>High</td></tr><tr><td>Distribution & Retail</td><td>15–20%</td><td>Moderate–High</td></tr></table></div></div>
+    <div><h3>Trade Dynamics</h3><p>Trade flows remain highly concentrated. <strong>Medical cannabis</strong> accounts for approximately 60% of legal cross-border trade by value. <strong>Industrial hemp</strong> represents approximately 25%, while <strong>CBD and wellness products</strong> account for approximately 15%.</p><p><strong>Key insight:</strong> Trade routes are not simply transport pathways — they are regulatory pathways. Access depends on documentary compliance, supply-chain integrity, and confidence in origin-country systems as much as on price or quality alone.</p><div class="highlight-box"><p><strong>For LMIC and SIDS:</strong> Cultivation alone captures only a fraction of final value. Countries that supply raw biomass while lacking the infrastructure to process, brand, or certify risk permanent subordination in global value chains.</p></div></div>
+</div></div></section>
+
+<section class="info-section-alt section"><div class="section-inner"><div class="section-header"><span class="section-label">Production Economics</span><h2 class="section-title">Estimated Production Costs and Export Prices (USD/gram, 2024)</h2></div>
+<div class="table-wrap"><table>
+    <tr><th>Country</th><th>Ex-Farm Cost</th><th>Export Price</th><th>GMP Certification</th><th>Key Export Markets</th><th>Competitive Position</th></tr>
+    <tr><td>Colombia</td><td>0.05–0.10</td><td>0.50–1.50</td><td>Growing capacity</td><td>EU, Latin America, Australia</td><td>Cost leader; scaling GMP</td></tr>
+    <tr><td>Lesotho</td><td>0.10–0.20</td><td>1.00–2.00</td><td>Several facilities</td><td>EU (preferential), UK</td><td>Early mover; limited processing</td></tr>
+    <tr><td>Portugal</td><td>0.30–0.50</td><td>2.00–4.00</td><td>Strong</td><td>EU (intra-community)</td><td>Regulatory alignment; full service</td></tr>
+    <tr><td>Canada</td><td>0.80–1.50</td><td>2.50–5.00</td><td>Extensive</td><td>EU, Israel, Australia, Asia</td><td>Established; higher cost</td></tr>
+    <tr><td>Morocco</td><td>0.10–0.15</td><td>N/A (emerging)</td><td>Developing</td><td>EU (target)</td><td>Cost potential; scaling regulatory</td></tr>
+    <tr><td>Jamaica</td><td>0.20–0.40</td><td>2.00–4.00</td><td>Limited</td><td>Limited</td><td>Niche/origin; small volume</td></tr>
+</table></div>
+<p style="font-size:.88rem;color:#5A4D3A;margin-top:1rem">Source: UNCTAD (2023), Prohibition Partners (2024), national regulatory data. Pricing is indicative and varies by product category, contract terms, and certification status.</p>
+</div></section>
+
+<section class="section"><div class="section-inner"><div class="section-header"><span class="section-label">Market Segments</span><h2 class="section-title">Differentiated Cannabis Product Markets</h2></div>
+<div class="two-col">
+    <div><h3>Medical Cannabis</h3><p>The largest segment of legal cross-border trade (~60% by value). Governed by pharmaceutical regulations and import licensing. Major importers: Germany, UK, Israel, Australia. <strong>LMIC opportunity:</strong> high-margin but compliance-intensive.</p><h3>Industrial Hemp</h3><p>Applications span textiles, construction materials, automotive composites, food products, and bio-based materials. Global hemp fibre market valued at ~USD 5 billion (2023). <strong>LMIC opportunity:</strong> broader entry with lower regulatory barriers.</p></div>
+    <div><h3>CBD & Wellness</h3><p>Rapidly growing but regulatorily fragmented. CBD isolate prices collapsed from >USD 10,000/kg (2018) to USD 500–1,000 (2024) due to oversupply. <strong>LMIC opportunity:</strong> brand-sensitive and origin-relevant.</p><h3>Adult-Use (Domestic)</h3><p>Limited direct cross-border trade; market value driven by domestic consumption. Canada, Uruguay, and several US states operate regulated systems. <strong>LMIC opportunity:</strong> limited direct trade but services potential.</p></div>
+</div></div></section>
+
+<section class="info-section section"><div class="section-inner"><div class="section-header"><span class="section-label">Forward View</span><h2 class="section-title">Growth Scenarios for the Cannabis and Hemp Economy</h2></div>
+<div class="scenario-grid">
+    <div class="scenario-card"><h4>Conservative Scenario</h4><div class="scenario-value">USD 60–70B by 2030</div><p>Slow pace of regulatory reform; fragmented standards; limited access to finance; persistent illicit competition in major markets.</p></div>
+    <div class="scenario-card"><h4>Base Case Scenario</h4><div class="scenario-value">USD 100–120B by 2030</div><p>Continued incremental reform; expanding medical access in Europe and Latin America; gradual industrial hemp scale-up.</p></div>
+    <div class="scenario-card"><h4>Accelerated Scenario</h4><div class="scenario-value">USD 150B+ by 2030</div><p>Broad regulatory liberalisation; harmonised international standards; significant investment in processing and innovation; rapid formalisation in LMIC.</p></div>
+</div>
+</div></section>
+
+<section class="section"><div class="section-inner"><div class="section-header"><span class="section-label">Development Implications</span><h2 class="section-title">What This Means for LMIC and SIDS</h2></div>
+<div class="two-col">
+    <div><h3>Strategic Imperatives</h3><ul><li><strong>Move beyond cultivation:</strong> invest in processing, extraction, formulation, and quality assurance.</li><li><strong>Leverage regional cooperation:</strong> shared laboratories, harmonised standards, and mutual recognition reduce compliance costs.</li><li><strong>Prioritise inclusion:</strong> tiered licensing, cooperative models, and technical assistance ensure smallholders are not excluded.</li></ul></div>
+    <div><h3>Risk Factors</h3><ul><li><strong>Raw material trap:</strong> without beneficiation, producer countries risk supplying biomass while higher-value functions remain externalised.</li><li><strong>Market concentration:</strong> capital-intensive compliance favours well-resourced firms.</li><li><strong>Illicit persistence:</strong> where legal prices remain high and access limited, informal markets retain competitive advantage.</li></ul></div>
+</div>
+<div class="highlight-box" style="margin-top:1.5rem"><p><strong>The central strategic question for LMIC and SIDS is not whether cannabis offers opportunity in the abstract, but whether participation occurs on terms that support domestic value creation, productive learning, and inclusive development.</strong> Market outcomes are governed outcomes, reflecting underlying asymmetries in regulatory capacity, financial access, and knowledge control.</p></div>
+</div></section>
+
+<section style="text-align:center;padding:2rem 1.5rem 4rem">
+    <h2 style="font-family:var(--font-heading);font-size:1.5rem;font-weight:600;margin-bottom:.75rem;color:var(--bark)">Explore the Full Analysis</h2>
+    <p style="color:#5A4D3A;margin-bottom:1.5rem;max-width:500px;margin-left:auto;margin-right:auto">The complete Global Cannabis Economy analysis is available in <em>Reclaiming the Green Gold</em>.</p>
+    <a href="formats.html" class="btn btn-primary">Get the Book</a> <a href="frameworks.html" class="btn btn-outline" style="margin-left:.75rem">View Frameworks &amp; Tools</a>
+</section>
+
+</main>
+<footer class="site-footer" role="contentinfo">
+    <div class="footer-grid">
+        <div class="footer-col"><h4>Reclaiming the Green Gold</h4><p>A neutral global knowledge platform for cannabis governance, institutional readiness, and sustainable development. &copy; 2026 Soobaschand &amp; Sunny Sweenarain.</p></div>
+        <div class="footer-col"><h4>Legal &amp; Trust</h4><a href="disclaimer.html">Disclaimer</a><a href="privacy.html">Privacy Policy</a><a href="cookies.html">Cookie Policy</a><a href="terms.html">Terms of Use</a><a href="terms-sale.html">Terms of Sale</a><a href="licence.html">Digital PDF Licence</a><a href="refunds.html">Refund &amp; Delivery Policy</a></div>
+        <div class="footer-col"><h4>Connect</h4><a href="contact.html">Contact / Dialogue</a><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a><a href="hub.html">Knowledge Hub</a></div>
+        <div class="footer-col"><h4>Book Formats</h4><a href="formats.html">Licensed PDF</a><a href="formats.html">Physical Copy</a><a href="formats.html">Kindle / eBook</a><a href="formats.html">Executive Short Version</a></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Reclaiming the Green Gold. All rights reserved.</div>
+</footer>
+</body>
+</html>

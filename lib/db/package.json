@@ -1,0 +1,31 @@
+{
+  "name": "@workspace/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts"
+  },
+  "scripts": {
+    "migration:check": "node ./scripts/check-migration-drift.mjs",
+    "migration:check:test": "node --test ./scripts/check-migration-drift.test.mjs",
+    "migration:rebuild-check": "node ./scripts/check-migration-rebuild.mjs",
+    "migration:rebuild-check:test": "node --test ./scripts/check-migration-rebuild.test.mjs",
+    "migration:generate": "drizzle-kit generate --config ./drizzle.config.ts",
+    "migration:migrate": "drizzle-kit migrate --config ./drizzle.config.ts",
+    "record-counts": "node ./scripts/verify-record-counts.mjs",
+    "record-counts:test": "node --test ./scripts/verify-record-counts.test.mjs"
+  },
+  "dependencies": {
+    "drizzle-orm": "catalog:",
+    "drizzle-zod": "^0.8.3",
+    "pg": "^8.20.0",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^0.31.10"
+  }
+}

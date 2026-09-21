@@ -1,0 +1,1094 @@
+BUILD RGG'S COMPLETE WEBSITE ADMIN DASHBOARD AND SIMPLIFY ADMIN LOGIN
+
+Proceed with implementation now.
+
+I want a PRIVATE administration portal directly inside the Reclaiming the
+Green Gold website.
+
+My goal is simple:
+
+I visit:
+
+/admin
+
+I sign in.
+
+I arrive at my RGG Dashboard.
+
+From that dashboard I must be able to manage the website myself without
+editing code and without needing to use the Clerk dashboard during normal
+day-to-day publishing.
+
+==================================================
+CORE REQUIREMENT
+==================================================
+
+Build a real editorial CMS directly into the RGG website.
+
+The administrator dashboard must allow me to:
+
+1. Create articles
+2. Upload publication PDFs directly from my computer
+3. Create research/publication entries
+4. Upload publication cover images
+5. Edit existing publications
+6. Save drafts
+7. Preview drafts
+8. Publish
+9. Archive
+10. Create endorsements
+11. Upload endorsement portraits/images
+12. Approve endorsements
+13. Manage publication themes
+14. Manage uploaded files
+15. Review website enquiries
+
+This must be a functional CMS connected to the existing public website.
+
+Do NOT build a mockup.
+
+==================================================
+1. FIRST FIX THE ADMIN LOGIN
+==================================================
+
+The current Clerk experience is causing difficulty.
+
+Do not make me manage Clerk manually every time I want to use the CMS.
+
+First audit the current Clerk implementation and determine why the existing
+administrator cannot reliably access /admin.
+
+Check:
+
+Clerk environment/configuration
+current Clerk instance
+sign-in route
+admin guard
+server authorization
+session endpoint
+publicMetadata.role
+redirect behavior
+production vs development keys
+frontend auth state
+API authorization
+browser errors
+server logs
+
+Fix the actual problem.
+
+==================================================
+2. KEEP SECURITY BUT HIDE COMPLEXITY
+==================================================
+
+Keep secure server-side authentication.
+
+If the existing Clerk integration can be repaired safely, KEEP Clerk behind
+the scenes.
+
+But build an RGG-branded administrator login experience so I do not need to
+interact with Clerk's dashboard during ordinary website management.
+
+The normal workflow should simply be:
+
+reclaimingthegreengold website
+→ /admin
+→ Sign In
+→ RGG Dashboard
+
+Do not expose authentication-provider complexity to the editor.
+
+==================================================
+3. DO NOT HARDCODE PASSWORDS
+==================================================
+
+Do NOT place administrator passwords in:
+
+React
+JavaScript
+TypeScript
+Git
+PostgreSQL plaintext
+environment variables as a universal password
+localStorage
+cookies
+frontend bundles
+
+Do not create a frontend-only password gate.
+
+Passwords must be securely managed by the authentication system.
+
+==================================================
+4. FIRST ADMINISTRATOR
+==================================================
+
+The first intended administrator account is:
+
+Sunny@reclaimingthegreengold.com
+
+Use this as the administrator account identity.
+
+If this account already exists in the current Clerk instance:
+
+repair its administrator access.
+
+Ensure server authorization recognizes:
+
+publicMetadata.role === "admin"
+
+If the account does not exist:
+
+implement the safest available account/invitation setup and report the ONE
+owner action required to activate it.
+
+Do not invent Clerk user IDs.
+
+==================================================
+5. ADMIN DASHBOARD DESIGN
+==================================================
+
+Create:
+
+/admin
+
+This should be a polished RGG editorial dashboard.
+
+Use the RGG identity:
+
+black
+deep emerald
+muted gold
+ivory
+thin borders
+editorial/institutional typography
+
+Avoid a generic SaaS appearance.
+
+Desktop should use a restrained left sidebar.
+
+==================================================
+6. ADMIN NAVIGATION
+==================================================
+
+Dashboard
+
+CONTENT
+- Articles & Publications
+- New Publication
+- Themes
+
+ENDORSEMENTS
+- All Endorsements
+- New Endorsement
+
+MEDIA
+- Media Library
+
+ENQUIRIES
+- All Enquiries
+
+ADMINISTRATION
+- Administrators
+
+==================================================
+7. DASHBOARD HOME
+==================================================
+
+Show useful editorial information:
+
+Published
+Drafts
+Archived
+Articles
+Research Papers
+Approved Endorsements
+Pending Endorsements
+Uploaded Documents
+
+Show:
+
+Recent Activity
+
+Quick actions:
+
++ New Article
++ Upload Publication
++ New Endorsement
++ Upload Media
+
+Keep it simple.
+
+==================================================
+8. ARTICLES & PUBLICATIONS
+==================================================
+
+Create/complete:
+
+/admin/publications
+
+/admin/publications/new
+
+/admin/publications/:id
+
+I need to create:
+
+Article
+Research Paper
+Policy Brief
+Commentary
+Report
+Case Study
+
+Use ONE existing publication content architecture.
+
+Do not create separate databases unnecessarily.
+
+==================================================
+9. PUBLICATION EDITOR
+==================================================
+
+The publication editor must contain:
+
+TITLE
+
+SUBTITLE
+
+SLUG
+
+ABSTRACT / SUMMARY
+
+CONTENT
+
+PUBLICATION TYPE
+
+THEME
+
+AUTHORS
+
+LANGUAGE
+
+PUBLICATION DATE
+
+READING TIME
+
+FEATURED
+
+FEATURED IMAGE
+
+PDF
+
+EXTERNAL URL
+
+DOI
+
+SEO TITLE
+
+SEO DESCRIPTION
+
+STATUS
+
+==================================================
+10. ARTICLE EDITOR
+==================================================
+
+Give me a proper visual content editor.
+
+I should be able to write an article directly from the dashboard.
+
+Support:
+
+Heading
+Paragraph
+Bold
+Italic
+Links
+Bullet list
+Numbered list
+Quote
+
+Tables if safely supported.
+
+Do not require HTML knowledge.
+
+Do not permit unsafe arbitrary HTML.
+
+==================================================
+11. PUBLICATION LANGUAGE
+==================================================
+
+Support:
+
+English
+Français
+Bilingual
+
+Website interface language and document language are independent.
+
+Do not automatically translate scholarly content.
+
+==================================================
+12. DIRECT PDF UPLOAD
+==================================================
+
+THIS IS ESSENTIAL.
+
+Inside the publication editor I want:
+
+UPLOAD PDF
+
+I click it.
+
+My computer file picker opens.
+
+I select the PDF.
+
+The website uploads it.
+
+Show:
+
+Uploading...
+Upload complete
+
+Then display:
+
+filename
+file size
+replace
+remove
+view
+
+I must NOT have to manually create or paste a PDF URL.
+
+==================================================
+13. PERSISTENT FILE STORAGE
+==================================================
+
+Inspect the current deployment environment and determine the correct
+persistent object/file storage solution.
+
+Use production-persistent object storage.
+
+DO NOT store uploaded PDFs as:
+
+base64
+large PostgreSQL blobs
+temporary filesystem files
+runtime Git repository files
+
+PostgreSQL stores metadata/reference information.
+
+Create a storage abstraction so the provider can be changed later.
+
+==================================================
+14. PDF SECURITY
+==================================================
+
+Only administrators can upload.
+
+Validate SERVER-SIDE:
+
+PDF signature
+MIME
+extension
+size
+
+Reject:
+
+fake PDFs
+renamed HTML
+executables
+oversized documents
+
+Generate random/safe storage keys.
+
+Do not use unsanitized filenames as storage paths.
+
+==================================================
+15. PUBLICATION IMAGES
+==================================================
+
+Allow:
+
+UPLOAD IMAGE
+
+for publication artwork/featured images.
+
+Support safe:
+
+JPEG
+PNG
+WebP
+AVIF where compatible
+
+Validate server-side.
+
+==================================================
+16. SAVE / PREVIEW / PUBLISH
+==================================================
+
+At the bottom/top of the editor provide clear controls:
+
+SAVE DRAFT
+
+PREVIEW
+
+PUBLISH
+
+ARCHIVE
+
+Uploading a PDF must NEVER automatically publish the page.
+
+Publishing requires an explicit action.
+
+==================================================
+17. DRAFT PREVIEW
+==================================================
+
+Draft previews must remain PRIVATE.
+
+Only authorized administrators can preview drafts.
+
+Do not expose draft URLs publicly.
+
+==================================================
+18. PUBLIC WEBSITE CONNECTION
+==================================================
+
+When I press PUBLISH:
+
+the publication must automatically become available through:
+
+/publications
+
+and:
+
+/publications/:slug
+
+No Replit/code modification should be necessary.
+
+==================================================
+19. PUBLIC LIBRARY
+==================================================
+
+Preserve the public Articles & Publications experience:
+
+Browse by Theme
+A–Z
+Search
+Publication Type
+
+Only:
+
+Published
+
+content appears publicly.
+
+NEVER expose:
+
+Draft
+Archived
+
+through public APIs, search, sitemap, metadata or filters.
+
+==================================================
+20. PDF ON PUBLICATION PAGE
+==================================================
+
+When a published item has a PDF, show:
+
+VIEW PDF
+
+DOWNLOAD PDF
+
+When it does not have a PDF, do not show these buttons.
+
+Articles written entirely through the CMS must also work without PDF.
+
+==================================================
+21. ENDORSEMENT MANAGEMENT
+==================================================
+
+Create:
+
+/admin/endorsements
+
+/admin/endorsements/new
+
+/admin/endorsements/:id
+
+I need to add endorsements myself without editing code.
+
+==================================================
+22. ENDORSEMENT FORM
+==================================================
+
+Fields:
+
+Name
+
+Professional Title
+
+Organization / Institution
+
+Endorsement Quote
+
+Portrait
+
+Source URL
+
+Private Verification Note
+
+Language
+
+Display Order
+
+Status
+
+Status:
+
+Draft
+Approved
+Archived
+
+==================================================
+23. ENDORSEMENT IMAGE UPLOAD
+==================================================
+
+Provide:
+
+UPLOAD PORTRAIT
+
+I should select the image directly from my computer.
+
+Store it through the same secure media system.
+
+==================================================
+24. ENDORSEMENT APPROVAL
+==================================================
+
+Before APPROVE can be pressed require:
+
+[ ] I confirm that this endorsement is authentic and authorized for
+publication.
+
+Store:
+
+approvedAt
+approvedBy
+
+Do not expose private verification notes.
+
+==================================================
+25. PUBLIC ENDORSEMENTS
+==================================================
+
+Approved endorsements automatically appear at:
+
+/endorsements
+
+No code editing required.
+
+ONLY approved endorsements appear.
+
+Draft and archived endorsements remain private.
+
+Never create fake endorsements.
+
+==================================================
+26. MEDIA LIBRARY
+==================================================
+
+Create:
+
+/admin/media
+
+I want to see all uploaded:
+
+PDFs
+Publication Images
+Endorsement Images
+
+Provide:
+
+Search
+Filter
+
+Show:
+
+Preview
+Filename
+Type
+Size
+Upload Date
+
+Actions:
+
+View
+Select
+Replace where safe
+Delete where safe
+
+Prevent deletion if a published page still depends on the file unless I
+explicitly resolve the dependency.
+
+==================================================
+27. THEMES
+==================================================
+
+Create:
+
+/admin/themes
+
+Allow me to create/manage publication themes without changing source code.
+
+Fields:
+
+Name
+Slug
+English Label
+French Label
+Description
+Display Order
+Active
+
+Existing category data must not be lost.
+
+==================================================
+28. ENQUIRIES
+==================================================
+
+Create/complete:
+
+/admin/enquiries
+
+Show enquiries submitted through the RGG website.
+
+All website enquiries should continue to be sent to:
+
+TO:
+Sunny@reclaimingthegreengold.com
+
+CC:
+sweenmru@gmail.com
+
+Admin list should show:
+
+Date
+Name
+Email
+Organization
+Enquiry Type
+Subject
+Delivery Status
+
+Clicking an enquiry opens the full message.
+
+==================================================
+29. ADMINISTRATORS
+==================================================
+
+Create:
+
+/admin/administrators
+
+Design the system to support at least five administrators.
+
+Use actual authenticated identities.
+
+Do not invent accounts.
+
+Display:
+
+Name
+Email
+Role
+Status
+
+Never display:
+
+Password
+Password hash
+Session token
+Authentication secret
+
+==================================================
+30. EDITORIAL AUDIT HISTORY
+==================================================
+
+Track important CMS actions:
+
+Publication created
+Publication edited
+Publication published
+Publication archived
+PDF uploaded
+Endorsement created
+Endorsement approved
+Endorsement archived
+
+Store:
+
+action
+entity
+entityId
+administrator
+timestamp
+
+Do not store credentials.
+
+==================================================
+31. DATABASE
+==================================================
+
+Continue using:
+
+PostgreSQL
+Drizzle
+
+Inspect the existing schema first.
+
+Use additive migrations.
+
+NEVER reset the production database.
+
+NEVER delete legitimate publication records just to make migrations easier.
+
+==================================================
+32. UNSAVED CONTENT PROTECTION
+==================================================
+
+Warn me before leaving an editor with unsaved work.
+
+If autosave is implemented:
+
+autosave DRAFTS only.
+
+Never automatically publish.
+
+==================================================
+33. ADMIN SECURITY
+==================================================
+
+ALL admin APIs must be protected server-side.
+
+Protect:
+
+create
+edit
+upload
+preview
+publish
+archive
+delete
+approve
+media management
+theme management
+enquiry viewing
+
+Keep:
+
+CSRF
+trusted-origin protection
+request limits
+rate limiting
+safe errors
+security logging
+
+==================================================
+34. DO NOT BREAK THE PUBLIC WEBSITE
+==================================================
+
+Preserve:
+
+Wouter
+React/Vite architecture
+PostgreSQL/Drizzle
+English/French website
+welcome experience
+3D hardcover book
+publication library
+technical assistance
+authors
+endorsements
+SEO work already completed
+
+Do not reintroduce explicit Mauritius references into public website copy.
+
+==================================================
+35. MOBILE / DESKTOP
+==================================================
+
+Test dashboard at:
+
+390
+768
+1024
+1440
+
+Desktop is the main editorial environment.
+
+Mobile should remain functional.
+
+No horizontal overflow.
+
+==================================================
+36. TEST ADMIN LOGIN FIRST
+==================================================
+
+Before declaring the CMS complete, verify:
+
+signed-out /admin
+→ sign-in
+
+valid administrator
+→ dashboard
+
+authenticated non-admin
+→ denied
+
+anonymous admin API
+→ 401
+
+non-admin admin API
+→ 403
+
+admin admin API
+→ success
+
+No redirect loop.
+
+No endless "Confirming your session" state.
+
+==================================================
+37. TEST PUBLICATION WORKFLOW
+==================================================
+
+Perform a real temporary test:
+
+SIGN IN
+
+→ New Publication
+
+→ Enter title
+
+→ Enter abstract
+
+→ Upload PDF
+
+→ Upload featured image
+
+→ SAVE DRAFT
+
+→ PREVIEW
+
+→ PUBLISH
+
+Then verify:
+
+/publications
+
+and:
+
+/publications/:slug
+
+Then ARCHIVE it.
+
+Confirm it disappears publicly.
+
+Remove the temporary test data afterward.
+
+==================================================
+38. TEST ARTICLE WORKFLOW
+==================================================
+
+Create an article without PDF.
+
+Write content using the editor.
+
+Save draft.
+
+Preview.
+
+Publish.
+
+Verify public page.
+
+Archive.
+
+Clean up afterward.
+
+==================================================
+39. TEST ENDORSEMENT WORKFLOW
+==================================================
+
+Create temporary endorsement.
+
+Upload portrait.
+
+Save draft.
+
+Attempt approval without verification checkbox:
+MUST FAIL.
+
+Confirm verification.
+
+Approve.
+
+Verify /endorsements.
+
+Archive.
+
+Clean up afterward.
+
+==================================================
+40. TEST FILE SECURITY
+==================================================
+
+Verify:
+
+valid PDF accepted
+fake PDF rejected
+oversized PDF rejected
+valid image accepted
+invalid image rejected
+anonymous upload denied
+non-admin upload denied
+storage failure handled safely
+
+==================================================
+41. COMPLETE VALIDATION
+==================================================
+
+Run CURRENT:
+
+TypeScript
+
+Website tests
+
+API tests
+
+Admin tests
+
+Upload tests
+
+Publication workflow tests
+
+Endorsement tests
+
+migration:check
+
+migration:rebuild-check
+
+existing-record migration protection
+
+website production build
+
+API production build
+
+Report ACTUAL results.
+
+==================================================
+42. IF CLERK IS THE ONLY REMAINING PROBLEM
+==================================================
+
+If application code is correct but the existing Clerk account/configuration
+requires an owner-side action:
+
+DO NOT redesign the entire application.
+
+Finish the CMS.
+
+Then give me a very short exact instruction such as:
+
+1. Open [specific Clerk setting]
+2. Select Sunny@reclaimingthegreengold.com
+3. Set [exact metadata]
+4. Save
+5. Return to /admin
+
+Do not give me a vague Clerk tutorial.
+
+==================================================
+43. IF CLERK CANNOT BE REPAIRED
+==================================================
+
+Do NOT automatically remove Clerk.
+
+First report:
+
+exact technical failure
+why it cannot safely be repaired
+what migration would be required
+
+Do not replace authentication with a shared or hard-coded password.
+
+==================================================
+44. FINAL RESULT I EXPECT
+==================================================
+
+At the end I want this workflow:
+
+RGG WEBSITE
+     ↓
+/admin
+     ↓
+SIGN IN
+     ↓
+RGG DASHBOARD
+     ↓
+┌───────────────────────────────┐
+│ Articles & Publications       │
+│ Endorsements                  │
+│ Media Library                 │
+│ Themes                        │
+│ Enquiries                     │
+│ Administrators                │
+└───────────────────────────────┘
+     ↓
+CREATE / UPLOAD
+     ↓
+SAVE DRAFT
+     ↓
+PREVIEW
+     ↓
+PUBLISH
+     ↓
+AUTOMATICALLY APPEARS PUBLICLY
+
+==================================================
+45. FINAL REPORT
+==================================================
+
+Report:
+
+1. login problem found
+2. login problem fixed
+3. /admin URL
+4. administrator account status
+5. dashboard status
+6. article editor
+7. publication editor
+8. direct PDF upload
+9. storage provider
+10. image upload
+11. media library
+12. themes
+13. endorsement editor
+14. endorsement approval
+15. enquiries
+16. administrator management
+17. audit history
+18. public publication integration
+19. public endorsement integration
+20. migrations
+21. security tests
+22. upload tests
+23. TypeScript
+24. website tests
+25. API tests
+26. builds
+27. end-to-end browser test
+28. exact owner action remaining, if any
+
+DO NOT RETURN ONLY A PLAN.
+
+BUILD AND TEST THE ADMIN PORTAL.

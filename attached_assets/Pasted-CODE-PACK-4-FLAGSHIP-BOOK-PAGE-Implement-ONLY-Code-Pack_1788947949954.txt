@@ -1,0 +1,280 @@
+CODE PACK 4 — FLAGSHIP BOOK PAGE
+
+Implement ONLY Code Pack 4.
+
+OBJECTIVE:
+
+Replace the temporary /book placeholder with a professional editorial publication page for Reclaiming the Green Gold.
+
+The page must reuse exact book content already preserved inside:
+
+artifacts/rgg-website/src/pages/LegacyHome.tsx
+
+Do not invent book data.
+
+==================================================
+1. CREATE CONTENT MODULE
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/content/bookContent.ts
+
+Inspect LegacyHome.tsx and extract all reusable BOOK-SPECIFIC structured data.
+
+At minimum extract:
+- BOOK_PARTS
+- WHY_MATTERS
+
+Also extract, when present:
+- edition data
+- prices
+- format descriptions
+- book metadata
+- audience information
+- practical toolkit information
+- existing legitimate purchase URLs
+
+Preserve the exact wording and ordering from LegacyHome.tsx.
+
+Normalize the data into clean TypeScript structures so Book.tsx does not depend on LegacyHome.tsx.
+
+LegacyHome.tsx must remain unchanged.
+
+Do NOT import LegacyHome into Book.tsx.
+
+==================================================
+2. EDITION / BOOKVAULT RULES
+==================================================
+
+Search the complete existing project for real external purchase URLs.
+
+Search:
+- LegacyHome.tsx
+- all frontend files
+- public configuration
+- environment placeholders where appropriate
+
+If a genuine BookVault purchase/product URL exists, preserve and reuse it.
+
+If NO BookVault URL exists:
+- do not invent one;
+- do not create a fake external URL;
+- set href undefined for that edition;
+- render "Purchase link pending";
+- report that the exported source contains no BookVault destination.
+
+The RGG website itself must NOT process BookVault payment.
+
+External purchase links should:
+- use target="_blank"
+- use rel="noopener noreferrer"
+- fire the existing analytics trackEvent.
+
+==================================================
+3. REPLACE BOOK PAGE
+==================================================
+
+Replace:
+
+artifacts/rgg-website/src/pages/Book.tsx
+
+with the supplied Code Pack 4 Book.tsx.
+
+Adapt ONLY property names needed to consume the normalized bookContent data.
+
+Do not change the intended architecture or visual hierarchy.
+
+The Book page should contain:
+
+1. Publication hero
+2. Central thesis
+3. Why This Work Matters
+4. Inside the Book / Parts & Chapters
+5. Framework cross-link
+6. Editions
+7. Authors cross-link
+8. Research cross-link
+
+==================================================
+4. CONTENT MIGRATION RULES
+==================================================
+
+Use exact source wording from LegacyHome.tsx where content already exists.
+
+Do NOT invent:
+- chapter names
+- chapter descriptions
+- part names
+- prices
+- ISBNs
+- page counts
+- retailer URLs
+- endorsements
+- reviews
+- shipping claims
+- availability claims
+- awards
+- statistics
+
+If a field required by the new layout does not exist, omit it gracefully.
+
+Do not fill gaps using general knowledge.
+
+==================================================
+5. FRAMEWORK BOUNDARY
+==================================================
+
+Do NOT migrate the full seven-layer Governance Transition Model into /book.
+
+The Book page should contain only a short framework teaser linking to:
+
+/framework
+
+The complete framework will be implemented in Code Pack 5.
+
+==================================================
+6. AUTHORS BOUNDARY
+==================================================
+
+Do NOT reproduce the complete author biographies on /book.
+
+Use only a short author introduction and link to:
+
+/authors
+
+Complete biographies remain for a later pack.
+
+==================================================
+7. RESEARCH BOUNDARY
+==================================================
+
+Do NOT create fake research articles.
+
+The Book page may only link to:
+
+/research
+
+No placeholder article titles should be added.
+
+==================================================
+8. RESPONSIVENESS
+==================================================
+
+Verify Book page at approximately:
+
+375px
+430px
+768px
+1024px
+1440px
+
+Requirements:
+- no document horizontal overflow
+- book cover stays proportional
+- hero remains content-driven
+- no 100dvh vertical-centering blank-space issue
+- accordion content does not overflow
+- chapter text remains readable
+- edition cards stack properly
+
+==================================================
+9. ACCESSIBILITY
+==================================================
+
+Verify:
+- one h1 only
+- logical h2/h3 hierarchy
+- meaningful book-cover alt text
+- accordions use button elements
+- aria-expanded is present
+- keyboard interaction works
+- links are actual links
+- decorative graphics use aria-hidden
+- sufficient focus visibility remains available
+
+==================================================
+10. ANALYTICS
+==================================================
+
+Preserve the current trackEvent utility.
+
+Track:
+- book hero view-editions CTA
+- edition purchase clicks
+- framework cross-link
+- optional book-navigation interactions where already appropriate
+
+Do not introduce a new analytics library.
+
+==================================================
+11. DO NOT MODIFY
+==================================================
+
+Do NOT modify:
+- Home.tsx
+- LegacyHome.tsx
+- App.tsx routing
+- SiteHeader
+- SiteFooter
+- SiteLayout
+- Framework.tsx
+- Research.tsx
+- Consultancy.tsx
+- Authors.tsx
+- About.tsx
+- backend
+- database
+- package dependencies
+
+Exception:
+Only modify another file if TypeScript compilation requires an import/export correction caused directly by Pack 4.
+
+==================================================
+12. VERIFY
+==================================================
+
+Run:
+
+tsc -p tsconfig.json --noEmit
+
+Then run the production build.
+
+Verify:
+
+1. /book HTTP 200
+2. / remains unchanged
+3. /framework remains operational
+4. /research remains operational
+5. /authors remains operational
+6. book cover loads
+7. View Editions scrolls correctly
+8. Explore Contents scrolls correctly
+9. all book parts render
+10. chapter accordions expand/collapse
+11. keyboard accordion interaction works
+12. framework link routes to /framework
+13. authors link routes to /authors
+14. research link routes to /research
+15. genuine edition URLs open externally when present
+16. no href="#" exists on the Book page
+17. no fake BookVault URL was created
+18. no horizontal overflow at requested widths
+19. no console errors
+20. TypeScript passes
+21. production build passes
+
+REPORT:
+
+- number of BOOK_PARTS migrated
+- total number of chapters migrated
+- number of WHY_MATTERS entries migrated
+- editions discovered
+- genuine external purchase URLs discovered
+- whether a BookVault URL was found
+- TypeScript result
+- production build result
+- responsive verification
+- any warnings
+
+Do not make unrelated improvements.

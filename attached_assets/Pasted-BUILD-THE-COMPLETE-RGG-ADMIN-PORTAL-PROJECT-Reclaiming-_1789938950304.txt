@@ -1,0 +1,1231 @@
+BUILD THE COMPLETE RGG ADMIN PORTAL
+
+PROJECT:
+Reclaiming the Green Gold (RGG)
+
+Proceed with implementation now. Do not only give me a plan.
+
+==================================================
+OBJECTIVE
+==================================================
+
+Build a complete private editorial administration portal for the RGG website.
+
+I want authorized administrators to manage the website without editing code.
+
+The portal must allow administrators to:
+
+- create Articles
+- create Research Papers
+- create Policy Briefs
+- create Reports
+- create Commentaries
+- create Case Studies
+- upload PDF publications directly from their computer
+- upload publication images
+- write and edit article content
+- save drafts
+- preview drafts privately
+- publish content
+- archive content
+- manage publication themes
+- create and approve Endorsements
+- upload endorsement portraits/images
+- manage uploaded PDFs and images
+- see who created/published/approved content
+
+Use the EXISTING RGG architecture.
+
+DO NOT rebuild the website.
+
+Preserve:
+
+React
+Vite
+TypeScript
+Wouter
+Express
+PostgreSQL
+Drizzle
+Clerk
+
+==================================================
+1. AUTHENTICATION
+==================================================
+
+KEEP CLERK AS THE ONLY AUTHENTICATION PROVIDER.
+
+The first authorized administrator is:
+
+Sunny@reclaimingthegreengold.com
+
+Do NOT hardcode any password in the repository.
+
+Do NOT create a custom username/password authentication database.
+
+Do NOT expose passwords through environment variables or frontend code.
+
+I will configure the administrator's actual password privately through Clerk.
+
+The corresponding Clerk account must receive:
+
+publicMetadata.role = "admin"
+
+Server authorization must continue checking EXACTLY:
+
+publicMetadata.role === "admin"
+
+Frontend checks alone are NOT sufficient.
+
+==================================================
+2. FUTURE ADMINISTRATORS
+==================================================
+
+Design the system to support at least five administrators.
+
+Initial intended administrator names include:
+
+- Sunny / Shiva Sweenarain
+- Soobaschand Sweenarain
+- Gavishta Harkoo
+- Neha Sweenarain
+- one additional administrator later
+
+Do not create fake Clerk IDs.
+
+Administrator identity must ultimately use Clerk user IDs, not names.
+
+==================================================
+3. ADMIN ROUTES
+==================================================
+
+Create/preserve:
+
+/admin
+
+/admin/publications
+/admin/publications/new
+/admin/publications/:id
+
+/admin/themes
+
+/admin/endorsements
+/admin/endorsements/new
+/admin/endorsements/:id
+
+/admin/media
+
+/admin/administrators
+
+All routes must be private.
+
+Unauthorized users must never receive private publication/admin data merely
+because they know the URL.
+
+==================================================
+4. ADMIN LAYOUT
+==================================================
+
+Create a professional RGG editorial dashboard.
+
+Use the established visual language:
+
+deep black
+deep emerald
+muted gold
+ivory
+Playfair Display where appropriate
+thin borders
+restrained institutional styling
+
+Do NOT make it look like a generic SaaS dashboard.
+
+Desktop:
+left navigation sidebar
+
+Mobile/tablet:
+accessible collapsible navigation
+
+Main sections:
+
+DASHBOARD
+
+CONTENT
+- Articles & Publications
+- New Publication
+- Themes
+
+ENDORSEMENTS
+- All Endorsements
+- New Endorsement
+
+MEDIA
+- Media Library
+
+ADMINISTRATION
+- Administrators
+
+==================================================
+5. DASHBOARD
+==================================================
+
+Show useful editorial information:
+
+Published Publications
+Draft Publications
+Archived Publications
+Approved Endorsements
+Pending Endorsements
+Uploaded Documents
+
+Show:
+
+Recently Edited
+
+Quick actions:
+
++ New Article
++ New Publication
++ New Endorsement
++ Upload PDF
+
+Keep this concise.
+
+==================================================
+6. ARTICLES & PUBLICATIONS
+==================================================
+
+Use ONE underlying publication system.
+
+Supported types:
+
+Article
+Research Paper
+Policy Brief
+Commentary
+Report
+Case Study
+
+Do not create six separate databases.
+
+Preserve/evolve the existing publication model.
+
+==================================================
+7. PUBLICATION EDITOR
+==================================================
+
+Create a polished editor.
+
+SECTION — BASIC INFORMATION
+
+Title
+
+Slug
+
+Subtitle
+
+Abstract / Summary
+
+Language:
+English
+French
+Bilingual where appropriate
+
+SECTION — CONTENT
+
+Main article/content editor
+
+Support:
+
+headings
+paragraphs
+bold
+italic
+links
+bullet lists
+numbered lists
+quotes
+
+Tables only if safely supported.
+
+Do not allow arbitrary unsafe HTML.
+
+==================================================
+8. PUBLICATION DETAILS
+==================================================
+
+Fields:
+
+Publication Type
+
+Theme
+
+Authors
+
+Publication Date
+
+Reading Time
+
+Featured
+
+Status
+
+Statuses:
+
+Draft
+Published
+Archived
+
+==================================================
+9. PDF UPLOAD
+==================================================
+
+THIS IS IMPORTANT.
+
+I must be able to press:
+
+UPLOAD PDF
+
+and select a PDF directly from my computer.
+
+Workflow:
+
+Choose PDF
+→ validate
+→ upload
+→ store persistently
+→ save metadata
+→ attach to publication
+
+Do NOT require me to manually paste a PDF URL.
+
+==================================================
+10. PDF STORAGE
+==================================================
+
+Inspect the current deployment/storage capabilities.
+
+Use persistent object/file storage suitable for production.
+
+Do NOT store PDF files as:
+
+base64
+large PostgreSQL blobs
+temporary filesystem files
+files committed dynamically into Git
+
+PostgreSQL should store metadata/reference information only.
+
+Create a storage abstraction so the provider can be changed later if needed.
+
+Store fields such as:
+
+id
+storageKey
+originalFilename
+mimeType
+fileSize
+publicUrl/private reference
+createdAt
+uploadedBy
+
+==================================================
+11. PDF SECURITY
+==================================================
+
+Upload endpoint must be ADMIN ONLY.
+
+Validate on the SERVER:
+
+PDF signature/magic bytes
+MIME
+extension
+file size
+
+Do not trust the browser-provided MIME type alone.
+
+Sanitize filenames.
+
+Generate safe unique storage keys.
+
+Add configurable:
+
+MAX_PDF_UPLOAD_MB
+
+Reject:
+
+executables
+HTML renamed as PDF
+invalid/spoofed PDF
+oversized documents
+
+Return safe errors.
+
+==================================================
+12. DRAFT PDF PRIVACY
+==================================================
+
+A PDF belonging to a draft publication must not accidentally become publicly
+discoverable.
+
+Use private storage/signed access for drafts if supported.
+
+When a publication becomes public, provide the appropriate public delivery
+mechanism.
+
+Do not expose unpublished documents through predictable URLs.
+
+==================================================
+13. FEATURED IMAGE
+==================================================
+
+Allow administrators to upload a publication image.
+
+Support safe formats such as:
+
+JPEG
+PNG
+WebP
+AVIF where supported
+
+Validate server-side.
+
+Store image metadata through the same media architecture.
+
+==================================================
+14. PUBLICATION ACTIONS
+==================================================
+
+Editor buttons:
+
+SAVE DRAFT
+
+PREVIEW
+
+PUBLISH
+
+ARCHIVE
+
+Never automatically publish after upload.
+
+Publishing must require an explicit administrator action.
+
+Warn before navigating away with unsaved changes.
+
+==================================================
+15. PRIVATE PREVIEW
+==================================================
+
+Administrators must be able to preview drafts.
+
+Draft preview must require admin authentication.
+
+Do not create publicly enumerable preview URLs.
+
+The preview should closely reproduce the public publication layout.
+
+==================================================
+16. PUBLICATION MANAGEMENT PAGE
+==================================================
+
+/admin/publications
+
+Provide:
+
+Search
+
+Filter by:
+Status
+Type
+Theme
+Language
+
+Sort by:
+Recently updated
+Publication date
+Alphabetical
+
+Display:
+
+Title
+Type
+Theme
+Language
+Status
+Publication date
+Updated date
+
+Actions:
+
+Edit
+Preview
+Publish
+Archive
+
+Permanent delete should be secondary and require confirmation.
+
+Prefer Archive over Delete.
+
+==================================================
+17. THEMES
+==================================================
+
+Build:
+
+/admin/themes
+
+Allow administrators to manage the themes used by the public publication
+library.
+
+Fields:
+
+Name
+Slug
+English Label
+French Label
+Description
+Display Order
+Active
+
+Do not destroy existing publication category data.
+
+If migration from category → theme is necessary, make it backward-compatible.
+
+==================================================
+18. ENDORSEMENTS
+==================================================
+
+Create a proper Endorsements management system.
+
+Database fields should include, where appropriate:
+
+id
+name
+professionalTitle
+organization
+quote
+photo/media reference
+sourceUrl
+verificationNote
+language
+status
+displayOrder
+verified
+createdAt
+updatedAt
+approvedAt
+approvedBy
+
+Statuses:
+
+Draft
+Approved
+Archived
+
+==================================================
+19. NEW ENDORSEMENT
+==================================================
+
+/admin/endorsements/new
+
+Fields:
+
+Name
+
+Professional Title
+
+Organization / Institution
+
+Endorsement Quote
+
+Portrait / Image
+
+Source URL
+
+Private Verification / Permission Note
+
+Language
+
+Display Order
+
+Status
+
+==================================================
+20. ENDORSEMENT VERIFICATION
+==================================================
+
+Before an endorsement can be APPROVED require:
+
+[ ] I confirm that this endorsement is authentic and authorized for
+publication.
+
+Do not allow approval without this confirmation.
+
+When approved record:
+
+approvedAt
+
+approvedBy Clerk user ID
+
+Do NOT expose private verification notes publicly.
+
+==================================================
+21. ENDORSEMENT MANAGEMENT
+==================================================
+
+/admin/endorsements
+
+Provide:
+
+Search
+
+Filter:
+Draft
+Approved
+Archived
+
+Actions:
+
+Edit
+Preview
+Approve
+Archive
+
+Only:
+
+status = approved
+
+may appear on the public website.
+
+Never create fake endorsement content.
+
+==================================================
+22. PUBLIC ENDORSEMENTS PAGE
+==================================================
+
+Connect the CMS to:
+
+/endorsements
+
+Only approved endorsements appear.
+
+Display where available:
+
+portrait
+quote
+name
+professional title
+organization
+
+If no approved endorsements exist, preserve the existing institutional empty
+state.
+
+==================================================
+23. MEDIA LIBRARY
+==================================================
+
+Create:
+
+/admin/media
+
+This should manage:
+
+PDFs
+publication images
+endorsement portraits
+
+Filters:
+
+All
+PDF
+Images
+
+Search by filename.
+
+Show:
+
+thumbnail/icon
+filename
+type
+size
+upload date
+uploaded by
+
+Actions:
+
+Preview
+Select
+Copy reference
+Delete where safe
+
+Do not allow deletion of media currently required by published content without
+a clear warning/confirmation.
+
+==================================================
+24. PUBLIC PUBLICATION INTEGRATION
+==================================================
+
+Published content must automatically appear at:
+
+/publications
+
+Preserve the current discovery design:
+
+Browse by Theme
+A–Z
+Search
+
+Only published records appear.
+
+Never expose:
+
+Draft
+Archived
+
+through:
+
+API
+search
+theme filters
+A–Z
+sitemap
+structured data
+
+==================================================
+25. PUBLICATION DETAIL PAGE
+==================================================
+
+Each published item should resolve at:
+
+/publications/:slug
+
+Show available verified information:
+
+Publication Type
+Theme
+Language
+Title
+Subtitle
+Authors
+Publication Date
+Abstract
+Content
+Featured Image
+
+When PDF exists:
+
+VIEW PDF
+
+DOWNLOAD PDF
+
+When DOI exists:
+
+DOI
+
+When legitimate external URL exists:
+
+SOURCE / EXTERNAL LINK
+
+Do not display empty labels.
+
+==================================================
+26. ARTICLE WITHOUT PDF
+==================================================
+
+PDF must NOT be mandatory.
+
+I should be able to publish an ordinary article written entirely inside the
+CMS.
+
+Therefore support:
+
+ARTICLE ONLY
+
+PDF PUBLICATION
+
+or:
+
+ARTICLE + PDF
+
+==================================================
+27. AUTHORS
+==================================================
+
+Allow publication authors to be assigned cleanly.
+
+At minimum support existing verified author names.
+
+Do not invent credentials or affiliations.
+
+Design the data structure so external/guest authors can be supported later.
+
+==================================================
+28. BILINGUAL CONTENT
+==================================================
+
+Preserve English/French public-site parity.
+
+Publication language is independent from interface language.
+
+A French publication does not need an invented English translation.
+
+A publication may be marked:
+
+English
+Français
+Bilingual
+
+Do NOT automatically machine-translate research.
+
+==================================================
+29. ADMINISTRATORS PAGE
+==================================================
+
+Create:
+
+/admin/administrators
+
+Display configured administrator identities.
+
+For each administrator show where safely available:
+
+Name
+Email
+Role
+Account status
+Last sign-in
+Access status
+
+Never display:
+
+password
+password hash
+session token
+Clerk secret
+
+==================================================
+30. AUDIT IDENTITY
+==================================================
+
+Because multiple administrators will operate the CMS, record who performs
+important actions.
+
+Where appropriate store:
+
+createdBy
+updatedBy
+publishedBy
+archivedBy
+approvedBy
+
+Use Clerk user ID internally.
+
+Show administrator name in the private admin portal.
+
+==================================================
+31. ADMIN SECURITY
+==================================================
+
+EVERY privileged API endpoint must verify Clerk server-side.
+
+Protect:
+
+publication creation
+publication editing
+PDF upload
+image upload
+preview
+publish
+archive
+delete
+theme management
+endorsement creation
+endorsement approval
+endorsement archive
+media deletion
+
+Keep existing:
+
+CSRF
+trusted-origin validation
+request limits
+rate limiting
+safe errors
+security logging
+
+Do not weaken existing protections.
+
+==================================================
+32. DATABASE
+==================================================
+
+Use the existing:
+
+PostgreSQL
+Drizzle
+
+Use reviewed additive migrations.
+
+NEVER:
+
+reset production DB
+drop legitimate publication records
+rewrite migration history
+
+Preserve existing data.
+
+==================================================
+33. ADMIN ACTIVITY
+==================================================
+
+Create a lightweight editorial activity history if it can be implemented
+without excessive complexity.
+
+Useful events:
+
+Publication created
+Publication updated
+Publication published
+Publication archived
+PDF uploaded
+Endorsement created
+Endorsement approved
+Endorsement archived
+
+Store:
+
+action
+entity
+entityId
+administrator Clerk ID
+timestamp
+
+Do not store passwords, tokens or sensitive request bodies.
+
+==================================================
+34. ERROR HANDLING
+==================================================
+
+Use understandable admin messages:
+
+PDF uploaded successfully.
+
+Publication saved as draft.
+
+Publication published.
+
+Endorsement approved.
+
+Upload failed. Please try again.
+
+Do not expose:
+
+SQL
+stack traces
+storage credentials
+internal server details
+
+==================================================
+35. RESPONSIVE ADMIN
+==================================================
+
+Test:
+
+390px
+768px
+1024px
+1440px
+
+No horizontal overflow.
+
+Publication editing must remain usable on tablet/mobile.
+
+Desktop remains the primary editorial experience.
+
+==================================================
+36. ACCESSIBILITY
+==================================================
+
+Admin forms need:
+
+real labels
+keyboard navigation
+visible focus
+accessible errors
+dialog focus management
+confirmation-dialog accessibility
+
+Do not make important actions mouse-only.
+
+==================================================
+37. AUTHORIZATION TESTS
+==================================================
+
+Add tests proving:
+
+anonymous cannot access admin data
+
+authenticated non-admin cannot access admin data
+
+admin can access
+
+anonymous cannot upload PDF
+
+non-admin cannot upload PDF
+
+anonymous cannot upload image
+
+non-admin cannot upload image
+
+non-admin cannot publish
+
+non-admin cannot approve endorsement
+
+frontend manipulation cannot create admin access
+
+==================================================
+38. PUBLICATION TESTS
+==================================================
+
+Test full workflow:
+
+Create draft
+Edit draft
+Upload PDF
+Upload image
+Private preview
+Publish
+Verify public listing
+Verify detail page
+Archive
+Verify no longer publicly available
+
+Also test article without PDF.
+
+==================================================
+39. ENDORSEMENT TESTS
+==================================================
+
+Test:
+
+Create draft endorsement
+
+Upload portrait
+
+Attempt approval without verification confirmation
+→ MUST FAIL
+
+Confirm verification
+
+Approve
+→ succeeds
+
+Verify public display
+
+Archive
+
+Verify removed from public display
+
+==================================================
+40. UPLOAD TESTS
+==================================================
+
+Test:
+
+valid PDF
+invalid PDF
+spoofed PDF
+oversized PDF
+unsafe filename
+valid image
+invalid image
+storage timeout
+storage failure
+
+No failure should expose secrets or corrupt publication state.
+
+==================================================
+41. EXISTING SYSTEMS
+==================================================
+
+DO NOT replace:
+
+Wouter
+Clerk
+PostgreSQL
+Drizzle
+existing API architecture
+existing publication protections
+existing security controls
+welcome experience
+3D hardcover viewer
+English/French website architecture
+
+Do not reintroduce explicit Mauritius references into public content.
+
+==================================================
+42. PERFORMANCE
+==================================================
+
+Lazy-load heavy admin editor components.
+
+Never bundle uploaded PDFs into frontend JavaScript.
+
+Use thumbnails rather than loading full-resolution media throughout admin.
+
+Do not make the public website heavier because the CMS exists.
+
+==================================================
+43. MIGRATIONS
+==================================================
+
+Run:
+
+migration:check
+
+migration:rebuild-check
+
+existing-record/migration baseline protection
+
+Fix migrations safely if necessary.
+
+Do not reset databases to make tests pass.
+
+==================================================
+44. FINAL TESTING
+==================================================
+
+Run actual current:
+
+TypeScript checks
+
+website tests
+
+API tests
+
+admin tests
+
+upload tests
+
+migration checks
+
+production website build
+
+production API build
+
+Report actual counts.
+
+Do not reuse old test counts.
+
+==================================================
+45. MANUAL BROWSER TEST
+==================================================
+
+Using an authorized test administrator:
+
+Sign in
+
+Create a temporary draft publication
+
+Upload a test PDF
+
+Upload a test image
+
+Preview
+
+Publish
+
+Verify /publications
+
+Verify /publications/:slug
+
+Archive
+
+Verify it disappears publicly
+
+Then:
+
+Create temporary endorsement
+
+Upload portrait
+
+Verify
+
+Approve
+
+Verify /endorsements
+
+Archive
+
+Clean up all temporary test records/media.
+
+Do not leave fake content publicly visible.
+
+==================================================
+46. FIRST ADMIN SETUP
+==================================================
+
+Prepare the application for this first administrator:
+
+Sunny@reclaimingthegreengold.com
+
+Do NOT put their password in code.
+
+If the Clerk account does not yet exist, provide the exact final Clerk
+invitation/account-creation step required.
+
+If the account exists, report its configuration requirements.
+
+The account must receive:
+
+publicMetadata.role = "admin"
+
+Do not invent a Clerk user ID.
+
+==================================================
+47. FINAL REPORT
+==================================================
+
+After IMPLEMENTATION return:
+
+1. admin portal URL/routes
+2. first administrator configuration status
+3. dashboard completed
+4. publication management completed
+5. article editor completed
+6. PDF upload completed
+7. PDF storage provider
+8. draft PDF privacy mechanism
+9. image upload completed
+10. media library completed
+11. themes completed
+12. endorsement management completed
+13. endorsement verification completed
+14. public publication integration completed
+15. public endorsement integration completed
+16. administrator identity/audit tracking
+17. database migrations
+18. required environment variables
+19. external service/account configuration still required
+20. authorization tests
+21. publication workflow tests
+22. endorsement tests
+23. upload security tests
+24. TypeScript result
+25. website tests
+26. API tests
+27. migration tests
+28. production builds
+29. responsive testing
+30. files created
+31. files modified
+32. remaining risks
+
+IMPORTANT:
+
+Do not stop after writing another implementation plan.
+
+Build everything that can be safely implemented.
+
+Only stop for owner input if an external service requires credentials,
+account authorization, or another decision that cannot safely be inferred.

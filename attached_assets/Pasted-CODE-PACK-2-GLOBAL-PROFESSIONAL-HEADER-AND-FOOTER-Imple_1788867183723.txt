@@ -1,0 +1,117 @@
+CODE PACK 2 — GLOBAL PROFESSIONAL HEADER AND FOOTER
+
+Implement ONLY Code Pack 2.
+
+OBJECTIVE:
+Create one reusable global SiteHeader and SiteFooter for all existing routes created in Code Pack 1.
+
+IMPORTANT SAFETY RULES:
+
+- Preserve all current Home page sections and visual content.
+- Do NOT redesign the Home page yet.
+- Do NOT move book, framework, journal, advisory or author content yet.
+- Do NOT alter the current hero except for removing its old duplicated navigation.
+- Do NOT modify BookVault logic or invent a BookVault URL.
+- Do NOT install additional packages.
+- Wouter must remain the router.
+- Framer Motion is already installed and should be reused.
+- Preserve existing analytics through trackEvent.
+- Do not touch the backend/database.
+- Do not create legal pages in this pack.
+- Do not refactor unrelated components.
+
+CREATE:
+
+artifacts/rgg-website/src/components/layout/SiteHeader.tsx
+
+using the supplied Code Pack 2 SiteHeader.
+
+CREATE:
+
+artifacts/rgg-website/src/components/layout/SiteFooter.tsx
+
+using the supplied Code Pack 2 SiteFooter.
+
+CREATE:
+
+artifacts/rgg-website/src/components/layout/SiteLayout.tsx
+
+using the supplied Code Pack 2 SiteLayout.
+
+UPDATE:
+
+artifacts/rgg-website/src/App.tsx
+
+Import SiteLayout and wrap the Switch/routes inside SiteLayout exactly as provided.
+
+UPDATE:
+
+artifacts/rgg-website/src/pages/Home.tsx
+
+Remove ONLY:
+
+1. the local `scrolled` state;
+2. the local `mobileOpen` state;
+3. the scroll listener used solely for the old navbar;
+4. the old `navLinks` array;
+5. the entire existing navbar;
+6. the entire existing mobile navigation overlay;
+7. the existing footer.
+
+DO NOT REMOVE:
+- hero particle effect;
+- other Home useEffect calls;
+- any Home content section;
+- Book content;
+- Framework;
+- Journal;
+- Authors;
+- Advisory;
+- Contact;
+- Partnerships;
+- Editions;
+- animations.
+
+After removing the old navigation, clean unused imports:
+
+- remove useState if no longer used;
+- remove AnimatePresence if no longer used.
+
+Do not remove motion, useInView, useRef or useEffect if they are still used.
+
+Then run:
+- TypeScript checking;
+- production build.
+
+Fix ONLY errors introduced by Code Pack 2.
+
+VERIFY ALL ROUTES:
+
+/
+ /book
+ /framework
+ /research
+ /research/test-publication
+ /consultancy
+ /authors
+ /about
+
+Verify:
+
+1. Only ONE header appears on every page.
+2. Only ONE footer appears on every page.
+3. Desktop navigation works.
+4. Active route is visually indicated.
+5. Mobile menu opens.
+6. Mobile menu closes.
+7. Escape closes the mobile menu.
+8. Selecting a mobile navigation item closes the menu.
+9. Body scrolling is disabled while the mobile menu is open.
+10. Body scrolling returns after the menu closes.
+11. BUY THE BOOK routes to /book.
+12. Browser refresh works on each route.
+13. Home content has not otherwise changed.
+14. No TypeScript errors.
+15. Production build completes successfully.
+
+Report the build output and any issue rather than making additional architectural changes.

@@ -1,0 +1,473 @@
+CODE PACK 8 — SECURE RGG PUBLISHING DASHBOARD
+
+Implement ONLY Code Pack 8.
+
+OBJECTIVE:
+
+Create a protected administrative publishing interface for RGG Research & Insights.
+
+The final workflow must allow an authorized administrator to:
+
+- list publications;
+- create a publication;
+- save a draft;
+- edit a publication;
+- publish a publication;
+- archive a publication;
+- delete a publication with confirmation;
+- open the public version when published.
+
+==================================================
+0. PACK 7 PREREQUISITE
+==================================================
+
+Before changing code, verify that Code Pack 7 publication persistence/API exists.
+
+Confirm:
+- database publication model exists;
+- API publication endpoints exist;
+- publication records persist in PostgreSQL;
+- public research API returns published records;
+- draft/published/archive status exists or can be directly mapped.
+
+If Pack 7 is NOT present:
+
+STOP.
+
+Do not implement a fake CMS.
+Do not use localStorage.
+Do not use a static TypeScript array.
+
+Report:
+
+"Code Pack 8 requires Code Pack 7 database/API."
+
+==================================================
+1. REUSE EXISTING API
+==================================================
+
+Inspect the exact publication API created in Code Pack 7.
+
+Reuse:
+- existing API clients when available;
+- existing schemas;
+- existing validation;
+- existing types where practical.
+
+Do not create duplicate incompatible publication models.
+
+The supplied Pack 8 types/API client are target patterns only.
+
+Adapt them to Pack 7 where necessary.
+
+==================================================
+2. SECURITY
+==================================================
+
+Admin protection must be server-backed.
+
+Do NOT secure /admin using:
+- query parameters;
+- URL secrecy;
+- localStorage boolean;
+- JavaScript-only password;
+- hard-coded frontend secret.
+
+All write operations must be protected server-side.
+
+Protect:
+POST publication
+PATCH publication
+DELETE publication
+
+Administrative reads that expose drafts/archived records must also require authorization.
+
+Public publication API must continue returning published content only.
+
+If the project already has authentication:
+reuse it.
+
+If the project has no authentication:
+implement the smallest secure server-backed admin session appropriate to the existing Express architecture.
+
+Do not introduce OAuth/social login unless already configured.
+
+Do not expose credentials in frontend source.
+
+==================================================
+3. CREATE ADMIN TYPES
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/types/admin.ts
+
+Use the supplied Pack 8 types, adapted to the exact Pack 7 data model.
+
+==================================================
+4. CREATE ADMIN PUBLICATION API CLIENT
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/lib/adminPublications.ts
+
+Reuse the Pack 7 generated API client if present.
+
+Otherwise implement the supplied fetch-wrapper pattern.
+
+Use:
+
+credentials: "include"
+
+for server-backed sessions when required.
+
+==================================================
+5. CREATE ADMIN GUARD
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/components/admin/AdminGuard.tsx
+
+Wire it to actual server-backed authentication.
+
+States:
+
+loading
+authenticated
+unauthenticated
+
+Never render admin content before authorization is established.
+
+==================================================
+6. CREATE ADMIN LAYOUT
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/components/admin/AdminLayout.tsx
+
+Use the supplied design.
+
+Admin must visually remain part of RGG:
+- deep charcoal
+- emerald
+- muted gold
+- ivory
+- editorial typography
+- thin borders
+
+But it should prioritize usability over cinematic presentation.
+
+Do not use rounded SaaS cards.
+
+==================================================
+7. CREATE PUBLICATION FORM
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/components/admin/PublicationForm.tsx
+
+Use the supplied Pack 8 form.
+
+Required editable fields:
+
+Title
+Slug
+Subtitle
+Abstract
+Content
+
+Publication Type
+Category
+Authors
+
+Publication Date
+Reading Time
+Featured
+
+Featured Image URL
+PDF URL
+External URL
+DOI
+
+SEO Title
+SEO Description
+
+Status:
+draft
+published
+archived
+
+Validation:
+
+required:
+- title
+- slug
+- abstract
+- publicationType
+- at least one author
+
+Slug:
+- lowercase
+- URL safe
+- generated from title until manually edited
+
+Do not silently overwrite a manually edited slug.
+
+==================================================
+8. CREATE ADMIN PAGES
+==================================================
+
+Create:
+
+src/pages/admin/AdminHome.tsx
+src/pages/admin/AdminPublications.tsx
+src/pages/admin/AdminPublicationNew.tsx
+src/pages/admin/AdminPublicationEdit.tsx
+
+AdminPublications:
+- list all authorized publications
+- show status
+- show type
+- show title
+- show dates
+- edit action
+- public view action when published
+- new-publication CTA
+
+AdminPublicationNew:
+- create records using API
+- redirect to edit page after successful creation
+
+AdminPublicationEdit:
+- fetch by ID
+- populate form
+- save changes
+- show success/error state
+- public preview if published
+- archive
+- delete
+
+Deletion requires explicit confirmation.
+
+==================================================
+9. ROUTING
+==================================================
+
+Update App.tsx.
+
+Add:
+
+/admin
+/admin/publications
+/admin/publications/new
+/admin/publications/:id
+
+Admin routes must render:
+
+AdminGuard
+  ↓
+AdminLayout
+  ↓
+Admin page
+
+Do NOT wrap admin routes in SiteLayout.
+
+The public website must continue using SiteLayout.
+
+Make sure route order does not interpret:
+
+/admin/publications/new
+
+as:
+
+id = "new".
+
+==================================================
+10. PUBLIC WEBSITE BOUNDARY
+==================================================
+
+Do NOT redesign:
+
+/
+ /book
+ /framework
+ /research
+ /research/:slug
+ /consultancy
+ /authors
+ /about
+
+Pack 8 is an ADMIN pack.
+
+Only make tiny public-side corrections if they are required to consume Pack 7 API data correctly.
+
+==================================================
+11. PUBLICATION VISIBILITY
+==================================================
+
+Verify:
+
+draft:
+- visible in admin
+- NOT visible publicly
+
+published:
+- visible in admin
+- visible on /research
+- visible at /research/:slug
+
+archived:
+- visible in admin
+- NOT visible publicly
+
+==================================================
+12. FORM ACCESSIBILITY
+==================================================
+
+Verify:
+
+- every field has a label
+- native controls used
+- errors use role="alert"
+- status controls use aria-pressed
+- keyboard navigation works
+- destructive action clearly identified
+- focus indicators remain visible
+- no mouse-only interactions
+
+==================================================
+13. RESPONSIVE ADMIN
+==================================================
+
+Test:
+
+375px
+430px
+768px
+1024px
+1440px
+
+Verify:
+
+- no horizontal overflow
+- form fields fit
+- sticky save control remains usable
+- publication list adapts to mobile
+- destructive controls remain reachable
+- admin navigation remains usable
+
+==================================================
+14. SECURITY TESTS
+==================================================
+
+Test unauthenticated requests directly.
+
+Unauthenticated:
+
+POST /api/publications
+must fail.
+
+PATCH /api/publications/:id
+must fail.
+
+DELETE /api/publications/:id
+must fail.
+
+Administrative draft-list endpoint:
+must fail.
+
+Public publication endpoint:
+must not expose drafts or archived records.
+
+Do not rely only on browser UI testing.
+
+==================================================
+15. DATA TEST
+==================================================
+
+Create one temporary publication through the admin interface:
+
+Title:
+Pack 8 Test Publication
+
+Status:
+draft
+
+Verify:
+- persists after page refresh
+- appears in admin
+- does NOT appear on /research
+
+Then publish it.
+
+Verify:
+- appears on /research
+- detail route works
+
+Then archive/delete the test record so test content is not left on the production site.
+
+==================================================
+16. BUILD
+==================================================
+
+Run:
+
+tsc -p tsconfig.json --noEmit
+
+Then production build.
+
+==================================================
+17. VERIFY
+==================================================
+
+Verify:
+
+1. /admin loads
+2. unauthenticated user cannot access admin data
+3. /admin/publications works
+4. /admin/publications/new works
+5. publication creation works
+6. DB persistence works
+7. edit works
+8. draft works
+9. publish works
+10. archive works
+11. delete confirmation works
+12. delete works
+13. public preview works
+14. draft never appears publicly
+15. archived never appears publicly
+16. published record appears publicly
+17. public Research page remains operational
+18. no browser console errors
+19. no horizontal overflow
+20. TypeScript passes
+21. production build passes
+
+==================================================
+18. REPORT
+==================================================
+
+Report:
+
+- whether Pack 7 prerequisite was present
+- exact API endpoints reused
+- exact publication DB table/model reused
+- authentication method used
+- admin endpoints protected
+- unauthorized API test results
+- draft visibility test
+- publish visibility test
+- archive visibility test
+- persistence test
+- responsive verification
+- accessibility verification
+- TypeScript result
+- production build result
+- warnings
+
+Do not make unrelated design or architecture changes.

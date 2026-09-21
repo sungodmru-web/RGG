@@ -1,0 +1,898 @@
+RGG BOOK PAGE — BILINGUAL ENGLISH / FRENCH 360° HARDCOVER VIEWER
+
+Proceed with implementation now.
+
+OBJECTIVE
+
+Upgrade the EXISTING interactive 3D hardcover book viewer on the RGG Book
+page so visitors can switch between the official English and French hardcover
+artwork while using the SAME 360° interactive book.
+
+The experience should be:
+
+HARDCOVER EDITION
+
+[ ENGLISH ]   [ FRANÇAIS ]
+
+                3D BOOK
+                   ↻
+          Drag to rotate 360°
+
+The visitor must be able to switch cover language at any rotation angle.
+
+DO NOT rebuild the Book page from scratch.
+
+DO NOT create two separate 3D viewers.
+
+Use ONE physical 3D book model and dynamically switch its artwork/textures.
+
+==================================================
+1. INSPECT EXISTING IMPLEMENTATION FIRST
+==================================================
+
+Before modifying anything, inspect:
+
+- current /book route
+- existing Three.js / React Three Fiber implementation
+- current hardcover geometry
+- texture-loading code
+- existing book assets
+- mobile gesture implementation
+- WebGL fallback
+- lazy loading
+- reduced-motion behavior
+- FRONT / SPINE / BACK controls
+- auto rotation
+- existing tests
+
+Extend the existing implementation rather than replacing it.
+
+Preserve all working 3D functionality.
+
+==================================================
+2. TWO HARDCOVER EDITIONS
+==================================================
+
+The viewer must support exactly:
+
+ENGLISH
+
+FRANÇAIS
+
+These are NOT separate product formats.
+
+Both are:
+
+HARDCOVER
+
+Do not introduce:
+
+Paperback
+Kindle
+eBook
+PDF edition
+Audiobook
+
+into this selector.
+
+==================================================
+3. OFFICIAL ARTWORK ONLY
+==================================================
+
+Use ONLY official supplied RGG cover artwork.
+
+Do NOT:
+
+AI-generate a replacement cover
+translate cover artwork automatically
+redesign the artwork
+retype the title onto the 3D model
+invent missing graphics
+mirror artwork
+stretch artwork
+crop important content
+
+The 3D model must reproduce the actual supplied print artwork.
+
+==================================================
+4. FRENCH HARDCOVER WRAP
+==================================================
+
+Use the supplied French hardcover full-wrap artwork as the source of truth.
+
+The supplied print layout is:
+
+BACK COVER | SPINE | FRONT COVER
+
+The artwork indicates:
+
+TOTAL WIDTH INCLUDING BLEED:
+444 mm
+
+TOTAL HEIGHT INCLUDING BLEED:
+257 mm
+
+BLEED:
+3 mm
+
+IMPORTANT:
+
+The red/dotted bleed guides, printer marks and black area outside the finished
+cover are NOT part of the visible book.
+
+Do not display them on the 3D model.
+
+==================================================
+5. DO NOT GUESS THE FRENCH CROPS
+==================================================
+
+Programmatically inspect the French wrap dimensions.
+
+Determine the exact pixel boundaries corresponding to:
+
+3 mm outer bleed
+back cover
+spine
+front cover
+
+Use the print dimensions and actual image dimensions to derive the crop.
+
+Do NOT manually eyeball arbitrary crop coordinates.
+
+Create clean runtime/build assets:
+
+french-front
+french-spine
+french-back
+
+The resulting textures must contain ONLY finished artwork.
+
+No:
+
+crop marks
+red guide lines
+dimension labels
+black printer background
+
+Report the final pixel crop coordinates in the implementation report.
+
+==================================================
+6. ENGLISH ARTWORK
+==================================================
+
+Inspect the repository for the OFFICIAL English hardcover artwork.
+
+Search existing assets thoroughly before assuming it is missing.
+
+Look for:
+
+English full wrap
+English front
+English back
+English spine
+cover-front
+cover-back
+hardcover
+book cover assets
+
+If the official English full wrap exists:
+
+prepare:
+
+english-front
+english-spine
+english-back
+
+using the same accurate extraction process.
+
+If separate official English front/back/spine assets already exist and are
+higher quality, use them instead.
+
+IMPORTANT:
+
+Do NOT fabricate an English cover from the French artwork.
+
+If official English artwork genuinely does not exist, leave the English slot
+disabled and report:
+
+"Official English hardcover wrap asset required."
+
+Do not fake completion.
+
+==================================================
+7. CENTRALIZED EDITION CONFIGURATION
+==================================================
+
+Create a clean configuration such as:
+
+hardcoverEditions = {
+  en: {
+    label: "ENGLISH",
+    front: ...,
+    spine: ...,
+    back: ...
+  },
+
+  fr: {
+    label: "FRANÇAIS",
+    front: ...,
+    spine: ...,
+    back: ...
+  }
+}
+
+Use the project's appropriate TypeScript structure.
+
+Do not scatter texture paths across components.
+
+==================================================
+8. LANGUAGE SELECTOR
+==================================================
+
+Place directly above or beside the 3D viewer:
+
+HARDCOVER EDITION
+
+[ ENGLISH ] [ FRANÇAIS ]
+
+Selected edition:
+
+muted gold highlight
+clear border
+high contrast
+accessible selected state
+
+Unselected edition:
+
+dark/emerald background
+ivory text
+
+Keep it sophisticated and restrained.
+
+No oversized pill-style SaaS controls.
+
+==================================================
+9. IMPORTANT — BOOK EDITION VS WEBSITE LANGUAGE
+==================================================
+
+The website language and book-cover language are related but INDEPENDENT.
+
+Example:
+
+The website can be displayed in English while the visitor examines the French
+hardcover.
+
+Therefore the visitor must always be able to manually select:
+
+ENGLISH
+FRANÇAIS
+
+Do not force the book edition every time the website language changes.
+
+==================================================
+10. INITIAL EDITION
+==================================================
+
+On first entry only:
+
+If website UI language = EN
+prefer English hardcover IF official English assets are available.
+
+If website UI language = FR
+prefer French hardcover.
+
+After the visitor manually changes the edition, preserve their choice during
+the current browsing session.
+
+Do not repeatedly override their choice.
+
+==================================================
+11. INSTANT TEXTURE SWITCHING
+==================================================
+
+When visitor clicks:
+
+ENGLISH
+
+or:
+
+FRANÇAIS
+
+change the 3D book textures immediately.
+
+DO NOT:
+
+reload the page
+remount the entire Book page
+reset camera unnecessarily
+reset book rotation
+jump back to front view
+
+Example:
+
+Visitor rotates book to the spine at 92°.
+
+They click FRANÇAIS.
+
+The book must remain approximately at 92° while the artwork changes.
+
+This is important.
+
+==================================================
+12. PRESERVE THE PHYSICAL MODEL
+==================================================
+
+Both editions use the SAME realistic hardcover geometry.
+
+The model should have:
+
+front hardcover board
+back hardcover board
+real spine
+ivory page block
+slight board overhang
+credible hardcover thickness
+subtle page depth
+appropriate edge geometry
+
+It must look like a BOOK.
+
+Not a rectangular cube.
+
+==================================================
+13. FRONT TEXTURE
+==================================================
+
+Map the selected edition's official FRONT artwork correctly.
+
+Requirements:
+
+upright
+correct aspect ratio
+not mirrored
+not horizontally flipped
+not vertically flipped
+no stretching
+no printer guides
+
+==================================================
+14. SPINE TEXTURE
+==================================================
+
+The actual spine artwork must be visible when the visitor rotates the book.
+
+For French:
+
+RÉCONQUÉRIR
+L'OR VERT
+
+and the supplied spine artwork must appear exactly as provided.
+
+Do not recreate the spine using HTML text.
+
+Use the actual artwork.
+
+==================================================
+15. BACK TEXTURE
+==================================================
+
+At approximately 180° rotation, show the actual selected edition's back cover.
+
+It must be:
+
+upright
+readable
+not mirrored
+not stretched
+
+Use the actual back-cover artwork.
+
+==================================================
+16. PAGE BLOCK
+==================================================
+
+Do not apply cover artwork to the page edges.
+
+Page edges should remain a subtle warm ivory/off-white.
+
+Keep them realistic and understated.
+
+==================================================
+17. 360° ROTATION
+==================================================
+
+Preserve/add:
+
+mouse drag
+trackpad interaction where appropriate
+touch drag
+keyboard controls
+
+Visitor must be able to rotate continuously around the vertical axis.
+
+Rotation should use damping/inertia.
+
+No abrupt snapping during normal drag.
+
+==================================================
+18. MOBILE GESTURES
+==================================================
+
+Preserve the existing mobile gesture behavior.
+
+Horizontal intent:
+
+rotate book.
+
+Vertical intent:
+
+scroll page.
+
+Do not trap normal vertical page scrolling.
+
+Test particularly at:
+
+320px
+375px
+390px
+430px
+
+==================================================
+19. VIEW CONTROLS
+==================================================
+
+Keep elegant controls:
+
+←
+AUTO
+→
+
+and:
+
+FRONT
+SPINE
+BACK
+
+FRONT:
+animate to selected front.
+
+SPINE:
+animate to spine.
+
+BACK:
+animate to back.
+
+Changing edition must NOT disable these controls.
+
+==================================================
+20. AUTO ROTATION
+==================================================
+
+Keep slow premium idle rotation.
+
+Rules:
+
+slow
+smooth
+no aggressive spinning
+
+Stop/pause auto rotation when the visitor interacts.
+
+Respect:
+
+prefers-reduced-motion
+
+When reduced motion is enabled:
+
+disable automatic rotation.
+
+==================================================
+21. INITIAL CAMERA POSITION
+==================================================
+
+Start with a subtle three-quarter FRONT view.
+
+The visitor should immediately understand that the object has depth.
+
+Do not initially show it completely flat.
+
+==================================================
+22. LIGHTING
+==================================================
+
+Preserve/improve premium studio lighting.
+
+Use:
+
+soft key light
+subtle fill
+gentle rim lighting
+soft contact shadow
+
+The gold should primarily come from the actual cover artwork.
+
+Avoid:
+
+neon gold
+extreme bloom
+plastic appearance
+overexposure
+
+==================================================
+23. HIGH RESOLUTION
+==================================================
+
+Use the highest-quality official cover assets available.
+
+However:
+
+do not load unnecessarily enormous print files directly into GPU memory if
+optimized web textures can preserve visible quality.
+
+Generate optimized web texture derivatives if needed.
+
+Keep original official assets untouched.
+
+==================================================
+24. TEXTURE QUALITY
+==================================================
+
+Use appropriate:
+
+anisotropy
+texture filtering
+color space
+GPU-safe dimensions
+
+Avoid blurry typography when viewing:
+
+front
+spine
+back
+
+But balance quality against mobile GPU memory.
+
+==================================================
+25. PERFORMANCE
+==================================================
+
+The previous audit identified the 3D viewer as a performance-sensitive area.
+
+Therefore:
+
+keep the viewer lazy-loaded.
+
+Do NOT load Three.js with the initial welcome experience unless actually
+required.
+
+Do NOT preload both enormous print wraps unnecessarily.
+
+Load optimized textures.
+
+The selected edition should load first.
+
+The alternative edition can preload after the initial viewer is stable.
+
+Do not create two WebGL canvases.
+
+Do not create duplicate render loops.
+
+Avoid unnecessary continuous high-DPR rendering.
+
+Avoid WebGL context loss.
+
+==================================================
+26. EDITION TRANSITION
+==================================================
+
+When switching editions, optionally use a VERY subtle texture crossfade if it
+can be implemented without:
+
+duplicate heavy geometry
+large GPU cost
+visual artifacts
+
+Otherwise switch cleanly and immediately.
+
+Performance is more important than decorative transition.
+
+==================================================
+27. LOADING STATE
+==================================================
+
+While 3D initializes, show the selected edition's official front-cover image.
+
+Do not show an empty black rectangle.
+
+Use a restrained loading indicator if needed.
+
+==================================================
+28. WEBGL FALLBACK
+==================================================
+
+If WebGL is unavailable or initialization fails:
+
+show the selected edition's official static front cover.
+
+Keep:
+
+ENGLISH
+FRANÇAIS
+
+selector operational for static images.
+
+Display a subtle message:
+
+"Interactive 3D preview unavailable on this device."
+
+Do not leave a broken canvas.
+
+==================================================
+29. ACCESSIBILITY
+==================================================
+
+The edition selector must use real accessible controls.
+
+Expose selected state using:
+
+aria-pressed
+
+or the appropriate tab/radio semantics.
+
+Keyboard:
+
+Left/Right arrows rotate the book.
+
+Buttons must have accessible labels.
+
+Provide a concise localized description such as:
+
+EN:
+"Interactive 360-degree hardcover preview."
+
+FR:
+"Aperçu interactif à 360 degrés du livre relié."
+
+Do not make accessibility depend on the canvas.
+
+==================================================
+30. RESPONSIVE LAYOUT
+==================================================
+
+DESKTOP:
+
+The book should be visually prominent.
+
+Edition selector must remain close to the viewer.
+
+TABLET:
+
+Maintain a large useful viewer.
+
+MOBILE:
+
+Book should remain large enough to inspect.
+
+Do not make it a tiny thumbnail.
+
+Keep selector immediately accessible.
+
+No horizontal page overflow.
+
+==================================================
+31. DO NOT ADD UNVERIFIED SALES INFORMATION
+==================================================
+
+This task is ONLY about the bilingual 3D hardcover viewer.
+
+Do not introduce:
+
+fake price
+fake ISBN
+fake availability
+fake BookVault status
+fake publication date
+PRE-ORDER NOW
+
+unless these values are already explicitly verified by the existing
+single-source-of-truth publication configuration.
+
+Do not copy purchase elements from mockups automatically.
+
+==================================================
+32. DO NOT CHANGE OTHER WEBSITE AREAS
+==================================================
+
+Preserve:
+
+welcome experience
+navigation
+Articles & Publications
+Technical Assistance
+Authors
+Endorsements
+admin portal
+enquiry system
+Clerk/security
+PostgreSQL/Drizzle
+SEO architecture
+EN/FR interface architecture
+
+Do not redesign unrelated pages.
+
+==================================================
+33. VISUAL TESTS
+==================================================
+
+Test ENGLISH:
+
+Front
+Spine
+Back
+3/4 front
+3/4 back
+
+Test FRANÇAIS:
+
+Front
+Spine
+Back
+3/4 front
+3/4 back
+
+Verify visually:
+
+correct artwork
+correct orientation
+no mirror
+no upside-down texture
+no printer marks
+no bleed guides
+no stretching
+
+==================================================
+34. LANGUAGE SWITCH TEST
+==================================================
+
+Test:
+
+English front
+→ switch French
+→ French front appears
+
+French front
+→ switch English
+→ English front appears
+
+Rotate English to spine
+→ switch French
+→ French spine appears WITHOUT resetting rotation
+
+Rotate French to back
+→ switch English
+→ English back appears WITHOUT resetting rotation
+
+==================================================
+35. MOBILE TEST
+==================================================
+
+Test:
+
+320px
+375px
+390px
+430px
+768px
+
+Verify:
+
+horizontal drag rotates
+vertical drag scrolls
+edition selector works
+FRONT/SPINE/BACK works
+no horizontal overflow
+no cropped controls
+no WebGL instability
+
+==================================================
+36. DESKTOP TEST
+==================================================
+
+Test:
+
+1024px
+1280px
+1440px
+1920px
+
+Verify:
+
+book remains crisp
+typography readable
+lighting correct
+selector aligned
+rotation smooth
+no layout shift
+
+==================================================
+37. REDUCED MOTION TEST
+==================================================
+
+With prefers-reduced-motion enabled:
+
+no idle auto rotation.
+
+Manual controls must still work.
+
+Edition switching must still work.
+
+==================================================
+38. BUILD / TEST
+==================================================
+
+Run current:
+
+TypeScript checks
+website tests
+3D viewer tests
+mobile gesture tests
+production website build
+
+Do not quote historical test counts.
+
+Report actual current results.
+
+==================================================
+39. FINAL IMPLEMENTATION REPORT
+==================================================
+
+Report:
+
+1. existing 3D component modified
+2. French source asset used
+3. French original pixel dimensions
+4. exact French front crop
+5. exact French spine crop
+6. exact French back crop
+7. bleed removal method
+8. English source asset used
+9. exact English front/spine/back assets or crops
+10. optimized texture dimensions
+11. texture configuration file
+12. edition selector implementation
+13. rotation preservation implementation
+14. FRONT/SPINE/BACK controls
+15. auto-rotation behavior
+16. mobile gesture result
+17. WebGL fallback
+18. accessibility result
+19. reduced-motion result
+20. performance impact
+21. TypeScript result
+22. tests
+23. production build result
+24. screenshots for:
+    - English front
+    - English spine
+    - English back
+    - French front
+    - French spine
+    - French back
+25. files created
+26. files modified
+
+IMPORTANT:
+
+DO NOT RETURN ONLY AN IMPLEMENTATION PLAN.
+
+IMPLEMENT THE BILINGUAL 360° HARDCOVER VIEWER.
+
+THE CORE REQUIREMENT IS:
+
+ONE 3D HARDCOVER
++
+TWO OFFICIAL TEXTURE SETS
++
+[ ENGLISH ] [ FRANÇAIS ]
++
+SWITCH WITHOUT RESETTING THE BOOK'S ROTATION.

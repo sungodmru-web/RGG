@@ -1,0 +1,290 @@
+CODE PACK 6 — RESEARCH & INSIGHTS FRONTEND
+
+Implement ONLY Code Pack 6.
+
+OBJECTIVE:
+
+Turn /research into a professional publication library and prepare /research/:slug for real RGG publications.
+
+This pack creates the FRONTEND architecture only.
+
+Database/API publishing comes in Code Pack 7.
+
+==================================================
+1. CRITICAL CONTENT RULE
+==================================================
+
+Do NOT migrate the old JOURNAL_ARTICLES array from LegacyHome.tsx as genuine research.
+
+The previous journal entries were presentation placeholders.
+
+Do not publish or display them on the new research library.
+
+Do not invent:
+- article titles
+- abstracts
+- authors
+- dates
+- DOIs
+- PDFs
+- journal names
+- citations
+- publication statistics
+
+Start the publication collection empty unless verified real publication records already exist elsewhere in the current codebase.
+
+==================================================
+2. CREATE TYPES
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/types/research.ts
+
+using the supplied Code Pack 6 types.
+
+==================================================
+3. CREATE RESEARCH CONTENT CONFIG
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/content/researchContent.ts
+
+using the supplied configuration.
+
+RESEARCH_PUBLICATIONS should begin as an empty array unless the project contains VERIFIED real publication data.
+
+If verified real publication records are found, report them before including them.
+
+Do not treat LegacyHome JOURNAL_ARTICLES as verified.
+
+==================================================
+4. CREATE UTILITIES
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/lib/research.ts
+
+with:
+- publication type labels
+- publication date formatting
+- newest-first sorting
+
+==================================================
+5. CREATE RESEARCH CARD
+==================================================
+
+Create:
+
+artifacts/rgg-website/src/components/research/ResearchCard.tsx
+
+using the supplied component.
+
+==================================================
+6. REPLACE RESEARCH PAGE
+==================================================
+
+Replace:
+
+artifacts/rgg-website/src/pages/Research.tsx
+
+with the supplied Code Pack 6 Research page.
+
+Required sections:
+
+1. Research hero
+2. Optional featured publication
+3. Search
+4. Publication-type filters
+5. Publication library
+6. Proper empty state
+7. Framework cross-link
+8. Consultancy cross-link
+
+The featured section must render ONLY when a real featured publication exists.
+
+==================================================
+7. REPLACE RESEARCH ARTICLE PAGE
+==================================================
+
+Replace:
+
+artifacts/rgg-website/src/pages/ResearchArticle.tsx
+
+with the supplied implementation.
+
+Requirements:
+
+- resolve publication by slug
+- show professional publication-not-found state
+- never display raw development slug text
+- support abstract
+- support authors
+- support publication type
+- support publication date
+- support optional reading time
+- support optional content
+- support optional PDF
+- support optional external publication URL
+
+Do NOT introduce Markdown rendering yet.
+
+That can be added with the publishing system if necessary.
+
+==================================================
+8. QUERY STRING NOTE
+==================================================
+
+The global footer already contains links such as:
+
+/research?type=research-paper
+
+Do NOT break these links.
+
+If practical within this pack, initialize activeType from the URL search parameter `type`.
+
+If implementing query-state would require unrelated routing changes, leave it for Pack 7 and report it.
+
+Do NOT add another router.
+
+==================================================
+9. VISUAL LANGUAGE
+==================================================
+
+Preserve RGG design:
+
+- black
+- charcoal
+- deep emerald
+- muted gold
+- ivory
+- Playfair/editorial typography
+- thin borders
+- restrained movement
+
+Do NOT create:
+- rounded blog cards
+- generic news website UI
+- SaaS styling
+- bright category pills
+- cannabis leaf decorations
+- stock photography
+
+The page should feel like:
+
+research institute × journal × policy platform.
+
+==================================================
+10. ACCESSIBILITY
+==================================================
+
+Verify:
+
+- exactly one H1 on Research page
+- search has label
+- filter controls use native buttons
+- aria-pressed indicates current filter
+- keyboard navigation works
+- publication cards contain real links
+- meaningful heading hierarchy
+- no href="#"
+- empty state is understandable
+- publication detail has one H1
+
+==================================================
+11. RESPONSIVENESS
+==================================================
+
+Test approximately:
+
+375px
+430px
+768px
+1024px
+1440px
+
+Verify:
+
+- no document horizontal overflow
+- filters wrap cleanly
+- search does not overflow
+- cards stack correctly
+- publication headings remain readable
+- no decorative element expands page width
+
+==================================================
+12. DO NOT MODIFY
+==================================================
+
+Do NOT modify:
+
+Home.tsx
+LegacyHome.tsx
+Book.tsx
+bookContent.ts
+Framework.tsx
+frameworkContent.ts
+Consultancy.tsx
+Authors.tsx
+About.tsx
+SiteHeader.tsx
+SiteFooter.tsx
+SiteLayout.tsx
+App.tsx
+backend
+database
+package dependencies
+
+Unless a tiny direct compilation fix is required.
+
+==================================================
+13. BUILD
+==================================================
+
+Run:
+
+tsc -p tsconfig.json --noEmit
+
+Run production build.
+
+==================================================
+14. VERIFY
+==================================================
+
+Verify:
+
+1. /research HTTP 200
+2. /research/test-publication HTTP 200
+3. test-publication shows Publication not found
+4. raw slug debugging output is gone
+5. search input works
+6. filters work
+7. filter aria-pressed works
+8. empty library state renders correctly
+9. old placeholder articles do NOT appear
+10. /framework cross-link works
+11. /consultancy cross-link works
+12. Home remains unchanged
+13. Book remains unchanged
+14. Framework remains unchanged
+15. no href="#"
+16. no horizontal overflow
+17. no console errors
+18. TypeScript passes
+19. production build passes
+
+REPORT:
+
+- number of genuine publications found
+- number of placeholder JOURNAL_ARTICLES intentionally excluded
+- publication types configured
+- whether URL query filter support was implemented
+- responsive result
+- accessibility result
+- TypeScript result
+- production build result
+- warnings
+
+Do not make unrelated improvements.

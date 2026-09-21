@@ -1,0 +1,1 @@
+CREATE INDEX "admin_rate_limits_reset_at_idx" ON "admin_rate_limits" USING btree ("reset_at");
