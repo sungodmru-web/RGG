@@ -12,8 +12,8 @@ rewrite the application or convert PostgreSQL to MySQL.
 
 | Concern | Current implementation | Portable target |
 | --- | --- | --- |
-| Web | Vite output in `artifacts/rgg-website/dist` | Any static host/CDN with SPA fallback |
-| API | Express in `artifacts/api-server` | Any Node 24 LTS process manager |
+| Web | Vite output in `artifacts/rgg-website/dist/public` | Any static host/CDN with SPA fallback |
+| API | Express in `artifacts/api-server` | Any compatible Node 22 LTS process manager |
 | Data | Drizzle + `pg` + PostgreSQL | External managed PostgreSQL over SSL |
 | Migrations | `lib/db/drizzle` | Preserve ordered Drizzle SQL and journal |
 | Auth | Clerk Express/React | Clerk production instance and configured origins |
@@ -29,18 +29,21 @@ cutover.
 ## Required runtime contract
 
 ```text
-Node: 24 LTS (verified locally with 24.13.0)
+Node: 22 LTS (verified locally with 22.22.0)
 pnpm: 10.26.1
-Install: corepack enable && corepack prepare pnpm@10.26.1 --activate
-         pnpm install --frozen-lockfile
-Build:   PORT=4173 BASE_PATH=/ PUBLIC_SITE_URL=... PUBLICATIONS_API_URL=... pnpm run build
-Start:   PORT=3000 pnpm start
+Install: npx --yes pnpm@10.26.1 install --frozen-lockfile
+Build:   PORT=4173 BASE_PATH=/ PUBLIC_SITE_URL=... PUBLICATIONS_API_URL=...
+         npx --yes pnpm@10.26.1 run build
+Start:   PORT=3000 npx --yes pnpm@10.26.1 start
 ```
 
 The production build currently requires `PORT` and `BASE_PATH`, and uses
 `PUBLIC_SITE_URL`/`PUBLICATIONS_API_URL` for generated metadata and publication
 content.
 Do not use the development fallback origin in a production build.
+The production Express server defaults to serving
+`artifacts/rgg-website/dist/public`; `STATIC_DIR` remains available as an
+optional override.
 
 ## Database portability
 

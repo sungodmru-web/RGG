@@ -1,0 +1,120 @@
+HOSTINGER BUILD FIX — PNPM / COREPACK
+
+Hostinger now recognizes and imports the RGG GitHub repository correctly.
+
+The deployment currently fails during dependency installation.
+
+Hostinger reports:
+
+- Node.js: 22.x
+- project packageManager: pnpm@10.26.1
+- Hostinger/Corepack is unexpectedly attempting to resolve pnpm 12.5.1
+- deployment fails before the actual application build completes
+
+IMPORTANT:
+Do NOT redesign the application.
+Do NOT change PostgreSQL, Clerk, Drizzle, Express, React, Vite or the monorepo architecture.
+Do NOT modify application functionality.
+Do NOT downgrade pnpm to 9.12.0 merely because Hostinger suggested it unless testing proves that is necessary.
+
+GOAL:
+
+Make the existing RGG repository install and build reliably on Hostinger Node.js 22.
+
+1. Inspect:
+   - root package.json
+   - packageManager field
+   - pnpm-lock.yaml
+   - pnpm-workspace.yaml
+   - workspace configuration
+   - engines
+   - build scripts
+   - start scripts
+
+2. Confirm which pnpm version generated/is compatible with the current lockfile.
+
+The project currently declares:
+
+"packageManager": "pnpm@10.26.1"
+
+Verify whether 10.26.1 is the correct version.
+
+3. Search the entire repository for any reference to:
+
+pnpm@12.5.1
+12.5.1
+corepack
+packageManager
+package-manager
+PNPM_VERSION
+
+Determine why Hostinger/Corepack could be attempting to use pnpm 12.5.1.
+
+4. Preserve ONE package manager.
+
+Do not generate package-lock.json or yarn.lock if pnpm is the actual project package manager.
+
+Keep pnpm-lock.yaml.
+
+5. Make Hostinger installation deterministic.
+
+Prefer explicitly activating/installing the pnpm version declared by the repository rather than silently changing major pnpm versions.
+
+If Hostinger supports a custom install command, prepare the exact safest command.
+
+Possible approach only if verified compatible with Hostinger:
+
+corepack enable && corepack prepare pnpm@10.26.1 --activate && pnpm install --frozen-lockfile
+
+If Hostinger's Corepack implementation itself is broken, investigate a safe fallback such as invoking the required pnpm version through npm/npx.
+
+Do not assume the example command is correct without testing it.
+
+6. Test locally using Node 22 with the same production sequence Hostinger will use.
+
+Verify:
+
+pnpm version
+clean dependency install
+pnpm install --frozen-lockfile
+production build
+production start
+
+7. Do not regenerate or materially rewrite pnpm-lock.yaml unless genuinely required.
+
+If it changes, explain exactly why.
+
+8. Keep root package.json Hostinger-compatible with valid:
+
+"build"
+"start"
+
+scripts.
+
+9. Commit and PUSH the fix to the existing GitHub RGG repository on main.
+
+Hostinger deploys from GitHub, so changing only the Replit workspace is insufficient.
+
+10. Report:
+
+- correct pnpm version
+- reason Hostinger attempted pnpm 12.5.1 if determinable
+- whether package.json changed
+- whether pnpm-lock.yaml changed
+- exact Hostinger install command
+- exact Hostinger build command
+- exact Hostinger start command
+- Node version
+- clean install result
+- production build result
+- production start result
+- Git commit hash
+- confirmation changes were pushed to GitHub main
+
+IMPORTANT:
+
+Do the implementation and tests.
+
+Do not simply tell me to downgrade pnpm.
+
+Preserve the existing RGG application and make the Hostinger installation deterministic.

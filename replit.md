@@ -7,11 +7,13 @@ Ultra-luxury institutional website for the book "Reclaiming the Green Gold: Cann
 - `pnpm --filter @workspace/rgg-website run dev` — run the website (port assigned by workflow)
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
 - `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
+- `pnpm run build` — typecheck + build the production API and website
+- `pnpm run build:all` — production build plus the Replit mockup sandbox
+- `PORT=3000 npx --yes pnpm@10.26.1 start` — run the complete production app through Express
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
+- pnpm workspaces, Node.js 22, TypeScript 5.9
 - Frontend: React + Vite, TailwindCSS, Framer Motion
 - API: Express 5 (minimal, no DB needed for this site)
 - Fonts: Playfair Display (serif headings), Inter (body)

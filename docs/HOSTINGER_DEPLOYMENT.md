@@ -26,7 +26,7 @@ returns `index.html` for direct requests to public and admin SPA routes.
 
 Hostinger requirements:
 
-1. Node.js 24 LTS (the workspace was verified with Node 24.13.0; Vite 7
+1. Node.js 22 LTS (the workspace is verified with Node 22.22.0; Vite 7
    requires Node 20.19+ or 22.12+).
 2. pnpm 10.26.1, or Corepack with the repository's approved pnpm version.
 3. A long-running Node process for Express, not a short-lived shared-PHP task.
@@ -40,22 +40,39 @@ Hostinger requirements:
 Run from the repository root:
 
 ```sh
-corepack enable
-corepack prepare pnpm@10.26.1 --activate
-pnpm install --frozen-lockfile
+npx --yes pnpm@10.26.1 install --frozen-lockfile
 
-# Build API, frontend, and the mockup artifact.
+# Build the production API and frontend.
 PORT=4173 BASE_PATH=/ \
 PUBLIC_SITE_URL=https://YOUR_FINAL_DOMAIN \
 PUBLICATIONS_API_URL=https://YOUR_API_ORIGIN/api/publications \
-pnpm run build
+npx --yes pnpm@10.26.1 run build
 ```
 
-The root build typechecks the workspace and builds the API and frontend. Start
+Do not use `pnpm@latest`, `corepack use pnpm@latest`, or an unpinned package
+manager install command. The repository's `packageManager` and `engines.pnpm`
+fields both require pnpm 10.26.1, matching the checked-in lockfile.
+The `npx` command invokes pnpm directly at the required version and bypasses
+Hostinger's Corepack resolver. It does not add npm metadata or create
+`package-lock.json`.
+
+Pinned Corepack remains an equivalent alternative on hosts where Corepack is
+working correctly:
+
+```sh
+corepack pnpm@10.26.1 install --frozen-lockfile
+```
+
+Do not run `corepack enable` on a managed runtime with a read-only global binary
+directory; it may fail while attempting to create a global pnpm shim.
+
+The root build typechecks the workspace and builds the production API and
+frontend. The optional `pnpm run build:all` command also builds the Replit
+mockup sandbox, which is not part of the Hostinger production process. Start
 the unified production process with:
 
 ```sh
-PORT=3000 pnpm start
+PORT=3000 npx --yes pnpm@10.26.1 start
 ```
 
 Hostinger should proxy HTTPS traffic to that assigned port. `vite preview` is
@@ -85,7 +102,8 @@ Required:
 - `CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`
 - `APP_ORIGIN`, `APP_ORIGINS`
 - `PUBLIC_SITE_URL`, `PUBLICATIONS_API_URL`
-- `STATIC_DIR`, `TRUST_PROXY_HOPS`
+- `TRUST_PROXY_HOPS` (`STATIC_DIR` is optional because the server defaults to
+  `artifacts/rgg-website/dist/public`)
 - `OBJECT_STORAGE_PROVIDER=s3`
 - `PRIVATE_OBJECT_DIR` plus the selected S3 provider's server-only endpoint,
   bucket, region, access key, and secret key

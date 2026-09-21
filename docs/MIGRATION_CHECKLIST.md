@@ -18,7 +18,7 @@ incomplete.
 
 ## Runtime and application
 
-- [ ] Node 24 LTS and pnpm 10.26.1 available
+- [ ] Node 22 LTS and pnpm 10.26.1 available
 - [ ] `pnpm install --frozen-lockfile` succeeds
 - [ ] `pnpm run typecheck` succeeds
 - [ ] `pnpm run build` succeeds with temporary deployment variables

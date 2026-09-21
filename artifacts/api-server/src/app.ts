@@ -2,6 +2,7 @@ import express, { type Express, type Request, type Response, type NextFunction }
 import cors from "cors";
 import pinoHttp from "pino-http";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { clerkMiddleware } from "@clerk/express";
 import { publishableKeyFromHost } from "@clerk/shared/keys";
 import router from "./routes";
@@ -95,18 +96,17 @@ app.use(
 
 app.use("/api", router);
 
+const serverDirectory = path.dirname(fileURLToPath(import.meta.url));
 const staticDirectory = process.env.STATIC_DIR
   ? path.resolve(process.env.STATIC_DIR)
-  : undefined;
+  : path.resolve(serverDirectory, "../../rgg-website/dist/public");
 
-if (staticDirectory) {
-  app.use(express.static(staticDirectory, { index: "index.html" }));
-}
+app.use(express.static(staticDirectory, { index: "index.html" }));
 
 app.use((req, res) => {
   if (req.path === "/api" || req.path.startsWith("/api/")) {
     res.status(404).json({ error: "Not found" });
-  } else if (staticDirectory && (req.method === "GET" || req.method === "HEAD")) {
+  } else if (req.method === "GET" || req.method === "HEAD") {
     res.sendFile(path.join(staticDirectory, "index.html"), (error) => {
       if (error && !res.headersSent) {
         const statusCode =
