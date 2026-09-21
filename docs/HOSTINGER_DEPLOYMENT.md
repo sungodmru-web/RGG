@@ -52,6 +52,21 @@ PUBLICATIONS_API_URL=https://YOUR_API_ORIGIN/api/publications \
 npm run build
 ```
 
+For the first Hostinger deployment only, when the same application API is not
+yet reachable, omit `PUBLICATIONS_API_URL` and set:
+
+```sh
+ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP=true
+```
+
+This explicit bootstrap mode permits only an unreachable publication endpoint
+or HTTP 404 to produce an empty publication metadata set. It creates no
+publication pages, structured data, or sitemap entries. Malformed JSON, invalid
+records, non-published records, and all other HTTP errors still fail the build.
+After `/api/publications` is online and returns a valid JSON array, remove the
+bootstrap flag, set `PUBLICATIONS_API_URL` to that HTTPS endpoint, and rebuild
+to restore normal strict publication prerendering.
+
 The committed `package-lock.json` selects npm on Hostinger and avoids its broken
 cached pnpm/Corepack bootstrap. Do not configure a Hostinger pnpm command, run
 `corepack enable`, or delete either lockfile. `pnpm-workspace.yaml` and

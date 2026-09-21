@@ -5,6 +5,7 @@ import path from "path";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import type { Plugin } from "vite";
+import { z } from "zod";
 
 import {
   bookJsonLd,
@@ -49,9 +50,65 @@ if (!siteOrigin) {
     "PUBLIC_SITE_URL is required for production builds outside Replit.",
   );
 }
+const configuredPublicationsApiUrl =
+  process.env.PUBLICATIONS_API_URL?.trim() || undefined;
 const publicationsApiUrl =
-  process.env.PUBLICATIONS_API_URL ??
+  configuredPublicationsApiUrl ??
   new URL("/api/publications", siteOrigin).href;
+let parsedPublicationsApiUrl: URL;
+try {
+  parsedPublicationsApiUrl = new URL(publicationsApiUrl);
+} catch {
+  throw new Error(
+    "PUBLICATIONS_API_URL must be a valid absolute HTTP(S) URL.",
+  );
+}
+if (!["http:", "https:"].includes(parsedPublicationsApiUrl.protocol)) {
+  throw new Error(
+    "PUBLICATIONS_API_URL must be a valid absolute HTTP(S) URL.",
+  );
+}
+const allowEmptyPublicationsBootstrap =
+  process.env.ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP === "true";
+const publicPublicationSchema = z
+  .object({
+    id: z.string().uuid(),
+    slug: z.string(),
+    title: z.string(),
+    subtitle: z.string().optional(),
+    abstract: z.string(),
+    publicationType: z.enum([
+      "research-paper",
+      "policy-brief",
+      "article",
+      "commentary",
+      "report",
+      "case-study",
+    ]),
+    category: z.string().optional(),
+    themeId: z.string().uuid().nullish(),
+    language: z.enum(["english", "french", "bilingual"]).optional(),
+    authors: z.array(
+      z.object({
+        name: z.string().min(1),
+        role: z.string().optional(),
+      }),
+    ),
+    publicationDate: z.string().date(),
+    readingTime: z.number().int().min(1).optional(),
+    featured: z.boolean(),
+    featuredImage: z.string().optional(),
+    featuredImageMediaId: z.string().uuid().nullish(),
+    pdfUrl: z.string().optional(),
+    pdfMediaId: z.string().uuid().nullish(),
+    externalUrl: z.string().optional(),
+    doi: z.string().optional(),
+    content: z.string().optional(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+  })
+  .strict();
+const publicPublicationListSchema = z.array(publicPublicationSchema);
 
 if (!basePath) {
   throw new Error(
@@ -136,6 +193,79 @@ function renderPublicationContent(publication: ResearchPublication): string {
   return `<main><article><header><h1>${escapeHtml(publication.title)}</h1>${publication.subtitle ? `<p>${escapeHtml(publication.subtitle)}</p>` : ""}<p>${authors}</p></header><p>${escapeHtml(publication.abstract)}</p>${publication.content ? `<div>${escapeHtml(publication.content)}</div>` : ""}</article></main>`;
 }
 
+async function loadPublishedPublications(
+  plugin: { error(message: string): never; warn(message: string): void },
+): Promise<ResearchPublication[]> {
+  if (!configuredPublicationsApiUrl && allowEmptyPublicationsBootstrap) {
+    plugin.warn(
+      "[prerender-public-metadata] Bootstrap mode: PUBLICATIONS_API_URL is not configured; continuing with zero prerendered publications. No publication pages, structured data, or sitemap entries were generated.",
+    );
+    return [];
+  }
+
+  let publicationResponse: Response;
+  try {
+    publicationResponse = await fetch(publicationsApiUrl, {
+      headers: { accept: "application/json" },
+      redirect: "manual",
+    });
+  } catch (error) {
+    if (!allowEmptyPublicationsBootstrap) {
+      plugin.error(
+        `Could not reach published publication metadata endpoint: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
+    plugin.warn(
+      "[prerender-public-metadata] Bootstrap mode: publication API unreachable; continuing with zero prerendered publications. No publication pages, structured data, or sitemap entries were generated.",
+    );
+    return [];
+  }
+
+  if (publicationResponse.status === 404 && allowEmptyPublicationsBootstrap) {
+    plugin.warn(
+      "[prerender-public-metadata] Bootstrap mode: publication API returned HTTP 404; continuing with zero prerendered publications. No publication pages, structured data, or sitemap entries were generated.",
+    );
+    return [];
+  }
+  if (publicationResponse.status !== 200) {
+    plugin.error(
+      `Could not load published publication metadata (${publicationResponse.status}).`,
+    );
+  }
+
+  let publicationPayload: unknown;
+  try {
+    publicationPayload = await publicationResponse.json();
+  } catch {
+    plugin.error("Published publication metadata was not valid JSON.");
+  }
+  if (!Array.isArray(publicationPayload)) {
+    plugin.error("Published publication metadata was not an array.");
+  }
+  for (const publication of publicationPayload) {
+    if (
+      typeof publication === "object" &&
+      publication !== null &&
+      "status" in publication &&
+      publication.status !== "published"
+    ) {
+      plugin.error(
+        "Published publication metadata contained a non-published record.",
+      );
+    }
+  }
+
+  const parsed = publicPublicationListSchema.safeParse(publicationPayload);
+  if (!parsed.success) {
+    plugin.error(
+      `Published publication metadata contained an invalid record: ${parsed.error.message}`,
+    );
+  }
+  return parsed.data as ResearchPublication[];
+}
+
 function prerenderPublicMetadata(): Plugin {
   return {
     name: "prerender-public-metadata",
@@ -147,29 +277,23 @@ function prerenderPublicMetadata(): Plugin {
       }
       const indexPath = path.join(options.dir, "index.html");
       const entry = await readFile(indexPath, "utf8");
-      const publicationResponse = await fetch(publicationsApiUrl, {
-        headers: { accept: "application/json" },
-      });
-      if (!publicationResponse.ok) {
-        this.error(
-          `Could not load published publication metadata (${publicationResponse.status}).`,
-        );
-        return;
-      }
-      const publicationPayload: unknown = await publicationResponse.json();
-      if (!Array.isArray(publicationPayload)) {
-        this.error("Published publication metadata was not an array.");
-        return;
-      }
-      const publications = publicationPayload as ResearchPublication[];
+      const publications = await loadPublishedPublications(this);
       const publicationSlugs = new Set<string>();
+      const publicationIds = new Set<string>();
       for (const publication of publications) {
+        if (publicationIds.has(publication.id)) {
+          this.error(
+            `Published publication metadata contains duplicate id "${publication.id}".`,
+          );
+          return;
+        }
         if (publicationSlugs.has(publication.slug)) {
           this.error(
             `Published publication metadata contains duplicate slug "${publication.slug}".`,
           );
           return;
         }
+        publicationIds.add(publication.id);
         publicationSlugs.add(publication.slug);
       }
        for (const route of PUBLIC_ROUTE_PATHS) {
