@@ -134,7 +134,7 @@ export default function Authors() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
 
             <article className="overflow-hidden border border-[#1A2E20] bg-[#07100A]">
-              <div className="aspect-[5/6] overflow-hidden border-b border-[#1A2E20] bg-[#F4F1EA]">
+              <div className="flex h-[22rem] items-center justify-center overflow-hidden border-b border-[#1A2E20] bg-[#F4F1EA] p-4 sm:h-[26rem] lg:h-[28rem]">
                 <img
                   src={`${import.meta.env.BASE_URL}images/authors/soobaschand-sweenarain.jpeg`}
                   alt={text(
@@ -144,7 +144,7 @@ export default function Authors() {
                   width={1145}
                   height={1374}
                   loading="eager"
-                  className="h-full w-full object-cover object-center"
+                  className="h-full w-auto max-w-full object-contain object-center"
                 />
               </div>
               <div className="p-8 md:p-12">
@@ -172,7 +172,7 @@ export default function Authors() {
             </article>
 
             <article className="overflow-hidden border border-[#1A2E20] bg-[#07100A]">
-              <div className="aspect-[5/6] overflow-hidden border-b border-[#1A2E20] bg-[#F4F1EA]">
+              <div className="flex h-[22rem] items-center justify-center overflow-hidden border-b border-[#1A2E20] bg-[#F4F1EA] p-4 sm:h-[26rem] lg:h-[28rem]">
                 <img
                   src={`${import.meta.env.BASE_URL}images/authors/sunny-sweenarain.jpeg`}
                   alt={text(
@@ -182,7 +182,7 @@ export default function Authors() {
                   width={1145}
                   height={1374}
                   loading="lazy"
-                  className="h-full w-full object-cover object-center"
+                  className="h-full w-auto max-w-full object-contain object-center"
                 />
               </div>
               <div className="p-8 md:p-12">
