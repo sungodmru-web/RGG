@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { EvidenceNote } from "@/components/content/EvidenceNote";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { trackEvent } from "@/lib/analytics";
 
@@ -158,7 +157,17 @@ export default function Authors() {
                 <p className="mt-6 text-sm font-light leading-7 text-[#718078] md:text-base md:leading-8">
                   {text("Natural Resource Economist with more than three decades of international experience in sustainable development, governance, institutional reform and policy advisory.", "Économiste des ressources naturelles avec plus de trois décennies d'expérience internationale dans le développement durable, la gouvernance, la réforme institutionnelle et le conseil politique.")}
                 </p>
-                <EvidenceNote ids={["BIO-001"]} title={text("Biography provenance", "Provenance de la biographie")} />
+                <aside className="mt-8 border border-[#26382C] bg-[#07100A] p-6 text-sm font-light leading-7 text-[#B8B39F]">
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A98C50]">
+                    {text("Biography", "Biographie")}
+                  </h3>
+                  <p className="mt-4">
+                    {text(
+                      "Born and raised in Mauritius, Dr Sweenarain has centred his career primarily on the African continent, leading and advising complex programmes in renewable resource management, regional cooperation and economic integration. Grounded in the blue-green economy, his work spans large-scale project design, institutional and human capacity building, and strategic policy advice for governments, regional organisations and international partners. He is also the author of numerous technical and strategic reports.",
+                      "Né et élevé à Maurice, le Dr Sweenarain a principalement consacré sa carrière au continent africain, où il a dirigé et conseillé des programmes complexes dans les domaines de la gestion des ressources renouvelables, de la coopération régionale et de l’intégration économique. Ancrés dans l’économie bleue-verte, ses travaux couvrent la conception de projets à grande échelle, le renforcement des capacités institutionnelles et humaines, ainsi que le conseil stratégique auprès des gouvernements, des organisations régionales et des partenaires internationaux. Il est également l’auteur de nombreux rapports techniques et stratégiques.",
+                    )}
+                  </p>
+                </aside>
               </div>
             </article>
 
@@ -186,7 +195,17 @@ export default function Authors() {
                 <p className="mt-6 text-sm font-light leading-7 text-[#718078] md:text-base md:leading-8">
                   {text("Medical cannabis specialist focused on patient-centred applications, clinical interpretation, ethical practice and responsible regulatory frameworks.", "Spécialiste du cannabis médical spécialisé dans les applications centrées sur le patient, l'interprétation clinique, la pratique éthique et les cadres réglementaires responsables.")}
                 </p>
-                <EvidenceNote ids={["BIO-002"]} title={text("Biography provenance", "Provenance de la biographie")} />
+                <aside className="mt-8 border border-[#26382C] bg-[#07100A] p-6 text-sm font-light leading-7 text-[#B8B39F]">
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A98C50]">
+                    {text("Biography", "Biographie")}
+                  </h3>
+                  <p className="mt-4">
+                    {text(
+                      "Sunny Sweenarain is a medical cannabis specialist, researcher and international consultant whose work spans the clinical, humanitarian, cultural and ethical dimensions of medical cannabis. Having studied cannabis science in Canada and worked for more than ten years across developing states, he focuses on patient-oriented applications, clinical interpretation of evidence and responsible regulatory frameworks. His approach combines compassion, informed choice and continuity of care with advocacy for addiction prevention, harm reduction and the humanitarian and cultural causes of cannabis reform.",
+                      "Sunny Sweenarain est un spécialiste du cannabis médical, chercheur et consultant international dont les travaux couvrent les dimensions cliniques, humanitaires, culturelles et éthiques du cannabis médical. Après avoir étudié les sciences du cannabis au Canada et travaillé pendant plus de dix ans dans différents États en développement, il se consacre aux applications centrées sur le patient, à l’interprétation clinique des données probantes et à l’élaboration de cadres réglementaires responsables. Son approche associe compassion, choix éclairé et continuité des soins à un engagement en faveur de la prévention des dépendances, de la réduction des risques et des causes humanitaires et culturelles de la réforme du cannabis.",
+                    )}
+                  </p>
+                </aside>
               </div>
             </article>
 
