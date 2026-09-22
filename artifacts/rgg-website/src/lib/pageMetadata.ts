@@ -165,9 +165,9 @@ export const PUBLIC_ROUTE_PATHS = [
 
 export const ROUTE_METADATA: Record<string, PageMetadata> = {
   "/": {
-    title: "Reclaiming the Green Gold | Cannabis Governance",
+    title: "Reclaiming the Green Gold",
     description:
-      "Explore a global framework for cannabis governance, sustainable development, public health, justice and inclusive economic transformation.",
+      "Cannabis at the Crossroads of Health, Justice and Sustainable Development.",
   },
   "/book": {
     title: "The Book | Reclaiming the Green Gold",

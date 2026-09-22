@@ -17,6 +17,14 @@ describe("public page metadata", () => {
     });
   });
 
+  it("uses the approved homepage sharing metadata", () => {
+    expect(ROUTE_METADATA["/"]).toEqual({
+      title: "Reclaiming the Green Gold",
+      description:
+        "Cannabis at the Crossroads of Health, Justice and Sustainable Development.",
+    });
+  });
+
   it("uses publication SEO fields rather than deriving article facts from its slug", () => {
     const metadata = metadataForPublication({
       id: "publication-1",

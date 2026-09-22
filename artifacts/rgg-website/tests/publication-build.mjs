@@ -264,6 +264,41 @@ try {
   assert.match(home, /"@type":"Organization"/);
   assert.match(home, /"@type":"WebSite"/);
   assert.match(home, /https:\/\/example\.test\/#organization/);
+  assert.match(home, /<title>Reclaiming the Green Gold<\/title>/);
+  assert.match(
+    home,
+    /<meta name="description" content="Cannabis at the Crossroads of Health, Justice and Sustainable Development\." \/>/,
+  );
+  assert.match(
+    home,
+    /<meta property="og:title" content="Reclaiming the Green Gold" \/>/,
+  );
+  assert.match(
+    home,
+    /<meta property="og:description" content="Cannabis at the Crossroads of Health, Justice and Sustainable Development\." \/>/,
+  );
+  assert.match(
+    home,
+    /<meta property="og:url" content="https:\/\/example\.test\/" \/>/,
+  );
+  assert.match(
+    home,
+    /<meta property="og:image" content="https:\/\/example\.test\/opengraph\.jpg" \/>/,
+  );
+  assert.match(home, /<meta property="og:image:width" content="1200" \/>/);
+  assert.match(home, /<meta property="og:image:height" content="630" \/>/);
+  assert.match(
+    home,
+    /<meta name="twitter:card" content="summary_large_image" \/>/,
+  );
+  assert.match(
+    home,
+    /<meta name="twitter:image" content="https:\/\/example\.test\/opengraph\.jpg" \/>/,
+  );
+  assert.doesNotMatch(
+    home,
+    /luxury-web-estate\.replit\.app|localhost|127\.0\.0\.1|%BASE_URL%|Default page/i,
+  );
   const bookSchema = jsonLdByType(book, "Book");
   assert(bookSchema);
   assert.equal(bookSchema.creativeWorkStatus, "Forthcoming");
