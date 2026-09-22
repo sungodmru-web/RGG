@@ -208,7 +208,9 @@ try {
   );
   const home = await readFile(path.join(projectDir, "dist/public/index.html"), "utf8");
   const faviconPath = path.join(projectDir, "dist/public/rgg-favicon.png");
+  const faviconIcoPath = path.join(projectDir, "dist/public/favicon.ico");
   await access(faviconPath);
+  await access(faviconIcoPath);
   const routeContents = await Promise.all(
     [
       "",
@@ -233,15 +235,19 @@ try {
   for (const routeHtml of routeContents) {
     assert.match(
       routeHtml,
-      /<link rel="icon" type="image\/png" sizes="64x64" href="\/rgg-favicon\.png\?v=2" \/>/,
+      /<link rel="icon" href="\/favicon\.ico\?v=3" sizes="any" \/>/,
     );
     assert.match(
       routeHtml,
-      /<link rel="shortcut icon" type="image\/png" href="\/rgg-favicon\.png\?v=2" \/>/,
+      /<link rel="icon" type="image\/png" sizes="64x64" href="\/rgg-favicon\.png\?v=3" \/>/,
     );
     assert.match(
       routeHtml,
-      /<link rel="apple-touch-icon" href="\/rgg-favicon\.png\?v=2" \/>/,
+      /<link rel="shortcut icon" href="\/favicon\.ico\?v=3" \/>/,
+    );
+    assert.match(
+      routeHtml,
+      /<link rel="apple-touch-icon" href="\/rgg-favicon\.png\?v=3" \/>/,
     );
     assert.doesNotMatch(routeHtml, /%BASE_URL%|undefined\/favicon|assets\/favicon/);
   }
