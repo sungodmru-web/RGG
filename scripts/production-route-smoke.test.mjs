@@ -24,9 +24,9 @@ const publication = {
 function commandEnvironment(overrides = {}) {
   return {
     ...process.env,
-    ...overrides,
-    // The production bundle imports the database pool, but these checks must
-    // never connect to a developer or production database.
+    // The production server imports the database pool, but these checks must
+    // never connect to a developer or production database. Port 1 is
+    // intentionally unreachable; the checked routes do not query the pool.
     DATABASE_URL: "postgresql://route-smoke:route-smoke@127.0.0.1:1/route-smoke",
     DATABASE_SSL: "",
     PGSSLMODE: "",
@@ -35,6 +35,7 @@ function commandEnvironment(overrides = {}) {
     BETTER_STACK_SOURCE_TOKEN: "",
     CLERK_SECRET_KEY: "",
     CLERK_PUBLISHABLE_KEY: "",
+    ...overrides,
   };
 }
 
@@ -165,6 +166,17 @@ async function assertJsonResponse(baseUrl, route, status, body) {
   assert.deepEqual(await response.json(), body, `${route} should return the expected JSON`);
 }
 
+async function assertImageResponse(baseUrl, route, contentType) {
+  const response = await request(baseUrl, route);
+  assert.equal(response.status, 200, `${route} should resolve with HTTP 200`);
+  assert.match(
+    response.headers.get("content-type") ?? "",
+    new RegExp(contentType, "i"),
+    `${route} should return ${contentType} content`,
+  );
+  assert((await response.arrayBuffer()).byteLength > 0, `${route} should not be empty`);
+}
+
 const fixture = await startFixtureServer();
 let productionServer;
 let productionOutput = "";
@@ -175,6 +187,7 @@ try {
       NODE_ENV: "production",
       PUBLIC_SITE_URL: "http://127.0.0.1:4173",
       PUBLICATIONS_API_URL: fixture.url,
+      DATABASE_URL: "",
       ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP: "",
       BASE_PATH: "/",
     },
@@ -209,6 +222,12 @@ try {
   ]) {
     await assertHtmlRoute(baseUrl, route);
   }
+  await assertImageResponse(
+    baseUrl,
+    "/favicon.ico?v=3",
+    "image/(x-icon|vnd\\.microsoft\\.icon)",
+  );
+  await assertImageResponse(baseUrl, "/rgg-favicon.png?v=3", "image/png");
 
   await assertJsonResponse(baseUrl, "/api/healthz", 200, { status: "ok" });
   await assertJsonResponse(baseUrl, "/api/route-smoke-missing", 404, {
