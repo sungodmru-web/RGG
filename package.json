@@ -17,6 +17,7 @@
     "build:all": "npm run build && PORT=4174 BASE_PATH=/__mockup pnpm --filter @workspace/mockup-sandbox run build",
     "start": "NODE_ENV=production node --enable-source-maps artifacts/api-server/dist/index.mjs",
     "test": "npm test --workspace=@workspace/api-server && npm test --workspace=@workspace/rgg-website",
+    "test:production-routes": "node scripts/production-route-smoke.test.mjs",
     "migration:check": "npm run migration:check --workspace=@workspace/db",
     "migration:rebuild-check": "npm run migration:rebuild-check --workspace=@workspace/db",
     "migration:baseline": "npm run test:migration-baseline --workspace=@workspace/scripts",
