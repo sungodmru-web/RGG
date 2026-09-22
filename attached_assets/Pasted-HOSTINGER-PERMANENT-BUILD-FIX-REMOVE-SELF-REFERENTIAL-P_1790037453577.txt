@@ -1,0 +1,107 @@
+HOSTINGER PERMANENT BUILD FIX — REMOVE SELF-REFERENTIAL PUBLICATION API DEPENDENCY
+
+RGG is successfully running on Hostinger.
+
+Production endpoints work after deployment:
+
+/api/healthz -> 200
+/api/readyz -> ready
+/api/publications -> 200 []
+
+However, a normal Hostinger redeployment fails because the Vite
+prerender-public-metadata plugin calls:
+
+https://reclaimingthegreengold.com/api/publications
+
+during the deployment.
+
+During the Hostinger deployment lifecycle that request returned HTTP 503.
+
+This creates an unreliable self-referential deployment dependency:
+the new RGG build depends on the currently running RGG production API.
+
+I do NOT want future production deployments to fail merely because the
+same Hostinger application temporarily returns 503 while being deployed.
+
+Design and implement the smallest production-safe solution.
+
+Requirements:
+
+1. Preserve publication metadata prerendering and SEO.
+
+2. Do not fabricate publication records.
+
+3. Do not expose draft or archived publications.
+
+4. Do not permanently require the build to call its own production URL.
+
+5. Prefer generating published-publication metadata directly from the
+production PostgreSQL database during the build, using the existing
+DATABASE_URL and existing publication schema/query logic, if this can be
+implemented safely without duplicating authorization/business logic.
+
+6. If direct build-time database querying is inappropriate, implement a
+deterministic local build-time metadata generation step using the existing
+published-publication data layer.
+
+7. PUBLICATIONS_API_URL may remain supported as an optional external source,
+but a Hostinger deployment must not depend on calling its own production
+domain.
+
+8. Preserve strict filtering:
+status must equal published.
+
+Never include draft or archived records.
+
+9. Preserve validation of publication metadata.
+
+Malformed or invalid database records must not silently generate invalid
+SEO/schema.
+
+10. Empty published database result [] is valid and must allow the build
+to succeed with zero publication metadata entries.
+
+11. Preserve ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP only as an emergency
+first-deployment mechanism, not the normal production architecture.
+
+12. Add tests for:
+
+- database contains zero published publications -> build succeeds
+- published publications -> correct metadata generated
+- drafts only -> no public metadata
+- archived only -> no public metadata
+- mixed statuses -> published only
+- malformed record -> safe failure
+- database unavailable -> production build fails clearly unless explicit
+  bootstrap mode is enabled
+- no dependency on calling reclaimingthegreengold.com during normal build
+
+13. Run npm ci, TypeScript, API tests, website tests and production builds.
+
+14. Preserve:
+React/Vite
+Express
+Wouter
+PostgreSQL
+Drizzle
+Clerk
+existing admin
+security controls
+3D book viewer
+all public routes.
+
+15. Commit and push to GitHub main.
+
+Report:
+- implementation chosen
+- why it is safe
+- files changed
+- test results
+- production build result
+- whether PUBLICATIONS_API_URL is still required
+- exact Hostinger environment variables after the fix
+- commit hash
+- confirmation pushed to main
+
+Do not modify DNS or production data.
+Do not reset or recreate the database.
