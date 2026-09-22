@@ -1,0 +1,103 @@
+FIX THE CURRENT HOSTINGER BUILD FAILURE NOW.
+
+Confirmed fatal error:
+
+[prerender-public-metadata] Could not load published publication metadata (404)
+
+The API server builds successfully. The website itself also compiles successfully until the prerender-public-metadata Vite plugin tries to fetch publications.
+
+This is a first-deployment circular dependency:
+- Hostinger must deploy RGG before /api/publications exists.
+- But the RGG build currently requires /api/publications before Hostinger can deploy RGG.
+
+Implement the smallest safe fix in:
+
+artifacts/rgg-website/vite.config.ts
+
+REQUIREMENTS:
+
+1. Keep the prerender-public-metadata plugin.
+Do NOT permanently disable it.
+
+2. Add explicit bootstrap support using:
+
+ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP=true
+
+3. Normal production behavior must remain strict.
+
+When PUBLICATIONS_API_URL is reachable:
+- require HTTP 200
+- require valid JSON
+- require the expected publication array
+- prerender published publication metadata normally
+
+4. When ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP=true:
+
+If PUBLICATIONS_API_URL is:
+- missing, OR
+- unreachable, OR
+- returns 404
+
+allow the build to continue with an EMPTY publication metadata array.
+
+Log a clear warning such as:
+
+[prerender-public-metadata] Bootstrap mode: publication API unavailable; continuing with zero prerendered publications.
+
+5. Bootstrap mode must NOT:
+- invent publications
+- generate fake publication pages
+- generate fake Article/ScholarlyArticle schema
+- generate fake sitemap publication entries
+- expose drafts or archived records
+
+6. Even in bootstrap mode, FAIL the build for:
+- malformed JSON
+- unexpected response shape
+- invalid publication data
+- security-sensitive/unexpected responses
+
+7. Without ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP=true, preserve the existing fail-closed behavior.
+
+8. Add tests for:
+- valid API -> normal prerender succeeds
+- missing API + bootstrap true -> succeeds with zero publications
+- unreachable API + bootstrap true -> succeeds
+- HTTP 404 + bootstrap true -> succeeds
+- missing/unreachable API without bootstrap -> fails
+- malformed JSON -> fails even in bootstrap
+- invalid response shape -> fails even in bootstrap
+- no fake publication sitemap/schema/pages
+
+9. Run:
+npm ci
+TypeScript checks
+API tests
+website tests
+
+Then verify BOTH:
+
+A. First-deploy bootstrap build:
+
+ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP=true \
+PUBLIC_SITE_URL=https://reclaimingthegreengold.com \
+BASE_PATH=/ \
+npm run build
+
+This MUST pass without PUBLICATIONS_API_URL.
+
+B. Normal production build using a controlled valid publication feed.
+This MUST also pass and preserve normal prerender behavior.
+
+10. Commit and PUSH to GitHub main.
+
+Give me:
+- files changed
+- implementation summary
+- bootstrap build result
+- normal build result
+- test results
+- commit hash
+- confirmation pushed to main
+
+Do not change DNS, PostgreSQL, Clerk, publication data, authentication or website design.

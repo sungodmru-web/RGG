@@ -1,0 +1,159 @@
+HOSTINGER BOOTSTRAP FIX — REMOVE PUBLICATIONS API CHICKEN-AND-EGG
+
+Hostinger deployment is repeatedly failing because the current production build has a circular bootstrap dependency.
+
+CONFIRMED FROM HOSTINGER LOG:
+
+npm installation passes.
+TypeScript passes.
+API server build passes.
+Vite transforms 3203 modules successfully.
+Frontend assets render successfully.
+
+The ONLY fatal error is:
+
+[prerender-public-metadata] Could not load published publication metadata (404).
+
+The problem is architectural:
+
+The frontend production build requires PUBLICATIONS_API_URL to already be online.
+
+But /api/publications is served by the same RGG application that Hostinger is currently trying to deploy.
+
+Therefore the first Hostinger deployment cannot succeed because the application must already be deployed in order to build itself.
+
+Also, Hostinger's UI does NOT allow a custom build command. It only invokes:
+
+npm run build
+
+So the earlier two-stage instruction using a custom Hostinger build command cannot be used.
+
+GOAL:
+
+Fix this bootstrap dependency safely in the repository so:
+
+npm run build
+
+can complete on a brand-new production host even when PUBLICATIONS_API_URL is not yet reachable.
+
+IMPORTANT:
+
+Do NOT remove metadata prerendering permanently.
+Do NOT expose drafts or archived publications.
+Do NOT fabricate publication metadata.
+Do NOT weaken public API authorization/data filtering.
+Do NOT change database records.
+Do NOT change Clerk.
+Do NOT change DNS.
+Do NOT redesign the website.
+Do NOT remove SEO functionality.
+Do NOT require a fake external API.
+Do NOT add hardcoded publication content.
+
+IMPLEMENT THE SMALLEST SAFE BOOTSTRAP FIX.
+
+Preferred architecture:
+
+1. During production build, attempt to fetch published publication metadata from PUBLICATIONS_API_URL when a valid reachable URL is configured.
+
+2. If the publication endpoint is reachable and valid:
+   - require HTTP 200
+   - require the expected JSON array
+   - prerender publication metadata normally
+   - preserve all existing validation
+   - never include draft/archived records
+
+3. If the publication endpoint is unavailable specifically because this is a FIRST-DEPLOY BOOTSTRAP condition:
+   - allow the build to complete with an EMPTY publication metadata set
+   - generate no fake publication pages
+   - generate no fake publication structured data
+   - generate no fake sitemap publication entries
+   - preserve normal static metadata for the rest of the public site
+   - log a prominent build warning explaining that publication metadata prerender was skipped because no publication API was reachable
+
+4. This fallback must NOT silently hide malformed data.
+
+If PUBLICATIONS_API_URL returns:
+- malformed JSON
+- unexpected object shape
+- invalid publication records
+- a security-sensitive response
+
+continue to fail closed.
+
+Only network/unreachable/404 bootstrap conditions may use the empty-publication fallback.
+
+5. Add an explicit environment variable if necessary, preferably:
+
+ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP=true
+
+The fallback should only be allowed when this variable is explicitly enabled.
+
+Without that variable, retain the existing fail-closed production behavior.
+
+6. Hostinger first deployment will use:
+
+ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP=true
+
+PUBLIC_SITE_URL=https://reclaimingthegreengold.com
+
+BASE_PATH=/
+
+npm run build
+
+7. After Hostinger is successfully online and:
+
+https://reclaimingthegreengold.com/api/publications
+
+returns HTTP 200 JSON array, the bootstrap flag will be removed and:
+
+PUBLICATIONS_API_URL=https://reclaimingthegreengold.com/api/publications
+
+will be configured.
+
+A second normal build must then prerender the real publication metadata with the original strict behavior.
+
+8. IMPORTANT:
+Do not make the production frontend depend permanently on an external API during its own first deployment.
+
+9. Add tests covering:
+
+- reachable publications API + valid array => build succeeds and prerenders
+- unreachable API + bootstrap flag true => build succeeds with zero publication metadata
+- HTTP 404 + bootstrap flag true => build succeeds with zero publication metadata
+- unreachable API + bootstrap flag absent => build fails
+- malformed JSON even with bootstrap flag => build fails
+- invalid response shape even with bootstrap flag => build fails
+- published records only
+- no fabricated publication sitemap/schema/pages during bootstrap
+
+10. Run:
+
+npm ci
+TypeScript checks
+API tests
+website tests
+npm run build with bootstrap condition
+npm run build with normal publication feed
+
+11. Confirm the API server still builds to:
+
+artifacts/api-server/dist/index.mjs
+
+and website still builds to:
+
+artifacts/rgg-website/dist/public
+
+12. Commit and PUSH the fix to GitHub main.
+
+Report:
+
+- exact implementation
+- files changed
+- tests/results
+- bootstrap build result
+- normal build result
+- commit hash
+- confirmation pushed to main
+
+Do not merely explain the problem. Implement, test, commit and push it.
