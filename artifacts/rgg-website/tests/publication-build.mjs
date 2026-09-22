@@ -207,10 +207,45 @@ try {
     "utf8",
   );
   const home = await readFile(path.join(projectDir, "dist/public/index.html"), "utf8");
-  const book = await readFile(
-    path.join(projectDir, "dist/public/book/index.html"),
-    "utf8",
+  const faviconPath = path.join(projectDir, "dist/public/rgg-favicon.png");
+  await access(faviconPath);
+  const routeContents = await Promise.all(
+    [
+      "",
+      "book",
+      "publications",
+      "technical-assistance",
+      "authors",
+      "endorsements",
+      "admin",
+    ].map((route) =>
+      readFile(
+        path.join(
+          projectDir,
+          "dist/public",
+          route,
+          "index.html",
+        ),
+        "utf8",
+      ),
+    ),
   );
+  for (const routeHtml of routeContents) {
+    assert.match(
+      routeHtml,
+      /<link rel="icon" type="image\/png" sizes="64x64" href="\/rgg-favicon\.png\?v=2" \/>/,
+    );
+    assert.match(
+      routeHtml,
+      /<link rel="shortcut icon" type="image\/png" href="\/rgg-favicon\.png\?v=2" \/>/,
+    );
+    assert.match(
+      routeHtml,
+      /<link rel="apple-touch-icon" href="\/rgg-favicon\.png\?v=2" \/>/,
+    );
+    assert.doesNotMatch(routeHtml, /%BASE_URL%|undefined\/favicon|assets\/favicon/);
+  }
+  const book = routeContents[1];
   const robots = await readFile(
     path.join(projectDir, "dist/public/robots.txt"),
     "utf8",
