@@ -5,7 +5,6 @@ import path from "path";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import type { Plugin } from "vite";
-import { z } from "zod";
 
 import {
   bookJsonLd,
@@ -18,6 +17,11 @@ import {
   type JsonLd,
   type PageMetadata,
 } from "./src/lib/pageMetadata";
+import {
+  loadPublishedPublicationsFromDatabase,
+  publicPublicationListSchema,
+  PublicationMetadataValidationError,
+} from "./src/lib/publicationBuildSource";
 import type { ResearchPublication } from "./src/types/research";
 
 const rawPort = process.env.PORT;
@@ -52,63 +56,23 @@ if (!siteOrigin) {
 }
 const configuredPublicationsApiUrl =
   process.env.PUBLICATIONS_API_URL?.trim() || undefined;
-const publicationsApiUrl =
-  configuredPublicationsApiUrl ??
-  new URL("/api/publications", siteOrigin).href;
-let parsedPublicationsApiUrl: URL;
-try {
-  parsedPublicationsApiUrl = new URL(publicationsApiUrl);
-} catch {
-  throw new Error(
-    "PUBLICATIONS_API_URL must be a valid absolute HTTP(S) URL.",
-  );
-}
-if (!["http:", "https:"].includes(parsedPublicationsApiUrl.protocol)) {
-  throw new Error(
-    "PUBLICATIONS_API_URL must be a valid absolute HTTP(S) URL.",
-  );
+if (configuredPublicationsApiUrl) {
+  let parsedPublicationsApiUrl: URL;
+  try {
+    parsedPublicationsApiUrl = new URL(configuredPublicationsApiUrl);
+  } catch {
+    throw new Error(
+      "PUBLICATIONS_API_URL must be a valid absolute HTTP(S) URL.",
+    );
+  }
+  if (!["http:", "https:"].includes(parsedPublicationsApiUrl.protocol)) {
+    throw new Error(
+      "PUBLICATIONS_API_URL must be a valid absolute HTTP(S) URL.",
+    );
+  }
 }
 const allowEmptyPublicationsBootstrap =
   process.env.ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP === "true";
-const publicPublicationSchema = z
-  .object({
-    id: z.string().uuid(),
-    slug: z.string(),
-    title: z.string(),
-    subtitle: z.string().optional(),
-    abstract: z.string(),
-    publicationType: z.enum([
-      "research-paper",
-      "policy-brief",
-      "article",
-      "commentary",
-      "report",
-      "case-study",
-    ]),
-    category: z.string().optional(),
-    themeId: z.string().uuid().nullish(),
-    language: z.enum(["english", "french", "bilingual"]).optional(),
-    authors: z.array(
-      z.object({
-        name: z.string().min(1),
-        role: z.string().optional(),
-      }),
-    ),
-    publicationDate: z.string().date(),
-    readingTime: z.number().int().min(1).optional(),
-    featured: z.boolean(),
-    featuredImage: z.string().optional(),
-    featuredImageMediaId: z.string().uuid().nullish(),
-    pdfUrl: z.string().optional(),
-    pdfMediaId: z.string().uuid().nullish(),
-    externalUrl: z.string().optional(),
-    doi: z.string().optional(),
-    content: z.string().optional(),
-    seoTitle: z.string().optional(),
-    seoDescription: z.string().optional(),
-  })
-  .strict();
-const publicPublicationListSchema = z.array(publicPublicationSchema);
 
 if (!basePath) {
   throw new Error(
@@ -193,19 +157,12 @@ function renderPublicationContent(publication: ResearchPublication): string {
   return `<main><article><header><h1>${escapeHtml(publication.title)}</h1>${publication.subtitle ? `<p>${escapeHtml(publication.subtitle)}</p>` : ""}<p>${authors}</p></header><p>${escapeHtml(publication.abstract)}</p>${publication.content ? `<div>${escapeHtml(publication.content)}</div>` : ""}</article></main>`;
 }
 
-async function loadPublishedPublications(
+async function loadPublishedPublicationsFromApi(
   plugin: { error(message: string): never; warn(message: string): void },
 ): Promise<ResearchPublication[]> {
-  if (!configuredPublicationsApiUrl && allowEmptyPublicationsBootstrap) {
-    plugin.warn(
-      "[prerender-public-metadata] Bootstrap mode: PUBLICATIONS_API_URL is not configured; continuing with zero prerendered publications. No publication pages, structured data, or sitemap entries were generated.",
-    );
-    return [];
-  }
-
   let publicationResponse: Response;
   try {
-    publicationResponse = await fetch(publicationsApiUrl, {
+    publicationResponse = await fetch(configuredPublicationsApiUrl!, {
       headers: { accept: "application/json" },
       redirect: "manual",
     });
@@ -264,6 +221,43 @@ async function loadPublishedPublications(
     );
   }
   return parsed.data as ResearchPublication[];
+}
+
+async function loadPublishedPublications(
+  plugin: { error(message: string): never; warn(message: string): void },
+): Promise<ResearchPublication[]> {
+  if (process.env.DATABASE_URL) {
+    try {
+      return await loadPublishedPublicationsFromDatabase();
+    } catch (error) {
+      if (error instanceof PublicationMetadataValidationError) {
+        plugin.error(error.message);
+      }
+      if (!allowEmptyPublicationsBootstrap) {
+        plugin.error(
+          "Could not load published publication metadata from PostgreSQL. Verify DATABASE_URL and database SSL configuration.",
+        );
+      }
+      plugin.warn(
+        "[prerender-public-metadata] Bootstrap mode: publication database unavailable; continuing with zero prerendered publications. No publication pages, structured data, or sitemap entries were generated.",
+      );
+      return [];
+    }
+  }
+
+  if (!configuredPublicationsApiUrl) {
+    if (allowEmptyPublicationsBootstrap) {
+      plugin.warn(
+        "[prerender-public-metadata] Bootstrap mode: DATABASE_URL is not configured; continuing with zero prerendered publications. No publication pages, structured data, or sitemap entries were generated.",
+      );
+      return [];
+    }
+    plugin.error(
+      "DATABASE_URL is required for normal publication metadata builds. Configure PostgreSQL or enable ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP only for first deployment.",
+    );
+  }
+
+  return loadPublishedPublicationsFromApi(plugin);
 }
 
 function prerenderPublicMetadata(): Plugin {

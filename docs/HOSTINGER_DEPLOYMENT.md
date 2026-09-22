@@ -48,24 +48,28 @@ npm ci
 # Build the production API and frontend.
 PORT=4173 BASE_PATH=/ \
 PUBLIC_SITE_URL=https://YOUR_FINAL_DOMAIN \
-PUBLICATIONS_API_URL=https://YOUR_API_ORIGIN/api/publications \
 npm run build
 ```
 
-For the first Hostinger deployment only, when the same application API is not
-yet reachable, omit `PUBLICATIONS_API_URL` and set:
+Normal Hostinger builds read published publication metadata directly from the
+PostgreSQL database configured by `DATABASE_URL`. They do not call the live
+Hostinger domain or depend on the currently running deployment.
+
+For the first Hostinger deployment only, when the database is not yet reachable,
+set:
 
 ```sh
 ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP=true
 ```
 
-This explicit bootstrap mode permits only an unreachable publication endpoint
-or HTTP 404 to produce an empty publication metadata set. It creates no
-publication pages, structured data, or sitemap entries. Malformed JSON, invalid
-records, non-published records, and all other HTTP errors still fail the build.
-After `/api/publications` is online and returns a valid JSON array, remove the
-bootstrap flag, set `PUBLICATIONS_API_URL` to that HTTPS endpoint, and rebuild
-to restore normal strict publication prerendering.
+This explicit emergency mode permits a missing or unavailable build database to
+produce an empty publication metadata set. It creates no publication pages,
+structured data, or sitemap entries. Invalid database records still fail the
+build. Remove the bootstrap flag after the database is available.
+
+`PUBLICATIONS_API_URL` remains supported only as an optional external metadata
+source when `DATABASE_URL` is not configured. Do not point it at the same
+Hostinger production domain for normal builds.
 
 The committed `package-lock.json` selects npm on Hostinger and avoids its broken
 cached pnpm/Corepack bootstrap. Do not configure a Hostinger pnpm command, run
@@ -108,7 +112,7 @@ Required:
 - `CSRF_SECRET`
 - `CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`
 - `APP_ORIGIN`, `APP_ORIGINS`
-- `PUBLIC_SITE_URL`, `PUBLICATIONS_API_URL`
+- `PUBLIC_SITE_URL`
 - `TRUST_PROXY_HOPS` (`STATIC_DIR` is optional because the server defaults to
   `artifacts/rgg-website/dist/public`)
 - `OBJECT_STORAGE_PROVIDER=s3`
@@ -120,6 +124,10 @@ Optional operational values include upload limits, `LOG_LEVEL`, Better Stack
 ingestion settings, and the safe one-shot Better Stack test flag. Do not set
 `REPLIT_*` values on Hostinger except temporarily if an explicitly reviewed
 compatibility path still requires them.
+
+For PostgreSQL TLS, set `PGSSLMODE=require` or `DATABASE_SSL=true` for a managed
+provider with a publicly trusted certificate. Set `DATABASE_SSL_CA` only when
+the provider supplies a private CA certificate.
 
 ## Clerk production configuration
 

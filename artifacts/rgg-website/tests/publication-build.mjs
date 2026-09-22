@@ -107,6 +107,7 @@ async function listen() {
 
 async function build({
   apiUrl,
+  databaseUrl,
   bootstrapValue = "",
   siteOrigin = siteUrl,
 }) {
@@ -116,11 +117,16 @@ async function build({
     delete environment.PUBLICATIONS_API_URL;
     delete environment.ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP;
     delete environment.REPLIT_DOMAINS;
+    delete environment.DATABASE_URL;
+    delete environment.DATABASE_SSL;
+    delete environment.DATABASE_SSL_CA;
+    delete environment.PGSSLMODE;
     Object.assign(environment, {
       PORT: "4173",
       BASE_PATH: "/",
       SITE_URL: siteOrigin,
       PUBLICATIONS_API_URL: apiUrl ?? "",
+      DATABASE_URL: databaseUrl ?? "",
       ALLOW_EMPTY_PUBLICATIONS_BOOTSTRAP: bootstrapValue,
     });
     const child = spawn("npm", ["run", "build"], {
@@ -346,7 +352,7 @@ try {
   assert.equal(bootstrapMissingBuild.code, 0, bootstrapMissingBuild.output);
   assert.match(
     bootstrapMissingBuild.output,
-    /\[prerender-public-metadata\].*PUBLICATIONS_API_URL is not configured/s,
+    /\[prerender-public-metadata\].*DATABASE_URL is not configured/s,
   );
   await assert.rejects(access(articlePath), { code: "ENOENT" });
 
@@ -356,7 +362,35 @@ try {
   assert.notEqual(strictMissingBuild.code, 0, strictMissingBuild.output);
   assert.match(
     strictMissingBuild.output,
-    /Could not load published publication metadata \(404\)/,
+    /DATABASE_URL is required for normal publication metadata builds/,
+  );
+
+  const unavailableDatabaseUrl = "postgresql://127.0.0.1:1/rgg";
+  const strictUnavailableDatabaseBuild = await build({
+    databaseUrl: unavailableDatabaseUrl,
+  });
+  assert.notEqual(
+    strictUnavailableDatabaseBuild.code,
+    0,
+    strictUnavailableDatabaseBuild.output,
+  );
+  assert.match(
+    strictUnavailableDatabaseBuild.output,
+    /Could not load published publication metadata from PostgreSQL/,
+  );
+
+  const bootstrapUnavailableDatabaseBuild = await build({
+    databaseUrl: unavailableDatabaseUrl,
+    bootstrapValue: "true",
+  });
+  assert.equal(
+    bootstrapUnavailableDatabaseBuild.code,
+    0,
+    bootstrapUnavailableDatabaseBuild.output,
+  );
+  assert.match(
+    bootstrapUnavailableDatabaseBuild.output,
+    /\[prerender-public-metadata\].*publication database unavailable/s,
   );
 
   const malformedBuild = await build({
