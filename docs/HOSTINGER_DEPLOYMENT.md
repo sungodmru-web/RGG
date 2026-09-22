@@ -77,6 +77,27 @@ cached pnpm/Corepack bootstrap. Do not configure a Hostinger pnpm command, run
 `pnpm-lock.yaml` remain for the complete Replit development workspace; npm
 ignores them.
 
+## Hostinger application settings
+
+Configure the Hostinger Node.js application from the GitHub `main` branch at
+commit `5a675fca40df85bcb3710651742cab91b27414a4` or any later commit. The
+application must use the repository root as its working directory and these
+commands:
+
+| Setting | Value |
+| --- | --- |
+| Install command | `npm ci` |
+| Build command | `npm run build` |
+| Start command | `npm start` |
+| Node version | `22.12.0` or later in the Node 22 line |
+
+Hostinger must run the start command as a long-lived Node application and pass
+its assigned listening port through `PORT`; do not publish only
+`artifacts/rgg-website/dist/public` as a static/PHP site. The Express process
+serves that directory, preserves `/api/*`, and handles SPA route fallback.
+After each release, confirm that the deployed commit is at least the commit
+above before testing the public domain.
+
 The root build typechecks the workspace and builds the production API and
 frontend. The optional `pnpm run build:all` command also builds the Replit
 mockup sandbox, which is not part of the Hostinger production process. Start
@@ -88,6 +109,22 @@ PORT=3000 npm start
 
 Hostinger should proxy HTTPS traffic to that assigned port. `vite preview` is
 for local verification only and is not the production process.
+
+Release smoke check:
+
+```sh
+curl -fsSI https://YOUR_FINAL_DOMAIN/
+curl -fsSI 'https://YOUR_FINAL_DOMAIN/favicon.ico?v=3'
+curl -fsSI 'https://YOUR_FINAL_DOMAIN/rgg-favicon.png?v=3'
+```
+
+The root request must return the RGG HTML application with HTTP 200. The two
+favicon requests must return HTTP 200 with image content types (the ICO may be
+reported as `image/x-icon` or `image/vnd.microsoft.icon`; the PNG should be
+`image/png`). If the root returns Hostinger's 403 page or either favicon
+returns 404, the Node application is not the active origin; verify the
+selected GitHub commit, build/start commands, assigned `PORT`, and domain
+proxy before investigating frontend code.
 
 Repository verification commands:
 
