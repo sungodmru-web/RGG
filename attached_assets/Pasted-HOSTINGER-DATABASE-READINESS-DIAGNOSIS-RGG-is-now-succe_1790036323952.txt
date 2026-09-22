@@ -1,0 +1,69 @@
+HOSTINGER DATABASE READINESS DIAGNOSIS
+
+RGG is now successfully deployed on Hostinger.
+
+Current production results:
+
+GET /api/healthz
+=> OK / HTTP 200
+
+GET /api/publications
+=> HTTP 200
+=> []
+
+GET /api/readyz
+=> unavailable
+
+Therefore the Node/Express application is running and the public publications endpoint is reachable, but the database readiness check is failing.
+
+Do NOT modify code yet.
+Do NOT reset or migrate the database.
+Do NOT delete data.
+Do NOT change DNS.
+Do NOT change Clerk.
+Do NOT create a new database yet.
+
+Inspect the existing API implementation for /api/readyz and PostgreSQL connection handling.
+
+I need you to determine:
+
+1. Exactly what condition causes /api/readyz to return unavailable.
+
+2. Whether GET /api/publications returning [] proves a successful PostgreSQL query, or whether that endpoint has a fallback/cache/error-handling path that can return [] without a healthy database.
+
+3. Inspect the expected DATABASE_URL format.
+
+4. Inspect support for:
+   DATABASE_SSL
+   PGSSLMODE
+   DATABASE_SSL_CA
+
+5. Based on the current code, tell me whether the Hostinger DATABASE_URL format/configuration I need should use:
+   sslmode=disable
+   sslmode=require
+   sslmode=verify-ca
+   sslmode=verify-full
+   or another configuration.
+
+6. Determine whether the current Replit PostgreSQL hostname/provider is externally reachable from Hostinger if that can be established from available configuration.
+
+Do not expose DATABASE_URL, passwords, Clerk keys or other secrets in your answer.
+
+7. Give me the exact Hostinger environment-variable NAMES and NON-SECRET settings required to make /api/readyz healthy.
+
+For secret values, tell me where they must come from rather than printing them.
+
+8. If the current Replit PostgreSQL database is not suitable for external Hostinger access, say so explicitly and give me the safest PostgreSQL migration path preserving all existing RGG publication/admin data and Drizzle migration history.
+
+9. Also verify whether the current database actually contains any publication records and report only safe aggregate counts:
+
+total publications
+published
+draft
+archived
+
+Do not print private publication contents.
+
+10. Do not make any changes.
+
+Return a concise diagnosis and exact recommended next step.
